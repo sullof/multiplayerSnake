@@ -1,6 +1,12 @@
-const BG_COLOUR = '#231f20';
-const SNAKE_COLOUR = '#c2c2c2';
-const FOOD_COLOUR = '#e66916';
+/*
+
+  became consts into simple vars
+
+*/
+
+BG_COLOUR = '#231f20';
+SNAKE_COLOUR = '#c2c2c2';
+FOOD_COLOUR = '#e66916';
 
 const socket = io('http://localhost:3000');
 
@@ -139,4 +145,37 @@ function reset() {
   gameCodeInput.value = '';
   initialScreen.style.display = "block";
   gameScreen.style.display = "none";
+}
+
+/*
+
+  making the colors change randomly. 
+
+*/
+function ramdBgColor(){
+  BG_COLOUR = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
+  return BG_COLOUR;
+
+}
+
+function ramdSnakeColor(){
+  SNAKE_COLOUR = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
+  return SNAKE_COLOUR;
+
+}
+
+function ramdFoodColor(){
+  FOOD_COLOUR = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
+  return FOOD_COLOUR;
+
+}
+
+ramdBgColor()
+ramdSnakeColor()
+ramdFoodColor()
+
+if(ramdBgColor() == ramdSnakeColor() ){
+  Location.reload(); 
+}else{
+
 }
