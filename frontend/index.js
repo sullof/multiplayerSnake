@@ -154,3 +154,4 @@ function reset() {
   initialScreen.style.display = "block";
   gameScreen.style.display = "none";
 }
+

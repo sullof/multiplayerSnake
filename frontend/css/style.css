@@ -1,0 +1,194 @@
+  /********************************
+
+            snake header
+
+  ********************************/
+
+.clear{
+    clear: both;
+}
+  #toolbar{
+    box-sizing: border-box;
+    width: 100%;
+    position: relative;
+    height: 80px;
+    overflow: hidden;
+  }
+
+  .time-left{
+    padding-left: 2%;
+    float: left;
+    width: 25%;
+    height: 80px;
+  }
+
+  .time-left span{
+    display: inline-block;
+  }
+
+  #time-remaining{
+    font-size: 2.8em;
+    font-weight: 700;
+  }
+
+  #time-text{
+    font-size: 1.4em;
+    margin-left: .3em;
+  }
+
+  .captcha-right{
+    float: right;
+    width: auto;
+    height: 80px;
+  }
+
+  .captcha-right-text{
+    float: left;
+    height: 80px;
+    text-align: right;
+    margin-right: 15px;
+    padding: 5px 0 5px 0;
+  }
+
+  #captcha-right-title{
+    font-size: 1.7em;
+    font-weight: 700;
+  }
+
+  #captcha-right-sub{
+    width: 100%;
+    font-size: 1.3em;
+    display: inline-block;
+    line-height: .01em;
+    font-weight: 400;
+  }
+
+  .captcha-content{
+    float: right;
+  }         
+  
+  .captcha-right-img{
+    width: 200px;
+    height: 80px;
+    float: right;
+  }
+  .captcha-right-img img{
+    width: 100%;
+  }
+
+  @media (max-width: 823px){
+    .time-left{
+      width: 20%;
+      line-height: 1;
+    }
+    #time-remaining{
+      width: 100%;
+    }
+    .captcha-right{
+      width: 80%;
+    }         
+
+     .captcha-right-text{
+      margin-left: -50px;
+    }
+
+  }
+
+  @media (max-width: 772px){
+
+    .time-left{
+      width: 21%;
+      line-height: 1;
+    }
+
+
+    .captcha-right{
+      width: 79%;
+    }
+
+    .captcha-right-text{
+      margin-right: -35%;
+    }
+
+    .captcha-right-img{
+      margin-left: 0px;
+    }
+
+  }
+
+  @media (max-width: 707px){
+    .time-left{
+      width: 25%;
+    }
+
+
+    .captcha-right{
+      width: 75%;
+    }
+
+    .captcha-right-text{
+      text-align: right ;
+      margin-left: -120px;
+    }
+
+    .captcha-right-img{
+      float: right;
+    }
+
+  }
+
+  @media (max-width: 646px){
+    .time-left{
+     padding: 1%;
+    }
+    #time-text{
+      font-size: 1em;
+    }
+    .captcha-right-text{
+      padding: 2%;
+      margin-left: -100px;
+    }
+    #captcha-right-title{
+      font-size: 1.3em;
+    }
+    #captcha-right-sub{
+      font-size: 1em;
+    }
+  }
+
+  @media (max-width: 500px){
+    .captcha-right-text{
+      padding: 2%;
+      margin-left: -180px;
+    }
+  }
+
+
+
+
+
+
+
+  /********************************
+
+              canvas
+
+  ********************************/
+
+
+  /* canvas{
+    background: #ccc!important;
+  }
+ */
+
+ .canvas-envolver{
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: red;
+}
+canvas{
+  width: 100%;
+  height: 100%;
+}
