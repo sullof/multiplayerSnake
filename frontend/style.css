@@ -6,6 +6,8 @@
 
 
   .header{
+    background: #29db96;
+    color: #fff;
     height: 80px;
     width: 100%;
     display: flex;
@@ -13,6 +15,7 @@
     flex-wrap: nowrap;
     justify-content: space-between;
     font-family: Open Sans;
+    border-bottom: 3px solid #fff;
   }
   
   .header-left{
@@ -54,7 +57,7 @@
   @media (max-width: 715px){
     .header-left{
       line-height: 21px;
-      padding: 10px 15px;
+      padding: 20px 15px;
     }
     .header-left span#time{
         font-size: 2em;
