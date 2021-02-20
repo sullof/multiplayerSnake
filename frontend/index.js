@@ -1,8 +1,8 @@
-const BG_COLOUR = '#231f20';
-const SNAKE_COLOUR = '#c2c2c2';
+// const BG_COLOUR = '#231f20';
+const SNAKE_COLOUR = '#749ba8';
 const FOOD_COLOUR = '#e66916';
 
-const socket = io('http://3.139.87.87');
+const socket = io('http://localhost:3000');
 
 socket.on('init', handleInit);
 socket.on('gameState', handleGameState);
@@ -64,8 +64,11 @@ function init() {
   // canvas = document.getElementById('canvas');
   ctx = canvas.getContext('2d');
 
-  ctx.fillStyle = BG_COLOUR;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+
+ 
+  // ctx.fillStyle = BG_COLOUR;
+  // ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   document.addEventListener('keydown', keydown);
   gameActive = true;
@@ -79,7 +82,18 @@ function paintGame(state) {
   img.src=state.imgURL;
   // console.log(state.sinceLastFood)
   time.innerText = state.currentTime;
-  ctx.fillStyle = BG_COLOUR;
+
+  /*
+
+    gradient background
+
+  */
+  var my_gradient = ctx.createLinearGradient(0, 0, 0, 370);
+  my_gradient.addColorStop(.5, "#28db96");
+  my_gradient.addColorStop(1, "#38e4a2");
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = my_gradient;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   if (state.food){
     let food = state.food
