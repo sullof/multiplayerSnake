@@ -122,6 +122,12 @@ function emitGameState(room, gameState) {
 }
 
 function emitGameOver(room, winner) {
+  const scoreMessage = {
+    score: state[room].foodTimes.length,
+    gameCode: room
+  }
+  io.sockets.in(room)
+    .emit('sendScore', scoreMessage);
   io.sockets.in(room)
     .emit('gameOver', JSON.stringify({ winner }));
 }
