@@ -22,13 +22,11 @@ const gameCodeInput = document.getElementById('gameCodeInput');
 const time = document.getElementById('time');
 // const gameCodeDisplay = document.getElementById('gameCodeDisplay');
 const img = document.getElementById('colorImage');
-const toolbar = document.getElementById('toolbar').clientHeight;
-console.log(toolbar.height)
-const windowHeight = window.innerHeight - toolbar
-canvas.width = Math.floor(window.innerWidth/40) * 40
+const toolbar = document.getElementById('toolbar').clientHeight + 200
+const windowHeight = document.documentElement.clientHeight - toolbar
+const windowWidth = document.documentElement.clientWidth - 200
+canvas.width = Math.floor(windowWidth/40) * 40
 canvas.height = Math.floor(windowHeight/40) * 40
-console.log(canvas.width)
-console.log(canvas.height)
 
 // window.onscroll = function () { window.scrollTo(0, 0); };
 newGameBtn.addEventListener('click', newGame);
