@@ -25,7 +25,7 @@ const img = document.getElementById('colorImage');
 // const toolbar = document.getElementById('toolbar').clientHeight + 200
 // const windowHeight = document.documentElement.clientHeight - toolbar
 const windowHeight = window.innerHeight - 200
-const windowWidth = window.innerWidth - 200
+const windowWidth = window.innerWidth
 gcanvas.width = Math.floor(windowWidth/40) * 40
 gcanvas.height = Math.floor(windowHeight/40) * 40
 
