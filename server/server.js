@@ -15,7 +15,7 @@ io.on('connection', client => {
   function handleJoinGame(message) {
     state[message.roomName] = initGame();
     const room = io.sockets.adapter.rooms[message.roomName]
-    console.log(message.roomName)
+    console.log('joined: ' + message.roomName)
     try {
       state[message.roomName].gridX = message.screenSize.width/40
       state[message.roomName].gridY = message.screenSize.height/40
@@ -108,7 +108,7 @@ function startGameInterval(roomName) {
       emitGameOver(roomName, winner);
       state[roomName].endTime = new Date()
       console.log('game completed in: ' + (state[roomName].endTime.getTime() - state[roomName].startTime.getTime()))
-      console.log(state[roomName])
+      // console.log(state[roomName])
       state[roomName] = null;
       clearInterval(intervalId);
     }

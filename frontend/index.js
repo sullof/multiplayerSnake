@@ -3,6 +3,7 @@ const SNAKE_COLOUR = '#c2c2c2';
 const FOOD_COLOUR = '#e66916';
 
 const socket = io('http://3.139.87.87:3000');
+const socketPractice = io('http://localhost:3000');
 
 socket.on('init', handleInit);
 socket.on('gameState', handleGameState);
@@ -11,6 +12,13 @@ socket.on('gameCode', handleGameCode);
 socket.on('unknownCode', handleUnknownCode);
 socket.on('tooManyPlayers', handleTooManyPlayers);
 
+socketPractice.on('init', handleInit);
+socketPractice.on('gameState', handleGameState);
+socketPractice.on('gameOver', handleGameOver);
+socketPractice.on('gameCode', handlePracticeCode);
+socketPractice.on('unknownCode', handleUnknownCode);
+socketPractice.on('tooManyPlayers', handleTooManyPlayers);
+
 window.onscroll = function () { window.scrollTo(0, 0); };
 
 const gameScreen = document.getElementById('gameScreen');
@@ -18,8 +26,10 @@ const initialScreen = document.getElementById('initialScreen');
 const newGameBtn = document.getElementById('newGameButton');
 const gcanvas = document.getElementById('gameCanvas');
 const joinGameBtn = document.getElementById('joinGameButton');
+const practiceBtn = document.getElementById('practiceButton');
 const gameCodeInput = document.getElementById('gameCodeInput');
 const time = document.getElementById('time');
+var isPractice = false
 // const gameCodeDisplay = document.getElementById('gameCodeDisplay');
 const img = document.getElementById('colorImage');
 // const toolbar = document.getElementById('toolbar').clientHeight + 200
@@ -32,11 +42,33 @@ gcanvas.height = Math.floor(windowHeight/40) * 40
 // window.onscroll = function () { window.scrollTo(0, 0); };
 newGameBtn.addEventListener('click', newGame);
 joinGameBtn.addEventListener('click', joinGame);
+practiceBtn.addEventListener('click', newPractice);
 
+function joinPractice(gameCode) {
+  isPractice = true
+  const message = {
+    roomName: gameCode,
+    screenSize: {
+      width: gcanvas.width,
+      height: gcanvas.height
+    }
+  }
+  console.log(message)
+  socketPractice.emit('joinGame', message);
+  init();
+}
+let playerNumber;
+let gameActive = false;
 
 function newGame() {
   console.log("newGame")
   socket.emit('newGame');
+  // init();
+}
+
+function newPractice() {
+  console.log("newGame")
+  socketPractice.emit('newGame');
   // init();
 }
 
@@ -54,8 +86,6 @@ function joinGame() {
   socket.emit('joinGame', message);
   init();
 }
-let playerNumber;
-let gameActive = false;
 
 function init() {
   initialScreen.style.display = "none";
@@ -72,7 +102,11 @@ function init() {
 }
 
 function keydown(e) {
-  socket.emit('keydown', e.keyCode);
+  if (isPractice) {
+    socketPractice.emit('keydown', e.keyCode);
+  } else {
+    socket.emit('keydown', e.keyCode);
+  }
 }
 
 function paintGame(state) {
@@ -107,7 +141,7 @@ function paintPlayer(playerState, sizeX, sizeY, colour) {
 }
 
 function handleInit(number) {
-  playerNumber = number;
+  playerNumber = 1;
 }
 
 function handleGameState(gameState) {
@@ -131,10 +165,14 @@ function handleGameOver(data) {
   } else {
     alert('You Lose :(');
   }
+  isPractice = false
+}
+
+function handlePracticeCode(gameCode) {
+  joinPractice(gameCode)
 }
 
 function handleGameCode(gameCode) {
-  // gameCodeDisplay.innerText = gameCode;
   console.log(gameCode)
 }
 
@@ -153,4 +191,5 @@ function reset() {
   gameCodeInput.value = '';
   initialScreen.style.display = "block";
   gameScreen.style.display = "none";
+  isPractice = false
 }
