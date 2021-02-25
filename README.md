@@ -9,5 +9,3 @@ git clone https://github.com/Score-Milk/multiplayerSnake.git
 cd multiplayerSnake
 npm install
 nodemon server
-
-Testing pipeline
