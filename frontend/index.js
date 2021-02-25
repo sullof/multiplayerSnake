@@ -3,7 +3,7 @@ const SNAKE_COLOUR = '#749ba8';
 const FOOD_COLOUR = '#e66916';
 
 const socket = io('http://3.139.87.87:3000');
-const socketPractice = io('http://localhost:3000');
+const socketPractice = io('http://18.221.107.246:3000');
 
 socket.on('init', handleInit);
 socket.on('gameState', handleGameState);
@@ -34,18 +34,17 @@ var isPractice = false
 const img = document.getElementById('colorImage');
 // const toolbar = document.getElementById('toolbar').clientHeight + 200
 // const windowHeight = document.documentElement.clientHeight - toolbar
-const windowHeight = window.innerHeight - 200
+const windowHeight = window.innerHeight
 const windowWidth = window.innerWidth
 gcanvas.width = Math.floor(windowWidth/40) * 40
 gcanvas.height = Math.floor(windowHeight/40) * 40
 
 // window.onscroll = function () { window.scrollTo(0, 0); };
-newGameBtn.addEventListener('click', newGame);
+// newGameBtn.addEventListener('click', newGame);
 joinGameBtn.addEventListener('click', joinGame);
-practiceBtn.addEventListener('click', newPractice);
+// practiceBtn.addEventListener('click', newPractice);
 
 function joinPractice(gameCode) {
-  isPractice = true
   const message = {
     roomName: gameCode,
     screenSize: {
@@ -63,7 +62,6 @@ let gameActive = false;
 function newGame() {
   console.log("newGame")
   socket.emit('newGame');
-  // init();
 }
 
 function newPractice() {
@@ -75,16 +73,21 @@ function newPractice() {
 function joinGame() {
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get('gameCode')
-  const message = {
-    roomName: code,
-    screenSize: {
-      width: gcanvas.width,
-      height: gcanvas.height
+  if (!code) {
+    isPractice = true
+    newPractice()
+  } else {
+    const message = {
+      roomName: code,
+      screenSize: {
+        width: gcanvas.width,
+        height: gcanvas.height
+      }
     }
+    console.log(message)
+    socket.emit('joinGame', message);
+    init();
   }
-  console.log(message)
-  socket.emit('joinGame', message);
-  init();
 }
 
 function init() {
