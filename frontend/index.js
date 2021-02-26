@@ -9,6 +9,7 @@ socket.on('init', handleInit);
 socket.on('gameState', handleGameState);
 socket.on('gameOver', handleGameOver);
 socket.on('gameCode', handleGameCode);
+socket.on('sendScore', handleScore);
 socket.on('unknownCode', handleUnknownCode);
 socket.on('tooManyPlayers', handleTooManyPlayers);
 
@@ -17,6 +18,7 @@ socketPractice.on('gameState', handleGameState);
 socketPractice.on('gameOver', handleGameOver);
 socketPractice.on('gameCode', handlePracticeCode);
 socketPractice.on('unknownCode', handleUnknownCode);
+socketPractice.on('sendScore', handleScore);
 socketPractice.on('tooManyPlayers', handleTooManyPlayers);
 
 window.onscroll = function () { window.scrollTo(0, 0); };
@@ -173,6 +175,11 @@ function handleGameOver(data) {
     alert('You Lose :(');
   }
   isPractice = false
+}
+
+function handleScore(data) {
+  console.log(data.score)
+  alert('Score: ' + data.score);
 }
 
 function handlePracticeCode(gameCode) {
