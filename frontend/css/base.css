@@ -8,6 +8,11 @@
   z-index: 1000;
 }
 
+#scoreScreen {
+	position: relative;
+  z-index: 1000;
+}
+
 :root {
 	font-size: 15px;
 }

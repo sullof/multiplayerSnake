@@ -25,6 +25,8 @@ window.onscroll = function () { window.scrollTo(0, 0); };
 
 const gameScreen = document.getElementById('gameScreen');
 const initialScreen = document.getElementById('initialScreen');
+const scoreScreen = document.getElementById('scoreScreen');
+const scoreDisplay = document.getElementById('scoreDisplay');
 const newGameBtn = document.getElementById('newGameButton');
 const gcanvas = document.getElementById('gameCanvas');
 const joinGameBtn = document.getElementById('joinGameButton');
@@ -174,8 +176,10 @@ function handleGameOver(data) {
 }
 
 function handleScore(data) {
+  scoreDisplay.innerText = data.score;
+  gameScreen.style.display = "none";
+  scoreScreen.style.display = "block";
   console.log(data.score)
-  alert('Score: ' + data.score);
 }
 
 function handlePracticeCode(gameCode) {
