@@ -2,8 +2,8 @@
 const SNAKE_COLOUR = '#749ba8';
 const FOOD_COLOUR = '#e66916';
 
-const socket = io('http://3.139.87.87:3000');
-const socketPractice = io('http://18.221.107.246:3000');
+const socket = io('http://localhost:3000');
+const socketPractice = io('http://localhost:3000');
 
 socket.on('init', handleInit);
 socket.on('gameState', handleGameState);
@@ -42,6 +42,7 @@ const windowHeight = window.innerHeight
 const windowWidth = window.innerWidth
 gcanvas.width = Math.floor(windowWidth/40) * 40
 gcanvas.height = Math.floor(windowHeight/40) * 40
+scoreScreen.style.display = "none";
 
 // window.onscroll = function () { window.scrollTo(0, 0); };
 // newGameBtn.addEventListener('click', newGame);

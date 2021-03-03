@@ -14,50 +14,41 @@
 
 <body>
 
+    <!-- INITIAL SCREEN -->
     <div id="initialScreen" class="h-100">
-
       <div class="d-flex flex-column align-items-center justify-content-center h-100">
         <button type="submit" class="btn btn-success" id="joinGameButton">Join Game</button>
       </div>
+    </div>
 
-    </div><!-- INITIAL SCREEN -->
-
-      <div class="d-flex flex-column align-items-center justify-content-center" id="scoreScreen">
-        <h2 class="d-flex flex-column align-items-center justify-content-center">Your Final Score is: <span id="scoreDisplay"></span></h2>
-        <div class="d-flex flex-column align-items-center justify-content-center h-100">
-          <a href="http://3.139.87.87"><button type="submit" class="btn btn-success">Practice</button></a>
+    <div id="gameScreen">
+      <section id="toolbar" class="header">
+        <div class="header-left">
+          <span id="time">60</span>
+          <span>seconds left</span>
         </div>
+        <div class="header-right">
+          <div class="right-text">
+            <h1>Avoid the Poison</h1>
+            <span>the poison color is</span>
+          </div>
+          <div class="captcha">
+            <img id="colorImage" width="200px" height="80px">
+          </div>
+        </div>
+      </section>
+      <canvas id="gameCanvas"></canvas>
+    </div>
+
+    <div id="scoreScreen" class="h-100">
+      <div class="d-flex flex-column align-items-center justify-content-center h-100">
+        <h2>Your Final Score is: <span id="scoreDisplay"></span></h2>
+        <a href="http://3.139.87.87"><button type="submit" class="btn btn-success">Practice</button></a>
       </div>
+    </div>
 
-
-      <div id="gameScreen">
-        <section id="toolbar" class="header">
-
-          <div class="header-left">
-            <span id="time">60</span>
-            <span>seconds left</span>
-          </div>
-
-          <div class="header-right">
-            <div class="right-text">
-              <h1>Avoid the Poison</h1>
-              <span>the poison color is</span>
-            </div>
-
-            <div class="captcha">
-              <img id="colorImage" width="200px" height="80px">
-            </div>
-          </div>
-        </section>
-
-          <!-- <div class="envolver"> -->
-        <canvas id="gameCanvas"></canvas>
-          <!-- </div> -->
-      </div><!-- GAMESCREEN -->
-
-		</div><!-- CONTAINER -->
-
-		<div class="content content--canvas"></div>
+	</div><!-- CONTAINER -->
+	<div class="content content--canvas"></div>
 
 	<script src="js/noise.min.js"></script>
 	<script src="js/util.js"></script>
