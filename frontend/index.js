@@ -1,5 +1,5 @@
-// const BG_COLOUR = '#231f20';
-const SNAKE_COLOUR = '#749ba8';
+const BG_COLOUR = '#231f20';
+const SNAKE_COLOUR = '#ffffff';
 const FOOD_COLOUR = '#e66916';
 
 const socket = io('http://3.139.87.87:3000');
