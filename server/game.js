@@ -150,17 +150,17 @@ function checkIfPoison(state, foodNumber) {
 }
 
 function randomFood(state) {
-  gridWidth = state.gridX
-  gridHeight = state.gridY
+  gridWidth = state.gridX - 2
+  gridHeight = state.gridY - 2
   const food = [
     {
-      x: Math.floor(Math.random() * gridWidth),
-      y: Math.floor(Math.random() * gridHeight),
+      x: Math.floor(Math.random() * gridWidth + 1),
+      y: Math.floor(Math.random() * gridHeight + 1),
       color: {}
     },
     {
-      x: Math.floor(Math.random() * gridWidth),
-      y: Math.floor(Math.random() * gridHeight),
+      x: Math.floor(Math.random() * gridWidth + 1),
+      y: Math.floor(Math.random() * gridHeight + 1),
       color: {}
     }
   ]
@@ -175,6 +175,10 @@ function randomFood(state) {
     if (cell.x === food[1].x && cell.y === food[1].y) {
       return randomFood(state);
     }
+  }
+
+  if (food[0].x === food[1].x && food[0].y === food[1].y) {
+    return randomFood(state);
   }
 
   state.food = food;
