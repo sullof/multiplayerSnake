@@ -67,7 +67,7 @@ body, html{
 @media (max-width: 715px){
   .header-left{
     line-height: 21px;
-    padding: 20px 15px;
+    padding: 15px 15px;
   }
   .header-left span#time{
       font-size: 2em;
@@ -90,6 +90,33 @@ body, html{
 }
 
 
+@media (max-width: 558px){
+  .header-left{
+    line-height: 21px;
+    padding: 20px 15px;
+  }
+  .header-left span#time{
+      font-size: 1.5em;
+  }
+  .header-left span{
+    display: block;
+    width: 100%;  
+    font-size: .8em;
+  }
+  .right-text h1{
+      font-size: 1.1em;
+  }
+  .right-text span{
+      font-size: .9em;
+  }
+  .header-right .right-text{
+    padding: 20px 5px;
+  }
+  
+  
+}
+
+
 /********************************
 
           game screen
@@ -98,13 +125,13 @@ body, html{
 
 .container {
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 100%!important;
+  height: 100%!important;
 }
 #gameScreen {
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 100%!important;
+  height: 100%!important;
 }
 #intialScreen {
   position: fixed;
@@ -126,8 +153,8 @@ body, html{
 }
 
 #gameCanvas{
-    width: 100%;
-    height: calc(100% - 86px);
+    width: calc(100% - 5px);
+    height: calc(100% - 100px);
     position: fixed;
     top: 85px;
     left: 0;
@@ -163,9 +190,11 @@ body, html{
 
 ********************************/
 #scoreScreen h2{
+  padding: 3%;
+  text-align: center;
   font-family: Open Sans;
   font-weight: 700;
-  font-size: 2.7em;
+  font-size: 2.1em;
   color: #fff;
   display: block;
   margin-bottom: 2%;
