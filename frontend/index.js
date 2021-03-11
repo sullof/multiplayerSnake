@@ -36,9 +36,9 @@ const time = document.getElementById('time');
 var isPractice = false
 // const gameCodeDisplay = document.getElementById('gameCodeDisplay');
 const img = document.getElementById('colorImage');
-// const toolbar = document.getElementById('toolbar').clientHeight + 200
+const toolbar = document.getElementById('toolbar')
 // const windowHeight = document.documentElement.clientHeight - toolbar
-const windowHeight = window.innerHeight
+const windowHeight = window.innerHeight - toolbar.clientHeight
 const windowWidth = window.innerWidth
 gcanvas.width = Math.floor(windowWidth/40) * 40
 gcanvas.height = Math.floor(windowHeight/40) * 40
@@ -48,6 +48,42 @@ scoreScreen.style.display = "none";
 // newGameBtn.addEventListener('click', newGame);
 joinGameBtn.addEventListener('click', joinGame);
 // practiceBtn.addEventListener('click', newPractice);
+
+var mc = new Hammer(gameScreen);
+
+// listen to events...
+mc.on("panleft panright panup pandown", function(ev) {
+  switch (ev.type) {
+    case 'panleft': { // left
+      if (isPractice) {
+        socketPractice.emit('keydown', 37);
+      } else {
+        socket.emit('keydown', e.keyCode);
+      }
+    }
+    case 'pandown': { // down
+      if (isPractice) {
+        socketPractice.emit('keydown', 38);
+      } else {
+        socket.emit('keydown', 38);
+      }
+    }
+    case 'panright': { // right
+      if (isPractice) {
+        socketPractice.emit('keydown', 39);
+      } else {
+        socket.emit('keydown', 39);
+      }
+    }
+    case 'panup': { // up
+      if (isPractice) {
+        socketPractice.emit('keydown', 40);
+      } else {
+        socket.emit('keydown', 40);
+      }
+    }
+  }
+});
 
 function joinPractice(gameCode) {
   const message = {
@@ -114,6 +150,7 @@ function init() {
 }
 
 function keydown(e) {
+  console.log(e.keyCode)
   if (isPractice) {
     socketPractice.emit('keydown', e.keyCode);
   } else {
