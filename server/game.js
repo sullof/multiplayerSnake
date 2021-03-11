@@ -207,7 +207,7 @@ function randomPoison(state) {
 }
 
 function getUpdatedVelocity(keyCode, currentVelocity) {
-  console.log(currentVelocity)
+  console.log(keyCode)
   switch (keyCode) {
     case 37: { // left
       if (currentVelocity.x != 1) {
@@ -234,28 +234,52 @@ function getUpdatedVelocity(keyCode, currentVelocity) {
       else return null
     }
     case 'LEFT': { // left
-      return { x: -1, y: 0 };
+      if (currentVelocity.x != 1) {
+        return { x: -1, y: 0 };
+      }
+      else return null
     }
     case 'DOWN': { // down
-      return { x: 0, y: -1 };
+      if (currentVelocity.y != 1) {
+        return { x: 0, y: -1 };
+      }
+      else return null
     }
     case 'RIGHT': { // right
-      return { x: 1, y: 0 };
+      if (currentVelocity.x != -1) {
+        return { x: 1, y: 0 };
+      }
+      else return null
     }
     case 'UP': { // up
-      return { x: 0, y: 1 };
+      if (currentVelocity.y != -1) {
+        return { x: 0, y: 1 };
+      }
+      else return null
     }
     case 65: { // left
-      return { x: -1, y: 0 };
+      if (currentVelocity.x != 1) {
+        return { x: -1, y: 0 };
+      }
+      else return null
     }
     case 87: { // down
-      return { x: 0, y: -1 };
+      if (currentVelocity.y = 1) {
+        return { x: 0, y: -1 };
+      }
+      else return null
     }
     case 68: { // right
-      return { x: 1, y: 0 };
+      if (currentVelocity.x != -1) {
+        return { x: 1, y: 0 };
+      }
+      else return null
     }
     case 83: { // up
-      return { x: 0, y: 1 };
+      if (currentVelocity.y != -1) {
+        return { x: 0, y: 1 };
+      }
+      else return null
     }
   }
 }
