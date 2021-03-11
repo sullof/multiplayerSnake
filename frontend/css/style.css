@@ -93,7 +93,7 @@ body, html{
 @media (max-width: 558px){
   .header-left{
     line-height: 21px;
-    padding: 20px 15px;
+    padding: 25px 15px;
   }
   .header-left span#time{
       font-size: 1.5em;
@@ -101,7 +101,7 @@ body, html{
   .header-left span{
     display: block;
     width: 100%;  
-    font-size: .8em;
+    font-size: .5em;
   }
   .right-text h1{
       font-size: 1.1em;
@@ -110,6 +110,7 @@ body, html{
       font-size: .9em;
   }
   .header-right .right-text{
+    margin-right: 25px;
     padding: 20px 5px;
   }
   
