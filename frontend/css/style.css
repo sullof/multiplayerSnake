@@ -101,17 +101,28 @@ body, html{
   .header-left span{
     display: block;
     width: 100%;  
-    font-size: .5em;
+    font-size: .6em;
   }
   .right-text h1{
-      font-size: 1.1em;
-  }
-  .right-text span{
       font-size: .9em;
   }
+  .right-text span{
+      font-size: .7em;
+  }
   .header-right .right-text{
-    margin-right: 25px;
+    line-height: 1px;
+    margin-right: 30px;
     padding: 20px 5px;
+  }
+  .captcha{
+    float: right;
+    width: 150px;
+    height: 80px;
+    overflow: hidden;
+    background: blue;
+  }
+  .captcha img{
+    width: 100%;
   }
   
   
