@@ -141,8 +141,13 @@ function createCanvas() {
 function resize() {
 	const { innerWidth, innerHeight } = window;
 
-	canvas.a.width = innerWidth;
-  canvas.a.height = innerHeight;
+	try {
+		canvas.a.width = innerWidth;
+	  canvas.a.height = innerHeight;
+	}
+	catch(error) {
+		console.log(error)
+	}
 
   ctx.a.drawImage(canvas.b, 0, 0);
 
