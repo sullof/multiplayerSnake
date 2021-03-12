@@ -17,14 +17,14 @@ const rangeHue = 60;
 const backgroundColor = 'hsla(150,80%,1%,1)';
 
 let container;
-let canvas2;
+let canvas;
 let ctx;
 let center;
 let tick;
 let pipeProps;
 
 function setup() {
-	createcanvas2();
+	createCanvas();
   resize();
   initPipes();
 	draw();
@@ -43,7 +43,7 @@ function initPipes() {
 function initPipe(i) {
   let x, y, direction, speed, life, ttl, width, hue;
 
-  x = rand(canvas2.a.width);
+  x = rand(canvas.a.width);
   y = center[1];
   direction = (round(rand(1)) ? HALF_PI : TAU - HALF_PI);
   speed = baseSpeed + rand(rangeSpeed);
@@ -107,32 +107,29 @@ function drawPipe(x, y, life, ttl, width, hue) {
 }
 
 function checkBounds(x, y) {
-  if (x > canvas2.a.width) x = 0;
-  if (x < 0) x = canvas2.a.width;
-  if (y > canvas2.a.height) y = 0;
-  if (y < 0) y = canvas2.a.height;
+  if (x > canvas.a.width) x = 0;
+  if (x < 0) x = canvas.a.width;
+  if (y > canvas.a.height) y = 0;
+  if (y < 0) y = canvas.a.height;
 }
 
-function createcanvas2() {
+function createCanvas() {
   container = document.querySelector('.content--canvas');
-	canvas2 = {
+	canvas = {
 		a: document.createElement('canvas'),
 		b: document.createElement('canvas')
 	};
-
-  canvas2.b.id = 'canvas';
-  
-	canvas2.b.style = `
-		position: absolute;
+	canvas.b.style = `
+		position: fixed;
 		top: 0;
 		left: 0;
 		width: 100%;
 		height: 100%;
 	`;
-	container.appendChild(canvas2.b);
+	container.appendChild(canvas.b);
 	ctx = {
-		a: canvas2.a.getContext('2d'),
-		b: canvas2.b.getContext('2d')
+		a: canvas.a.getContext('2d'),
+		b: canvas.b.getContext('2d')
   };
   center = [];
   tick = 0;
@@ -141,33 +138,33 @@ function createcanvas2() {
 function resize() {
 	const { innerWidth, innerHeight } = window;
 	
-	canvas2.a.width = innerWidth;
-  canvas2.a.height = innerHeight;
+	canvas.a.width = innerWidth;
+  canvas.a.height = innerHeight;
 
-  ctx.a.drawImage(canvas2.b, 0, 0);
+  ctx.a.drawImage(canvas.b, 0, 0);
 
-	canvas2.b.width = innerWidth;
-  canvas2.b.height = innerHeight;
+	canvas.b.width = innerWidth;
+  canvas.b.height = innerHeight;
   
-  ctx.b.drawImage(canvas2.a, 0, 0);
+  ctx.b.drawImage(canvas.a, 0, 0);
 
-  center[0] = 0.5 * canvas2.a.width;
-  center[1] = 0.5 * canvas2.a.height;
+  center[0] = 0.5 * canvas.a.width;
+  center[1] = 0.5 * canvas.a.height;
 }
 
 function render() {
   ctx.b.save();
   ctx.b.fillStyle = backgroundColor;
-  ctx.b.fillRect(0,0,canvas2.b.width,canvas2.b.height);
+  ctx.b.fillRect(0,0,canvas.b.width,canvas.b.height);
   ctx.b.restore();
 
   ctx.b.save();
   ctx.b.filter = 'blur(12px)'
-  ctx.b.drawImage(canvas2.a, 0, 0);
+  ctx.b.drawImage(canvas.a, 0, 0);
   ctx.b.restore();
 
   ctx.b.save();
-  ctx.b.drawImage(canvas2.a, 0, 0);
+  ctx.b.drawImage(canvas.a, 0, 0);
   ctx.b.restore();
 }
 

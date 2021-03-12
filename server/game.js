@@ -150,17 +150,17 @@ function checkIfPoison(state, foodNumber) {
 }
 
 function randomFood(state) {
-  gridWidth = state.gridX
-  gridHeight = state.gridY
+  gridWidth = state.gridX - 2
+  gridHeight = state.gridY - 2
   const food = [
     {
-      x: Math.floor(Math.random() * gridWidth),
-      y: Math.floor(Math.random() * gridHeight),
+      x: Math.floor(Math.random() * gridWidth + 1),
+      y: Math.floor(Math.random() * gridHeight + 1),
       color: {}
     },
     {
-      x: Math.floor(Math.random() * gridWidth),
-      y: Math.floor(Math.random() * gridHeight),
+      x: Math.floor(Math.random() * gridWidth + 1),
+      y: Math.floor(Math.random() * gridHeight + 1),
       color: {}
     }
   ]
@@ -175,6 +175,10 @@ function randomFood(state) {
     if (cell.x === food[1].x && cell.y === food[1].y) {
       return randomFood(state);
     }
+  }
+
+  if (food[0].x === food[1].x && food[0].y === food[1].y) {
+    return randomFood(state);
   }
 
   state.food = food;
@@ -203,7 +207,7 @@ function randomPoison(state) {
 }
 
 function getUpdatedVelocity(keyCode, currentVelocity) {
-  console.log(currentVelocity)
+  console.log(keyCode)
   switch (keyCode) {
     case 37: { // left
       if (currentVelocity.x != 1) {
@@ -230,16 +234,52 @@ function getUpdatedVelocity(keyCode, currentVelocity) {
       else return null
     }
     case 'LEFT': { // left
-      return { x: -1, y: 0 };
+      if (currentVelocity.x != 1) {
+        return { x: -1, y: 0 };
+      }
+      else return null
     }
     case 'DOWN': { // down
-      return { x: 0, y: -1 };
+      if (currentVelocity.y != 1) {
+        return { x: 0, y: -1 };
+      }
+      else return null
     }
     case 'RIGHT': { // right
-      return { x: 1, y: 0 };
+      if (currentVelocity.x != -1) {
+        return { x: 1, y: 0 };
+      }
+      else return null
     }
     case 'UP': { // up
-      return { x: 0, y: 1 };
+      if (currentVelocity.y != -1) {
+        return { x: 0, y: 1 };
+      }
+      else return null
+    }
+    case 65: { // left
+      if (currentVelocity.x != 1) {
+        return { x: -1, y: 0 };
+      }
+      else return null
+    }
+    case 87: { // down
+      if (currentVelocity.y = 1) {
+        return { x: 0, y: -1 };
+      }
+      else return null
+    }
+    case 68: { // right
+      if (currentVelocity.x != -1) {
+        return { x: 1, y: 0 };
+      }
+      else return null
+    }
+    case 83: { // up
+      if (currentVelocity.y != -1) {
+        return { x: 0, y: 1 };
+      }
+      else return null
     }
   }
 }

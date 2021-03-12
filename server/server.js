@@ -1,4 +1,5 @@
 const io = require('socket.io')();
+
 const { initGame, randomFood, gameLoop, getUpdatedVelocity } = require('./game');
 const { FRAME_RATE } = require('./constants');
 const { makeid } = require('./utils');
@@ -15,7 +16,7 @@ io.on('connection', client => {
   function handleJoinGame(message) {
     state[message.roomName] = initGame();
     const room = io.sockets.adapter.rooms[message.roomName]
-    console.log(message.roomName)
+    console.log('joined: ' + message.roomName)
     try {
       state[message.roomName].gridX = message.screenSize.width/40
       state[message.roomName].gridY = message.screenSize.height/40
@@ -108,7 +109,7 @@ function startGameInterval(roomName) {
       emitGameOver(roomName, winner);
       state[roomName].endTime = new Date()
       console.log('game completed in: ' + (state[roomName].endTime.getTime() - state[roomName].startTime.getTime()))
-      console.log(state[roomName])
+      // console.log(state[roomName])
       state[roomName] = null;
       clearInterval(intervalId);
     }
@@ -122,6 +123,12 @@ function emitGameState(room, gameState) {
 }
 
 function emitGameOver(room, winner) {
+  const scoreMessage = {
+    score: state[room].foodTimes.length,
+    gameCode: room
+  }
+  io.sockets.in(room)
+    .emit('sendScore', scoreMessage);
   io.sockets.in(room)
     .emit('gameOver', JSON.stringify({ winner }));
 }
