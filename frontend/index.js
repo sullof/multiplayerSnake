@@ -2,12 +2,12 @@ const BG_COLOUR = '#231f20';
 const SNAKE_COLOUR = '#ffffff';
 const FOOD_COLOUR = '#e66916';
 
-// const socket = io('http://3.139.87.87:3000');
-// const socketPractice = io('http://3.133.132.75:3000');
+const socket = io('http://3.139.87.87:3000');
+const socketPractice = io('http://3.133.132.75:3000');
 
 //For Development
-const socket = io('http://localhost:3000');
-const socketPractice = io('http://localhost:3000');
+// const socket = io('http://localhost:3000');
+// const socketPractice = io('http://localhost:3000');
 
 socket.on('init', handleInit);
 socket.on('gameState', handleGameState);
