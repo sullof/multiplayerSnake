@@ -16,10 +16,29 @@ io.on('connection', client => {
   function handleJoinGame(message) {
     state[message.roomName] = initGame();
     const room = io.sockets.adapter.rooms[message.roomName]
-    console.log('joined: ' + message.roomName)
+    console.log('joined: ', message.screenSize, message.screenSize.width, message.screenSize.height)
     try {
-      state[message.roomName].gridX = message.screenSize.width/40
-      state[message.roomName].gridY = message.screenSize.height/40
+      if (message.screenSize.width < 350) {
+        state[message.roomName].gridX = message.screenSize.width/15
+        state[message.roomName].gridY = message.screenSize.height/15
+      }
+      else if(message.screenSize.width < 450) {
+        state[message.roomName].gridX = message.screenSize.width/20
+        state[message.roomName].gridY = message.screenSize.height/20
+      }
+      else if(message.screenSize.width < 550){
+        state[message.roomName].gridX = message.screenSize.width/25
+        state[message.roomName].gridY = message.screenSize.height/25
+      }
+      else if(message.screenSize.width < 800){
+        state[message.roomName].gridX = message.screenSize.width/30
+        state[message.roomName].gridY = message.screenSize.height/30
+      }
+      else {
+        console.log('setting large room')
+        state[message.roomName].gridX = message.screenSize.width/40
+        state[message.roomName].gridY = message.screenSize.height/40
+      }
       randomFood(state[message.roomName])
       state[message.roomName].startTime = new Date()
       state[message.roomName].timer = new Date();

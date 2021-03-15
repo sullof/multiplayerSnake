@@ -41,11 +41,32 @@ var isPractice = false
 // const gameCodeDisplay = document.getElementById('gameCodeDisplay');
 const img = document.getElementById('colorImage');
 const toolbar = document.getElementById('toolbar')
+const padding = toolbar.clientHeight + 100
 // const windowHeight = document.documentElement.clientHeight - toolbar
-const windowHeight = window.innerHeight - toolbar.clientHeight
+const windowHeight = window.innerHeight - padding
 const windowWidth = window.innerWidth
-gcanvas.width = Math.floor(windowWidth/40) * 40
-gcanvas.height = Math.floor(windowHeight/40) * 40
+
+if (windowWidth < 350) {
+  gcanvas.width = Math.floor(windowWidth/15) * 15
+  gcanvas.height = Math.floor(windowHeight/15) * 15
+}
+else if(windowWidth < 450) {
+  gcanvas.width = Math.floor(windowWidth/20) * 20
+  gcanvas.height = Math.floor(windowHeight/20) * 20
+}
+else if(windowWidth < 550){
+  gcanvas.width = Math.floor(windowWidth/25) * 25
+  gcanvas.height = Math.floor(windowHeight/25) * 25
+}
+else if(windowWidth < 800){
+  gcanvas.width = Math.floor(windowWidth/30) * 30
+  gcanvas.height = Math.floor(windowHeight/30) * 30
+}
+else {
+  console.log('setting large size')
+  gcanvas.width = Math.floor(windowWidth/40) * 40
+  gcanvas.height = Math.floor(windowHeight/40) * 40
+}
 scoreScreen.style.display = "none";
 
 // window.onscroll = function () { window.scrollTo(0, 0); };
@@ -172,12 +193,42 @@ function paintGame(state) {
   if (state.food){
     let food = state.food
     // const gridsize = state.gridsize;
-    const sizeX = gcanvas.width /state.gridX
+    const sizeX = gcanvas.width/state.gridX
     const sizeY = gcanvas.height/state.gridY
-    ctx3.fillStyle = state.food[0].color.hex;
-    ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, 40, 40);
-    ctx3.fillStyle = state.food[1].color.hex;
-    ctx3.fillRect(food[1].x * sizeX, food[1].y * sizeY, 40, 40);
+    if (gcanvas.width < 350) {
+      ctx3.fillStyle = state.food[0].color.hex;
+      ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, 15, 15);
+      ctx3.fillStyle = state.food[1].color.hex;
+      ctx3.fillRect(food[1].x * sizeX, food[1].y * sizeY, 15, 15);
+    }
+    else if(gcanvas.width < 450) {
+      ctx3.fillStyle = state.food[0].color.hex;
+      ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, 20, 20);
+      ctx3.fillStyle = state.food[1].color.hex;
+      ctx3.fillRect(food[1].x * sizeX, food[1].y * sizeY, 20, 20);
+    }
+    else if(gcanvas.width < 550){
+      ctx3.fillStyle = state.food[0].color.hex;
+      ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, 25, 25);
+      ctx3.fillStyle = state.food[1].color.hex;
+      ctx3.fillRect(food[1].x * sizeX, food[1].y * sizeY, 25, 25);
+    }
+    else if(gcanvas.width < 800){
+      ctx3.fillStyle = state.food[0].color.hex;
+      ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, 30, 30);
+      ctx3.fillStyle = state.food[1].color.hex;
+      ctx3.fillRect(food[1].x * sizeX, food[1].y * sizeY, 30, 30);
+    }
+    else {
+      ctx3.fillStyle = state.food[0].color.hex;
+      ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, 40, 40);
+      ctx3.fillStyle = state.food[1].color.hex;
+      ctx3.fillRect(food[1].x * sizeX, food[1].y * sizeY, 40, 40);
+    }
+    // ctx3.fillStyle = state.food[0].color.hex;
+    // ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, 15, 15);
+    // ctx3.fillStyle = state.food[1].color.hex;
+    // ctx3.fillRect(food[1].x * sizeX, food[1].y * sizeY, 15, 15);
 
     paintPlayer(state.players[0], sizeX, sizeY, SNAKE_COLOUR);
     paintPlayer(state.players[1], sizeX, sizeY, 'red');
@@ -189,7 +240,21 @@ function paintPlayer(playerState, sizeX, sizeY, colour) {
 
   ctx3.fillStyle = colour;
   for (let cell of snake) {
-    ctx3.fillRect(cell.x * sizeX, cell.y * sizeY, 40, 40);
+    if (gcanvas.width < 350) {
+      ctx3.fillRect(cell.x * sizeX, cell.y * sizeY, 15, 15);
+    }
+    else if(gcanvas.width < 450) {
+      ctx3.fillRect(cell.x * sizeX, cell.y * sizeY, 20, 20);
+    }
+    else if(gcanvas.width < 550){
+      ctx3.fillRect(cell.x * sizeX, cell.y * sizeY, 25, 25);
+    }
+    else if(gcanvas.width < 800){
+      ctx3.fillRect(cell.x * sizeX, cell.y * sizeY, 30, 30);
+    }
+    else {
+      ctx3.fillRect(cell.x * sizeX, cell.y * sizeY, 40, 40);
+    }
   }
 }
 
