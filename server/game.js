@@ -170,7 +170,7 @@ function randomFood(state) {
   }
 
   for (let i = 0; i < 3; i++) {
-    let nextBlock
+    let nextBlock = { x: null, y: null }
     nextBlock.x = state.players[0].pos.x + (state.players[0].vel.x * i)
     nextBlock.y = state.players[0].pos.y + (state.players[0].vel.y * i)
     if (nextBlock.x === food[0].x && nextBlock.y === food[0].y){
