@@ -5,7 +5,7 @@ const FOOD_COLOUR = '#e66916';
 const socket = io('http://3.139.87.87:3000');
 const socketPractice = io('http://3.133.132.75:3000');
 
-//For Development
+// For Development
 // const socket = io('http://localhost:3000');
 // const socketPractice = io('http://localhost:3000');
 
@@ -25,7 +25,7 @@ socketPractice.on('unknownCode', handleUnknownCode);
 socketPractice.on('sendScore', handleScore);
 socketPractice.on('tooManyPlayers', handleTooManyPlayers);
 
-window.onscroll = function () { window.scrollTo(0, 0); };
+// window.onscroll = function () { window.scrollTo(0, 0); };
 
 const gameScreen = document.getElementById('gameScreen');
 const initialScreen = document.getElementById('initialScreen');
@@ -76,39 +76,82 @@ joinGameBtn.addEventListener('click', joinGame);
 
 var mc = new Hammer(gameScreen);
 
-// listen to events...
-mc.on("panleft panright panup pandown", function(ev) {
-  switch (ev.type) {
-    case 'panleft': { // left
-      if (isPractice) {
-        socketPractice.emit('keydown', 37);
-      } else {
-        socket.emit('keydown', 37);
-      }
-    }
-    case 'pandown': { // down
-      if (isPractice) {
-        socketPractice.emit('keydown', 38);
-      } else {
-        socket.emit('keydown', 38);
-      }
-    }
-    case 'panright': { // right
-      if (isPractice) {
-        socketPractice.emit('keydown', 39);
-      } else {
-        socket.emit('keydown', 39);
-      }
-    }
-    case 'panup': { // up
-      if (isPractice) {
-        socketPractice.emit('keydown', 40);
-      } else {
-        socket.emit('keydown', 40);
-      }
-    }
+mc.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
+
+mc.on("swipeleft", function() {
+  console.log('left')
+  if (isPractice) {
+    socketPractice.emit('keydown', 65);
+  } else {
+    socket.emit('keydown', 65);
   }
 });
+
+mc.on("swiperight", function() {
+  console.log('right')
+  if (isPractice) {
+    socketPractice.emit('keydown', 68);
+  } else {
+    socket.emit('keydown', 68);
+  }
+});
+
+mc.on("swipedown", function() {
+  console.log('down')
+  if (isPractice) {
+    socketPractice.emit('keydown', 87);
+  } else {
+    socket.emit('keydown', 87);
+  }
+});
+
+mc.on("swipeup", function() {
+  console.log('up')
+  if (isPractice) {
+    socketPractice.emit('keydown', 83);
+  } else {
+    socket.emit('keydown', 83);
+  }
+});
+
+
+// // listen to events...
+// mc.on("panleft panright panup pandown", function(ev) {
+//   switch (ev.type) {
+//     case 'panleft': { // left
+//       console.log('left')
+//       if (isPractice) {
+//         socketPractice.emit('keydown', 37);
+//       } else {
+//         socket.emit('keydown', 37);
+//       }
+//     }
+//     case 'pandown': { // down
+//       console.log('down')
+//       if (isPractice) {
+//         socketPractice.emit('keydown', 38);
+//       } else {
+//         socket.emit('keydown', 38);
+//       }
+//     }
+//     case 'panright': { // right
+//       console.log('right')
+//       if (isPractice) {
+//         socketPractice.emit('keydown', 39);
+//       } else {
+//         socket.emit('keydown', 39);
+//       }
+//     }
+//     case 'panup': { // up
+//       console.log('up')
+//       if (isPractice) {
+//         socketPractice.emit('keydown', 40);
+//       } else {
+//         socket.emit('keydown', 40);
+//       }
+//     }
+//   }
+// });
 
 function joinPractice(gameCode) {
   const message = {

@@ -165,6 +165,19 @@ function randomFood(state) {
     }
   ]
 
+  if (food[0].x === food[1].x && food[0].y === food[1].y) {
+    return randomFood(state);
+  }
+
+  for (let i = 0; i < 3; i++) {
+    let nextBlock
+    nextBlock.x = state.players[0].pos.x + (state.players[0].vel.x * i)
+    nextBlock.y = state.players[0].pos.y + (state.players[0].vel.y * i)
+    if (nextBlock.x === food[0].x && nextBlock.y === food[0].y){
+      return randomFood(state);
+    }
+  }
+
   for (let cell of state.players[0].snake) {
     if (cell.x === food[0].x && cell.y === food[0].y) {
       return randomFood(state);
@@ -175,10 +188,6 @@ function randomFood(state) {
     if (cell.x === food[1].x && cell.y === food[1].y) {
       return randomFood(state);
     }
-  }
-
-  if (food[0].x === food[1].x && food[0].y === food[1].y) {
-    return randomFood(state);
   }
 
   state.food = food;
@@ -247,10 +256,6 @@ function getUpdatedVelocity(keyCode, currentVelocity, state) {
           return null
         }
       }
-      // if (currentVelocity.y != 1) {
-      //   return { x: 0, y: -1 };
-      // }
-      // else return null
     }
     case 39: { // right
       let move = { x: 1, y: 0 }
@@ -269,10 +274,6 @@ function getUpdatedVelocity(keyCode, currentVelocity, state) {
           return null
         }
       }
-      // if (currentVelocity.x != -1) {
-      //   return { x: 1, y: 0 };
-      // }
-      // else return null
     }
     case 40: { // up
       let move = { x: 0, y: 1 }
@@ -291,58 +292,152 @@ function getUpdatedVelocity(keyCode, currentVelocity, state) {
           return null
         }
       }
-      // if (currentVelocity.y != -1) {
-      //   return { x: 0, y: 1 };
-      // }
-      // else return null
     }
-    case 'LEFT': { // left
-      if (currentVelocity.x != 1) {
-        return { x: -1, y: 0 };
-      }
-      else return null
-    }
-    case 'DOWN': { // down
-      if (currentVelocity.y != 1) {
-        return { x: 0, y: -1 };
-      }
-      else return null
-    }
-    case 'RIGHT': { // right
-      if (currentVelocity.x != -1) {
-        return { x: 1, y: 0 };
-      }
-      else return null
-    }
-    case 'UP': { // up
-      if (currentVelocity.y != -1) {
-        return { x: 0, y: 1 };
-      }
-      else return null
-    }
+    // case 'LEFT': { // left
+    //   let move = { x: -1, y: 0 }
+    //   let newBlock = {}
+    //   newBlock.x = player.pos.x + move.x
+    //   newBlock.y = player.pos.y + move.y
+    //   if (newBlock.x === player.snake[player.snake.length - 2].x && newBlock.y === player.snake[player.snake.length - 2].y) {
+    //     console.log('moving backwards')
+    //     return null
+    //   } else {
+    //     if (currentVelocity.x != 1) {
+    //       console.log('inside')
+    //       return { x: -1, y: 0 };
+    //     }
+    //     else {
+    //       console.log('nothing')
+    //       return null
+    //     }
+    //   }
+    // }
+    // case 'DOWN': { // down
+    //   let move = { x: 0, y: -1 }
+    //   let newBlock = {}
+    //   newBlock.x = player.pos.x + move.x
+    //   newBlock.y = player.pos.y + move.y
+    //   if (newBlock.x === player.snake[player.snake.length - 2].x && newBlock.y === player.snake[player.snake.length - 2].y) {
+    //     console.log('moving backwards')
+    //     return null
+    //   } else {
+    //     if (currentVelocity.y != 1) {
+    //       return { x: 0, y: -1 };
+    //     }
+    //     else {
+    //       console.log('nothing')
+    //       return null
+    //     }
+    //   }
+    // }
+    // case 'RIGHT': { // right
+    //   let move = { x: 1, y: 0 }
+    //   let newBlock = {}
+    //   newBlock.x = player.pos.x + move.x
+    //   newBlock.y = player.pos.y + move.y
+    //   if (newBlock.x === player.snake[player.snake.length - 2].x && newBlock.y === player.snake[player.snake.length - 2].y) {
+    //     console.log('moving backwards')
+    //     return null
+    //   } else {
+    //     if (currentVelocity.x != -1) {
+    //       return { x: 1, y: 0 };
+    //     }
+    //     else {
+    //       console.log('nothing')
+    //       return null
+    //     }
+    //   }
+    // }
+    // case 'UP': { // up
+    //   let move = { x: 0, y: 1 }
+    //   let newBlock = {}
+    //   newBlock.x = player.pos.x + move.x
+    //   newBlock.y = player.pos.y + move.y
+    //   if (newBlock.x === player.snake[player.snake.length - 2].x && newBlock.y === player.snake[player.snake.length - 2].y) {
+    //     console.log('moving backwards')
+    //     return null
+    //   } else {
+    //     if (currentVelocity.y != -1) {
+    //       return { x: 0, y: 1 };
+    //     }
+    //     else {
+    //       console.log('nothing')
+    //       return null
+    //     }
+    //   }
+    // }
     case 65: { // left
-      if (currentVelocity.x != 1) {
-        return { x: -1, y: 0 };
+      let move = { x: -1, y: 0 }
+      let newBlock = {}
+      newBlock.x = player.pos.x + move.x
+      newBlock.y = player.pos.y + move.y
+      if (newBlock.x === player.snake[player.snake.length - 2].x && newBlock.y === player.snake[player.snake.length - 2].y) {
+        console.log('moving backwards')
+        return null
+      } else {
+        if (currentVelocity.x != 1) {
+          console.log('inside')
+          return { x: -1, y: 0 };
+        }
+        else {
+          console.log('nothing')
+          return null
+        }
       }
-      else return null
     }
     case 87: { // down
-      if (currentVelocity.y = 1) {
-        return { x: 0, y: -1 };
+      let move = { x: 0, y: -1 }
+      let newBlock = {}
+      newBlock.x = player.pos.x + move.x
+      newBlock.y = player.pos.y + move.y
+      if (newBlock.x === player.snake[player.snake.length - 2].x && newBlock.y === player.snake[player.snake.length - 2].y) {
+        console.log('moving backwards')
+        return null
+      } else {
+        if (currentVelocity.y != 1) {
+          return { x: 0, y: -1 };
+        }
+        else {
+          console.log('nothing')
+          return null
+        }
       }
-      else return null
     }
     case 68: { // right
-      if (currentVelocity.x != -1) {
-        return { x: 1, y: 0 };
+      let move = { x: 1, y: 0 }
+      let newBlock = {}
+      newBlock.x = player.pos.x + move.x
+      newBlock.y = player.pos.y + move.y
+      if (newBlock.x === player.snake[player.snake.length - 2].x && newBlock.y === player.snake[player.snake.length - 2].y) {
+        console.log('moving backwards')
+        return null
+      } else {
+        if (currentVelocity.x != -1) {
+          return { x: 1, y: 0 };
+        }
+        else {
+          console.log('nothing')
+          return null
+        }
       }
-      else return null
     }
     case 83: { // up
-      if (currentVelocity.y != -1) {
-        return { x: 0, y: 1 };
+      let move = { x: 0, y: 1 }
+      let newBlock = {}
+      newBlock.x = player.pos.x + move.x
+      newBlock.y = player.pos.y + move.y
+      if (newBlock.x === player.snake[player.snake.length - 2].x && newBlock.y === player.snake[player.snake.length - 2].y) {
+        console.log('moving backwards')
+        return null
+      } else {
+        if (currentVelocity.y != -1) {
+          return { x: 0, y: 1 };
+        }
+        else {
+          console.log('nothing')
+          return null
+        }
       }
-      else return null
     }
   }
 }
