@@ -99,18 +99,18 @@ mc.on("swiperight", function() {
 mc.on("swipedown", function() {
   console.log('down')
   if (isPractice) {
-    socketPractice.emit('keydown', 87);
+    socketPractice.emit('keydown', 83);
   } else {
-    socket.emit('keydown', 87);
+    socket.emit('keydown', 83);
   }
 });
 
 mc.on("swipeup", function() {
   console.log('up')
   if (isPractice) {
-    socketPractice.emit('keydown', 83);
+    socketPractice.emit('keydown', 87);
   } else {
-    socket.emit('keydown', 83);
+    socket.emit('keydown', 87);
   }
 });
 
