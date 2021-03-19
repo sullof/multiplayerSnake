@@ -10,6 +10,8 @@
   <link rel="stylesheet" type="text/css" href="css/base.css" />
 	<link rel="stylesheet" type="text/css" href="css/demo3.css" />
   <script src="https://kit.fontawesome.com/9ac6cfa819.js" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 	<script>document.documentElement.className="js";var supportsCssVars=function(){var e,t=document.createElement("style");return t.innerHTML="root: { --tmp-var: bold; }",document.head.appendChild(t),e=!!(window.CSS&&window.CSS.supports&&window.CSS.supports("font-weight","var(--tmp-var)")),t.parentNode.removeChild(t),e};supportsCssVars()||alert("Please view this demo in a modern browser that supports CSS Variables.");</script>
 </head>
 
@@ -18,43 +20,31 @@
     <!-- INITIAL SCREEN -->
     <div id="initialScreen" class="h-100">
       <div class="d-flex flex-column align-items-center justify-content-center h-100">
-        <button type="submit" class="btn btn-success buttons-style" id="joinGameButton">Join Game</button>
+        <button type="submit" class="btn btn-success buttons-style" id="joinGameButton">Practice Play</button>
       </div>
     </div>
 
     <div id="gameScreen">
       <section id="toolbar">
-        <style>
-          .flex-grid {
-            display: flex;
-          }
-          .col {
-            flex: 1;
-          }
-          .blue {
-            background-color: blue;
-          }
-          .red {
-            background-color: red;
-          }
-          .green {
-            background-color: green;
-          }
-        </style>
+
         <div class="flex-grid">
-          <div class="col blue">
+
+          <div class="col">
             <span id="time">60</span>
             <span>seconds left</span>
           </div>
-          <div class="col red">
+
+          <div class="col">
             <div class="right-text">
               <h1>Avoid the Poison</h1>
               <span>the poison color is</span>
             </div>
           </div>
-          <div class="col green">
-            <img id="colorImage">
+
+          <div class="col">
+              <img id="colorImage">
           </div>
+
         </div>
       </section>
       <!-- <section id="toolbar" height="100px" class="header">
