@@ -11,7 +11,7 @@ body, html{
 ********************************/
 
 
-.header{
+/* .header{
   background: none;
   color: #fff;
   height: 80px;
@@ -194,7 +194,7 @@ body, html{
 }
 #time {
     font-weight: bold;
-}
+} */
 
   /********************************
 
@@ -272,4 +272,44 @@ body, html{
 }
 .col:nth-child(3) img{
   float: right;
+}
+
+@media (max-width: 558px){
+
+  .col:nth-child(1){
+    line-height: 1;
+    padding: 10px 10px;
+  }
+  .col:nth-child(1) #time{
+    font-size: 1.2em;
+   
+  }
+  .col:nth-child(1) span{
+    display: block;
+    font-size: .9em;
+  }
+  
+  
+  /** column 2 **/
+  .col:nth-child(2){
+    line-height: .1em;
+    padding: 15px 0;
+    text-align: right;
+  }
+  .col:nth-child(2) h1{
+    font-size: .9em;
+    font-weight: bold;
+  }
+  .col:nth-child(2) span{
+    display: block;
+    font-size: .85em;
+  }
+  
+  /** column 3 **/
+  .col:nth-child(3){
+    /* background: red; */
+  }
+  .col:nth-child(3) img{
+    float: right;
+
 }
