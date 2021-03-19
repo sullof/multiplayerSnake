@@ -274,7 +274,7 @@ body, html{
   float: right;
 }
 
-@media (max-width: 558px){
+@media (max-width: 958px){
 
   .col:nth-child(1){
     line-height: 1;
