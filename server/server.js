@@ -1,10 +1,11 @@
 const io = require('socket.io')();
 
-const { initGame, randomFood, gameLoop, getUpdatedVelocity } = require('./game');
+const { initGame, initPoison, randomFood, gameLoop, getUpdatedVelocity } = require('./game');
 const { FRAME_RATE } = require('./constants');
 const { makeid } = require('./utils');
 
 const state = {};
+// const poison = {};
 const clientRooms = {};
 
 io.on('connection', client => {
@@ -14,7 +15,8 @@ io.on('connection', client => {
   client.on('joinGame', handleJoinGame);
 
   function handleJoinGame(message) {
-    state[message.roomName] = initGame();
+    initPoison(message.roomName);
+    state[message.roomName] = initGame(message.roomName);
     const room = io.sockets.adapter.rooms[message.roomName]
     console.log('joined: ', message.screenSize, message.screenSize.width, message.screenSize.height)
     try {

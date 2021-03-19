@@ -1,22 +1,29 @@
 const { IMAGES, COLORS, GRID_SIZE } = require('./constants');
 let poisonFood = null
 let atePoison = false
+const poison = {};
 
 module.exports = {
   initGame,
+  initPoison,
   gameLoop,
   getUpdatedVelocity,
   randomFood
 }
 
-function initGame() {
-  const state = createGameState()
+function initGame(roomName) {
+  const state = createGameState(roomName)
   randomFood(state);
   return state;
 }
 
-function createGameState() {
+function initPoison(roomName) {
+  poison[roomName] = null
+}
+
+function createGameState(roomName) {
   return {
+    roomName: roomName,
     startTime: null,
     currentTime: null,
     endTime: null,
@@ -134,8 +141,8 @@ function gameLoop(state) {
 }
 
 function checkIfPoison(state, foodNumber) {
-  // console.log(poisonFood, foodNumber)
-  if (foodNumber === poisonFood) {
+  console.log('checking if poison', poison[state.roomName], foodNumber)
+  if (foodNumber === poison[state.roomName]) {
     return true;
   } else {
     // console.log('eating')
@@ -198,18 +205,22 @@ function randomFood(state) {
 function randomColors(state) {
   let firstNumber = Math.floor(Math.random() * COLORS.length)
   let secondNumber = Math.floor(Math.random() * COLORS.length)
+  console.log('numbers', firstNumber, secondNumber)
   if (firstNumber == secondNumber) {
     randomColors(state)
   } else {
     state.food[0].color = COLORS[firstNumber]
     state.food[1].color = COLORS[secondNumber]
+    console.log('colors', state.food[0].color, state.food[1].color)
     randomPoison(state);
   }
 }
 
 function randomPoison(state) {
-  poisonFood = Math.round(Math.random())
-  poisonColor = state.food[poisonFood].color.name
+  poison[state.roomName] = Math.round(Math.random())
+  console.log('poisonFood', poison[state.roomName])
+  poisonColor = state.food[poison[state.roomName]].color.name
+  console.log('poisonColor', poisonColor)
   let array = IMAGES.filter(image => image.color == poisonColor)
   let rand = Math.floor(Math.random() * array[0].imgURLs.length)
   state.imgURL = array[0].imgURLs[rand]
