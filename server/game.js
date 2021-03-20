@@ -34,22 +34,22 @@ function createGameState(roomName) {
       {
         pos: {
           x: 3,
-          y: 7,
+          y: 2,
         },
         vel: {
           x: 1,
           y: 0,
         },
         snake: [
-          {x: 1, y: 7},
-          {x: 2, y: 7},
-          {x: 3, y: 7},
+          {x: 1, y: 2},
+          {x: 2, y: 2},
+          {x: 3, y: 2},
         ],
       },
       {
         pos: {
-          x: 18,
-          y: 10,
+          x: 0,
+          y: 0,
         },
         vel: {
           x: 0,
