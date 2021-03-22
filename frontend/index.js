@@ -41,9 +41,11 @@ var isPractice = false
 // const gameCodeDisplay = document.getElementById('gameCodeDisplay');
 const img = document.getElementById('colorImage');
 const toolbar = document.getElementById('toolbar')
-const padding = toolbar.clientHeight
+let padding = toolbar.clientHeight
+// console.log(padding)
 // const windowHeight = document.documentElement.clientHeight - toolbar
-const windowHeight = window.innerHeight - padding
+const windowHeight = window.innerHeight
+// console.log(windowHeight)
 const windowWidth = window.innerWidth
 
 if (windowWidth < 350) {
@@ -238,8 +240,8 @@ function paintGame(state) {
     // const gridsize = state.gridsize;
     let sizeX = gcanvas.width/state.gridX
     let sizeY = gcanvas.height/state.gridY
-    sizeX -= 1
-    sizeY -= 1
+    sizeX -= 2
+    sizeY -= 2
     if (gcanvas.width < 350) {
       ctx3.fillStyle = state.food[0].color.hex;
       ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, 15, 15);
