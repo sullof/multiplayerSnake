@@ -326,9 +326,9 @@ function handleGameOver(data) {
   gameActive = false;
 
   if (data.winner === playerNumber) {
-    alert('You Win!');
+    alert('You died!');
   } else {
-    alert('You Lose :(');
+    alert('Your died!');
   }
   isPractice = false
 }
