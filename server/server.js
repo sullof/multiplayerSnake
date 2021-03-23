@@ -16,6 +16,7 @@ io.on('connection', client => {
 
   function handleJoinGame(message) {
     initPoison(message.roomName);
+    console.log(message.roomName)
     state[message.roomName] = initGame(message.roomName);
     const room = io.sockets.adapter.rooms[message.roomName]
     console.log('joined: ', message.screenSize, message.screenSize.width, message.screenSize.height)
@@ -81,9 +82,10 @@ io.on('connection', client => {
   }
 
   function handleNewGame() {
-    let roomName = makeid(5);
+    let roomName = makeid(10);
     clientRooms[client.id] = roomName;
     client.emit('gameCode', roomName);
+    console.log(roomName)
 
     client.join(roomName);
     client.number = 2;

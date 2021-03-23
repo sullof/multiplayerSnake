@@ -29,6 +29,8 @@ socketPractice.on('tooManyPlayers', handleTooManyPlayers);
 
 const gameScreen = document.getElementById('gameScreen');
 const initialScreen = document.getElementById('initialScreen');
+const countdownScreen = document.getElementById('countdownScreen');
+const countdown = document.getElementById('countdown');
 const scoreScreen = document.getElementById('scoreScreen');
 const scoreDisplay = document.getElementById('scoreDisplay');
 const newGameBtn = document.getElementById('newGameButton');
@@ -188,21 +190,35 @@ function joinGame() {
     isPractice = true
     newPractice()
   } else {
-    const message = {
-      roomName: code,
-      screenSize: {
-        width: gcanvas.width,
-        height: gcanvas.height
+    initialScreen.style.display = "none";
+    console.log('setting countdown')
+    countdownScreen.style.display = "block";
+    var timeleft = 3;
+    var downloadTimer = setInterval(function(){
+      if(timeleft <= 0){
+        console.log('starting game')
+        const message = {
+          roomName: code,
+          screenSize: {
+            width: gcanvas.width,
+            height: gcanvas.height
+          }
+        }
+        console.log(message)
+        socket.emit('joinGame', message);
+        init()
+        clearInterval(downloadTimer);
+      } else {
+        countdown.innerHTML = timeleft
       }
-    }
-    console.log(message)
-    socket.emit('joinGame', message);
-    init();
+      timeleft -= 1;
+    }, 1000)
   }
 }
 
 function init() {
   initialScreen.style.display = "none";
+  countdownScreen.style.display = "none";
   gameScreen.style.display = "block";
 
   // gcanvas = document.getElementById('gcanvas');
