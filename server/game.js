@@ -176,11 +176,16 @@ function randomFood(state) {
     return randomFood(state);
   }
 
-  for (let i = 0; i < 3; i++) {
+  console.log('player position', state.players[0].pos)
+  for (let i = 0; i < 4; i++) {
     let nextBlock = { x: null, y: null }
     nextBlock.x = state.players[0].pos.x + (state.players[0].vel.x * i)
     nextBlock.y = state.players[0].pos.y + (state.players[0].vel.y * i)
+    console.log('next block', nextBlock)
     if (nextBlock.x === food[0].x && nextBlock.y === food[0].y){
+      return randomFood(state);
+    }
+    if (nextBlock.x === food[1].x && nextBlock.y === food[1].y){
       return randomFood(state);
     }
   }
