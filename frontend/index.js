@@ -104,7 +104,6 @@ function joinPractice(gameCode) {
   console.log('toolbar', toolbar.clientHeight)
   let padding = toolbar.clientHeight
   const windowHeight = window.innerHeight - padding
-
   console.log(window.innerHeight, windowHeight)
 
   const windowWidth = window.innerWidth
@@ -193,15 +192,7 @@ function init() {
   countdownScreen.style.display = "none";
   gameScreen.style.display = "block";
 
-  // gcanvas = document.getElementById('gcanvas');
   ctx3 = gcanvas.getContext('2d');
-
-  // ctx3.fillStyle = BG_COLOUR;
-  // ctx3.fillRect(0, 0, gcanvas.width, gcanvas.height);
-
-
-  // ctx.fillStyle = BG_COLOUR;
-  // ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   document.addEventListener('keydown', keydown);
   gameActive = true;
@@ -218,18 +209,12 @@ function keydown(e) {
 
 function paintGame(state) {
   img.src=state.imgURL;
-  // console.log(state.sinceLastFood)
   time.innerText = state.currentTime;
   ctx3.clearRect(0, 0, gcanvas.width, gcanvas.height);
-  // ctx3.fillStyle = BG_COLOUR;
-  // ctx3.fillRect(0, 0, gcanvas.width, gcanvas.height);
   if (state.food){
     let food = state.food
-    // const gridsize = state.gridsize;
-    let sizeX = gcanvas.width/state.gridX
-    let sizeY = gcanvas.height/state.gridY
-    sizeX -= 1
-    sizeY -= 1
+    let sizeX = gcanvas.width/(state.gridX+1)
+    let sizeY = gcanvas.height/(state.gridY+1)
     if (gcanvas.width < 350) {
       ctx3.fillStyle = state.food[0].color.hex;
       ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, 15, 15);
