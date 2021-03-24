@@ -101,34 +101,32 @@ function joinPractice(gameCode) {
   let padding = toolbar.clientHeight
   const windowHeight = $('body').innerHeight() - padding
   const windowWidth = $('body').innerWidth()
-  gcanvas.width=windowWidth
-  gcanvas.height=windowHeight
-  // if (windowWidth < 350) {
-  //   gcanvas.width = Math.floor(windowWidth/15) * 15
-  //   gcanvas.height = Math.floor(windowHeight/15) * 15
-  // }
-  // else if(windowWidth < 450) {
-  //   gcanvas.width = Math.floor(windowWidth/20) * 20
-  //   gcanvas.height = Math.floor(windowHeight/20) * 20
-  // }
-  // else if(windowWidth < 550){
-  //   gcanvas.width = Math.floor(windowWidth/25) * 25
-  //   gcanvas.height = Math.floor(windowHeight/25) * 25
-  // }
-  // else if(windowWidth < 800){
-  //   gcanvas.width = Math.floor(windowWidth/30) * 30
-  //   gcanvas.height = Math.floor(windowHeight/30) * 30
-  // }
-  // else {
-  //   console.log('setting large size')
-  //   gcanvas.width = Math.floor(windowWidth/40) * 40
-  //   gcanvas.height = Math.floor(windowHeight/40) * 40
-  // }
+  if (windowWidth < 350) {
+    gcanvas.width = Math.floor(windowWidth/15) * 15
+    gcanvas.height = Math.floor(windowHeight/15) * 15
+  }
+  else if(windowWidth < 450) {
+    gcanvas.width = Math.floor(windowWidth/20) * 20
+    gcanvas.height = Math.floor(windowHeight/20) * 20
+  }
+  else if(windowWidth < 550){
+    gcanvas.width = Math.floor(windowWidth/25) * 25
+    gcanvas.height = Math.floor(windowHeight/25) * 25
+  }
+  else if(windowWidth < 800){
+    gcanvas.width = Math.floor(windowWidth/30) * 30
+    gcanvas.height = Math.floor(windowHeight/30) * 30
+  }
+  else {
+    console.log('setting large size')
+    gcanvas.width = Math.floor(windowWidth/40) * 40
+    gcanvas.height = Math.floor(windowHeight/40) * 40
+  }
   const message = {
     roomName: gameCode,
     screenSize: {
-      width: windowWidth,
-      height: windowHeight
+      width: gcanvas.width,
+      height: gcanvas.height
     }
   }
   console.log(message)
@@ -211,6 +209,13 @@ function paintGame(state) {
   // ctx3.fillRect(0, 0, gcanvas.width, gcanvas.height);
 
   ctx3.clearRect(0, 0, gcanvas.width, gcanvas.height);
+
+  ctx3.fillStyle = 'rgba(0,0,0,0)'
+  ctx3.fillRect(0, 0, gcanvas.width, gcanvas.height)
+  ctx3.lineWidth = 2;
+  ctx3.strokeStyle = "white";
+  ctx3.strokeRect(0, 0, gcanvas.width, gcanvas.height);
+
   if (state.food){
     let food = state.food
     let sizeX = gcanvas.width/(state.gridX+1)
