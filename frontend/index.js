@@ -43,34 +43,6 @@ var isPractice = false
 // const gameCodeDisplay = document.getElementById('gameCodeDisplay');
 const img = document.getElementById('colorImage');
 const toolbar = document.getElementById('toolbar')
-let padding = toolbar.clientHeight
-// console.log(padding)
-// const windowHeight = document.documentElement.clientHeight - toolbar
-const windowHeight = window.innerHeight
-// console.log(windowHeight)
-const windowWidth = window.innerWidth
-
-if (windowWidth < 350) {
-  gcanvas.width = Math.floor(windowWidth/15) * 15
-  gcanvas.height = Math.floor(windowHeight/15) * 15
-}
-else if(windowWidth < 450) {
-  gcanvas.width = Math.floor(windowWidth/20) * 20
-  gcanvas.height = Math.floor(windowHeight/20) * 20
-}
-else if(windowWidth < 550){
-  gcanvas.width = Math.floor(windowWidth/25) * 25
-  gcanvas.height = Math.floor(windowHeight/25) * 25
-}
-else if(windowWidth < 800){
-  gcanvas.width = Math.floor(windowWidth/30) * 30
-  gcanvas.height = Math.floor(windowHeight/30) * 30
-}
-else {
-  console.log('setting large size')
-  gcanvas.width = Math.floor(windowWidth/40) * 40
-  gcanvas.height = Math.floor(windowHeight/40) * 40
-}
 scoreScreen.style.display = "none";
 
 // window.onscroll = function () { window.scrollTo(0, 0); };
@@ -125,46 +97,39 @@ if (code) {
   joinGame()
 }
 
-
-// // listen to events...
-// mc.on("panleft panright panup pandown", function(ev) {
-//   switch (ev.type) {
-//     case 'panleft': { // left
-//       console.log('left')
-//       if (isPractice) {
-//         socketPractice.emit('keydown', 37);
-//       } else {
-//         socket.emit('keydown', 37);
-//       }
-//     }
-//     case 'pandown': { // down
-//       console.log('down')
-//       if (isPractice) {
-//         socketPractice.emit('keydown', 38);
-//       } else {
-//         socket.emit('keydown', 38);
-//       }
-//     }
-//     case 'panright': { // right
-//       console.log('right')
-//       if (isPractice) {
-//         socketPractice.emit('keydown', 39);
-//       } else {
-//         socket.emit('keydown', 39);
-//       }
-//     }
-//     case 'panup': { // up
-//       console.log('up')
-//       if (isPractice) {
-//         socketPractice.emit('keydown', 40);
-//       } else {
-//         socket.emit('keydown', 40);
-//       }
-//     }
-//   }
-// });
-
 function joinPractice(gameCode) {
+  initialScreen.style.display = "none";
+  countdownScreen.style.display = "none";
+  gameScreen.style.display = "block";
+  console.log('toolbar', toolbar.clientHeight)
+  let padding = toolbar.clientHeight
+  const windowHeight = window.innerHeight - padding
+
+  console.log(window.innerHeight, windowHeight)
+
+  const windowWidth = window.innerWidth
+
+  if (windowWidth < 350) {
+    gcanvas.width = Math.floor(windowWidth/15) * 15
+    gcanvas.height = Math.floor(windowHeight/15) * 15
+  }
+  else if(windowWidth < 450) {
+    gcanvas.width = Math.floor(windowWidth/20) * 20
+    gcanvas.height = Math.floor(windowHeight/20) * 20
+  }
+  else if(windowWidth < 550){
+    gcanvas.width = Math.floor(windowWidth/25) * 25
+    gcanvas.height = Math.floor(windowHeight/25) * 25
+  }
+  else if(windowWidth < 800){
+    gcanvas.width = Math.floor(windowWidth/30) * 30
+    gcanvas.height = Math.floor(windowHeight/30) * 30
+  }
+  else {
+    console.log('setting large size')
+    gcanvas.width = Math.floor(windowWidth/40) * 40
+    gcanvas.height = Math.floor(windowHeight/40) * 40
+  }
   const message = {
     roomName: gameCode,
     screenSize: {
@@ -263,8 +228,8 @@ function paintGame(state) {
     // const gridsize = state.gridsize;
     let sizeX = gcanvas.width/state.gridX
     let sizeY = gcanvas.height/state.gridY
-    sizeX -= 2
-    sizeY -= 2
+    sizeX -= 1
+    sizeY -= 1
     if (gcanvas.width < 350) {
       ctx3.fillStyle = state.food[0].color.hex;
       ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, 15, 15);

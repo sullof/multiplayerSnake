@@ -169,11 +169,6 @@ body, html{
 }
 
 #gameCanvas{
-    width: calc(100% - 5px);
-    height: calc(100% - 100px);
-    position: fixed;
-    top: 85px;
-    left: 0;
 }
 
 

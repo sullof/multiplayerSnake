@@ -42,8 +42,6 @@ io.on('connection', client => {
         state[message.roomName].gridX = message.screenSize.width/40
         state[message.roomName].gridY = message.screenSize.height/40
       }
-      state[message.roomName].gridX -= 2
-      state[message.roomName].gridY -= 2
       randomFood(state[message.roomName])
       state[message.roomName].startTime = new Date()
       state[message.roomName].timer = new Date();
