@@ -44,11 +44,7 @@ var isPractice = false
 const img = document.getElementById('colorImage');
 const toolbar = document.getElementById('toolbar')
 scoreScreen.style.display = "none";
-
-// window.onscroll = function () { window.scrollTo(0, 0); };
-// newGameBtn.addEventListener('click', newGame);
 joinGameBtn.addEventListener('click', joinGame);
-// practiceBtn.addEventListener('click', newPractice);
 
 var mc = new Hammer(gameScreen);
 
@@ -103,37 +99,36 @@ function joinPractice(gameCode) {
   gameScreen.style.display = "block";
   console.log('toolbar', toolbar.clientHeight)
   let padding = toolbar.clientHeight
-  const windowHeight = window.innerHeight - padding
-  console.log(window.innerHeight, windowHeight)
-
-  const windowWidth = window.innerWidth
-
-  if (windowWidth < 350) {
-    gcanvas.width = Math.floor(windowWidth/15) * 15
-    gcanvas.height = Math.floor(windowHeight/15) * 15
-  }
-  else if(windowWidth < 450) {
-    gcanvas.width = Math.floor(windowWidth/20) * 20
-    gcanvas.height = Math.floor(windowHeight/20) * 20
-  }
-  else if(windowWidth < 550){
-    gcanvas.width = Math.floor(windowWidth/25) * 25
-    gcanvas.height = Math.floor(windowHeight/25) * 25
-  }
-  else if(windowWidth < 800){
-    gcanvas.width = Math.floor(windowWidth/30) * 30
-    gcanvas.height = Math.floor(windowHeight/30) * 30
-  }
-  else {
-    console.log('setting large size')
-    gcanvas.width = Math.floor(windowWidth/40) * 40
-    gcanvas.height = Math.floor(windowHeight/40) * 40
-  }
+  const windowHeight = $('body').innerHeight() - padding
+  const windowWidth = $('body').innerWidth()
+  gcanvas.width=windowWidth
+  gcanvas.height=windowHeight
+  // if (windowWidth < 350) {
+  //   gcanvas.width = Math.floor(windowWidth/15) * 15
+  //   gcanvas.height = Math.floor(windowHeight/15) * 15
+  // }
+  // else if(windowWidth < 450) {
+  //   gcanvas.width = Math.floor(windowWidth/20) * 20
+  //   gcanvas.height = Math.floor(windowHeight/20) * 20
+  // }
+  // else if(windowWidth < 550){
+  //   gcanvas.width = Math.floor(windowWidth/25) * 25
+  //   gcanvas.height = Math.floor(windowHeight/25) * 25
+  // }
+  // else if(windowWidth < 800){
+  //   gcanvas.width = Math.floor(windowWidth/30) * 30
+  //   gcanvas.height = Math.floor(windowHeight/30) * 30
+  // }
+  // else {
+  //   console.log('setting large size')
+  //   gcanvas.width = Math.floor(windowWidth/40) * 40
+  //   gcanvas.height = Math.floor(windowHeight/40) * 40
+  // }
   const message = {
     roomName: gameCode,
     screenSize: {
-      width: gcanvas.width,
-      height: gcanvas.height
+      width: windowWidth,
+      height: windowHeight
     }
   }
   console.log(message)
@@ -210,6 +205,11 @@ function keydown(e) {
 function paintGame(state) {
   img.src=state.imgURL;
   time.innerText = state.currentTime;
+
+  // // Black Background, useful for debugging
+  // ctx3.fillStyle = '#000000'
+  // ctx3.fillRect(0, 0, gcanvas.width, gcanvas.height);
+
   ctx3.clearRect(0, 0, gcanvas.width, gcanvas.height);
   if (state.food){
     let food = state.food

@@ -20,8 +20,6 @@ io.on('connection', client => {
     state[message.roomName] = initGame(message.roomName);
     const room = io.sockets.adapter.rooms[message.roomName]
     console.log('joined: ', message.screenSize, message.screenSize.width, message.screenSize.height)
-    message.screenSize.width
-    message.screenSize.height
     try {
       if (message.screenSize.width < 350) {
         state[message.roomName].gridX = message.screenSize.width/15
