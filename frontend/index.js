@@ -161,6 +161,30 @@ function joinGame() {
     var downloadTimer = setInterval(function(){
       if(timeleft <= 0){
         console.log('starting game')
+        let padding = toolbar.clientHeight
+        const windowHeight = $('body').innerHeight() - padding
+        const windowWidth = $('body').innerWidth()
+        if (windowWidth < 350) {
+          gcanvas.width = Math.floor(windowWidth/15) * 15
+          gcanvas.height = Math.floor(windowHeight/15) * 15
+        }
+        else if(windowWidth < 450) {
+          gcanvas.width = Math.floor(windowWidth/20) * 20
+          gcanvas.height = Math.floor(windowHeight/20) * 20
+        }
+        else if(windowWidth < 550){
+          gcanvas.width = Math.floor(windowWidth/25) * 25
+          gcanvas.height = Math.floor(windowHeight/25) * 25
+        }
+        else if(windowWidth < 800){
+          gcanvas.width = Math.floor(windowWidth/30) * 30
+          gcanvas.height = Math.floor(windowHeight/30) * 30
+        }
+        else {
+          console.log('setting large size')
+          gcanvas.width = Math.floor(windowWidth/40) * 40
+          gcanvas.height = Math.floor(windowHeight/40) * 40
+        }
         const message = {
           roomName: code,
           screenSize: {
