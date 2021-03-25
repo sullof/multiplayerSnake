@@ -161,6 +161,8 @@ function joinGame() {
     var downloadTimer = setInterval(function(){
       if(timeleft <= 0){
         console.log('starting game')
+        initialScreen.style.display = "none";
+        gameScreen.style.display = "block";
         let padding = toolbar.clientHeight
         const windowHeight = $('body').innerHeight() - padding
         const windowWidth = $('body').innerWidth()
