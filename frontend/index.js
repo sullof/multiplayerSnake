@@ -42,7 +42,6 @@ const practiceBtn = document.getElementById('practiceButton');
 const gameCodeInput = document.getElementById('gameCodeInput');
 const time = document.getElementById('time');
 var isPractice = false
-// const gameCodeDisplay = document.getElementById('gameCodeDisplay');
 const img = document.getElementById('colorImage');
 const toolbar = document.getElementById('toolbar')
 scoreScreen.style.display = "none";
@@ -99,8 +98,6 @@ function joinPractice(gameCode) {
   initialScreen.style.display = "none";
   countdownScreen.style.display = "none";
   gameScreen.style.display = "block";
-  console.log('toolbar', toolbar.clientHeight)
-  let padding = toolbar.clientHeight
   const windowHeight = $('body').innerHeight()
   const windowWidth = $('body').innerWidth()
   if (gcanvas.width < 401) {
@@ -118,7 +115,7 @@ function joinPractice(gameCode) {
       height: windowHeight
     }
   }
-  console.log(message)
+  console.log(message.screenSize)
   socketPractice.emit('joinGame', message);
   init();
 }
@@ -133,7 +130,6 @@ function newGame() {
 function newPractice() {
   console.log("newGame")
   socketPractice.emit('newGame');
-  // init();
 }
 
 function joinGame() {
@@ -222,12 +218,12 @@ function paintGame(state) {
     let sizeX = null
     let sizeY = null
     if (gcanvas.width < 401) {
-      sizeX = Math.floor(gcanvas.width/(state.gridX))
-      sizeY = Math.floor(gcanvas.height/(state.gridY))
+      sizeX = gcanvas.width/(state.gridX)
+      sizeY = gcanvas.height/(state.gridY)
     }
     else {
-      sizeX = Math.floor(gcanvas.width/(state.gridX))
-      sizeY = Math.floor(gcanvas.height/(state.gridY))
+      sizeX = gcanvas.width/(state.gridX)
+      sizeY = gcanvas.height/(state.gridY)
       sizeX -=1
       sizeY -=1
     }

@@ -114,17 +114,10 @@ function gameLoop(state) {
   playerOne.pos.x += playerOne.vel.x;
   playerOne.pos.y += playerOne.vel.y;
 
-  // playerTwo.pos.x += playerTwo.vel.x;
-  // playerTwo.pos.y += playerTwo.vel.y;
   if (playerOne.pos.x < 0 || playerOne.pos.x > gridWidth || playerOne.pos.y < 0 || playerOne.pos.y > gridHeight) {
     console.log('player outside')
     return 2;
   }
-
-  // if (playerTwo.pos.x < 0 || playerTwo.pos.x > gridWidth || playerTwo.pos.y < 0 || playerTwo.pos.y > gridHeight) {
-  //   return 1;
-  // }
-
 
   if (state.food[0].x === playerOne.pos.x && state.food[0].y === playerOne.pos.y) {
     if(checkIfPoison(state, 0)) {
@@ -164,11 +157,9 @@ function gameLoop(state) {
 }
 
 function checkIfPoison(state, foodNumber) {
-  // console.log('checking if poison', poison[state.roomName], foodNumber)
   if (foodNumber === poison[state.roomName].number) {
     return true;
   } else {
-    // console.log('eating')
     const playerOne = state.players[0];
     playerOne.snake.push({ ...playerOne.pos });
     playerOne.pos.x += playerOne.vel.x;
@@ -199,7 +190,6 @@ function randomFood(state) {
     return randomFood(state);
   }
 
-  console.log('player position', state.players[0].pos)
   for (let i = 0; i < 4; i++) {
     let nextBlock = { x: null, y: null }
     nextBlock.x = state.players[0].pos.x + (state.players[0].vel.x * i)
@@ -233,22 +223,18 @@ function randomFood(state) {
 function randomColors(state) {
   let firstNumber = Math.floor(Math.random() * COLORS.length)
   let secondNumber = Math.floor(Math.random() * COLORS.length)
-  // console.log('numbers', firstNumber, secondNumber)
   if (firstNumber == secondNumber) {
     randomColors(state)
   } else {
     state.food[0].color = COLORS[firstNumber]
     state.food[1].color = COLORS[secondNumber]
-    // console.log('colors', state.food[0].color, state.food[1].color)
     randomPoison(state);
   }
 }
 
 function randomPoison(state) {
   poison[state.roomName].number = Math.round(Math.random())
-  // console.log('poisonFood', poison[state.roomName])
   poisonColor = state.food[poison[state.roomName].number].color.name
-  // console.log('poisonColor', poisonColor)
   let array = IMAGES.filter(image => image.color == poisonColor)
   let rand = Math.floor(Math.random() * array[0].imgURLs.length)
   poison[state.roomName].url = array[0].imgURLs[rand]
@@ -259,7 +245,6 @@ function randomPoison(state) {
 function getUpdatedVelocity(keyCode, currentVelocity, state) {
   console.log(keyCode)
   let player = state.players[0]
-  // console.log('position', player.pos)
   switch (keyCode) {
     case 37: { // left
       let move = { x: -1, y: 0 }
@@ -267,15 +252,12 @@ function getUpdatedVelocity(keyCode, currentVelocity, state) {
       newBlock.x = player.pos.x + move.x
       newBlock.y = player.pos.y + move.y
       if (newBlock.x === player.snake[player.snake.length - 2].x && newBlock.y === player.snake[player.snake.length - 2].y) {
-        // console.log('moving backwards')
         return null
       } else {
         if (currentVelocity.x != 1) {
-          // console.log('inside')
           return { x: -1, y: 0 };
         }
         else {
-          // console.log('nothing')
           return null
         }
       }
@@ -286,14 +268,12 @@ function getUpdatedVelocity(keyCode, currentVelocity, state) {
       newBlock.x = player.pos.x + move.x
       newBlock.y = player.pos.y + move.y
       if (newBlock.x === player.snake[player.snake.length - 2].x && newBlock.y === player.snake[player.snake.length - 2].y) {
-        // console.log('moving backwards')
         return null
       } else {
         if (currentVelocity.y != 1) {
           return { x: 0, y: -1 };
         }
         else {
-          // console.log('nothing')
           return null
         }
       }
@@ -304,14 +284,12 @@ function getUpdatedVelocity(keyCode, currentVelocity, state) {
       newBlock.x = player.pos.x + move.x
       newBlock.y = player.pos.y + move.y
       if (newBlock.x === player.snake[player.snake.length - 2].x && newBlock.y === player.snake[player.snake.length - 2].y) {
-        // console.log('moving backwards')
         return null
       } else {
         if (currentVelocity.x != -1) {
           return { x: 1, y: 0 };
         }
         else {
-          // console.log('nothing')
           return null
         }
       }
@@ -322,91 +300,16 @@ function getUpdatedVelocity(keyCode, currentVelocity, state) {
       newBlock.x = player.pos.x + move.x
       newBlock.y = player.pos.y + move.y
       if (newBlock.x === player.snake[player.snake.length - 2].x && newBlock.y === player.snake[player.snake.length - 2].y) {
-        // console.log('moving backwards')
         return null
       } else {
         if (currentVelocity.y != -1) {
           return { x: 0, y: 1 };
         }
         else {
-          // console.log('nothing')
           return null
         }
       }
     }
-    // case 'LEFT': { // left
-    //   let move = { x: -1, y: 0 }
-    //   let newBlock = {}
-    //   newBlock.x = player.pos.x + move.x
-    //   newBlock.y = player.pos.y + move.y
-    //   if (newBlock.x === player.snake[player.snake.length - 2].x && newBlock.y === player.snake[player.snake.length - 2].y) {
-    //     console.log('moving backwards')
-    //     return null
-    //   } else {
-    //     if (currentVelocity.x != 1) {
-    //       console.log('inside')
-    //       return { x: -1, y: 0 };
-    //     }
-    //     else {
-    //       console.log('nothing')
-    //       return null
-    //     }
-    //   }
-    // }
-    // case 'DOWN': { // down
-    //   let move = { x: 0, y: -1 }
-    //   let newBlock = {}
-    //   newBlock.x = player.pos.x + move.x
-    //   newBlock.y = player.pos.y + move.y
-    //   if (newBlock.x === player.snake[player.snake.length - 2].x && newBlock.y === player.snake[player.snake.length - 2].y) {
-    //     console.log('moving backwards')
-    //     return null
-    //   } else {
-    //     if (currentVelocity.y != 1) {
-    //       return { x: 0, y: -1 };
-    //     }
-    //     else {
-    //       console.log('nothing')
-    //       return null
-    //     }
-    //   }
-    // }
-    // case 'RIGHT': { // right
-    //   let move = { x: 1, y: 0 }
-    //   let newBlock = {}
-    //   newBlock.x = player.pos.x + move.x
-    //   newBlock.y = player.pos.y + move.y
-    //   if (newBlock.x === player.snake[player.snake.length - 2].x && newBlock.y === player.snake[player.snake.length - 2].y) {
-    //     console.log('moving backwards')
-    //     return null
-    //   } else {
-    //     if (currentVelocity.x != -1) {
-    //       return { x: 1, y: 0 };
-    //     }
-    //     else {
-    //       console.log('nothing')
-    //       return null
-    //     }
-    //   }
-    // }
-    // case 'UP': { // up
-    //   let move = { x: 0, y: 1 }
-    //   let newBlock = {}
-    //   newBlock.x = player.pos.x + move.x
-    //   newBlock.y = player.pos.y + move.y
-    //   if (newBlock.x === player.snake[player.snake.length - 2].x && newBlock.y === player.snake[player.snake.length - 2].y) {
-    //     console.log('moving backwards')
-    //     return null
-    //   } else {
-    //     if (currentVelocity.y != -1) {
-    //       return { x: 0, y: 1 };
-    //     }
-    //     else {
-    //       console.log('nothing')
-    //       return null
-    //     }
-    //   }
-    // }
     case 65: { // left
       let move = { x: -1, y: 0 }
       let newBlock = {}
@@ -432,14 +335,12 @@ function getUpdatedVelocity(keyCode, currentVelocity, state) {
       newBlock.x = player.pos.x + move.x
       newBlock.y = player.pos.y + move.y
       if (newBlock.x === player.snake[player.snake.length - 2].x && newBlock.y === player.snake[player.snake.length - 2].y) {
-        // console.log('moving backwards')
         return null
       } else {
         if (currentVelocity.y != 1) {
           return { x: 0, y: -1 };
         }
         else {
-          // console.log('nothing')
           return null
         }
       }
@@ -450,14 +351,12 @@ function getUpdatedVelocity(keyCode, currentVelocity, state) {
       newBlock.x = player.pos.x + move.x
       newBlock.y = player.pos.y + move.y
       if (newBlock.x === player.snake[player.snake.length - 2].x && newBlock.y === player.snake[player.snake.length - 2].y) {
-        // console.log('moving backwards')
         return null
       } else {
         if (currentVelocity.x != -1) {
           return { x: 1, y: 0 };
         }
         else {
-          // console.log('nothing')
           return null
         }
       }
@@ -468,14 +367,12 @@ function getUpdatedVelocity(keyCode, currentVelocity, state) {
       newBlock.x = player.pos.x + move.x
       newBlock.y = player.pos.y + move.y
       if (newBlock.x === player.snake[player.snake.length - 2].x && newBlock.y === player.snake[player.snake.length - 2].y) {
-        // console.log('moving backwards')
         return null
       } else {
         if (currentVelocity.y != -1) {
           return { x: 0, y: 1 };
         }
         else {
-          // console.log('nothing')
           return null
         }
       }
