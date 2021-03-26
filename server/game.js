@@ -87,20 +87,19 @@ function gameLoop(state) {
   const playerTwo = state.players[1];
   gridWidth = state.gridX
   gridHeight = state.gridY
-
   playerOne.pos.x += playerOne.vel.x;
   playerOne.pos.y += playerOne.vel.y;
 
-  playerTwo.pos.x += playerTwo.vel.x;
-  playerTwo.pos.y += playerTwo.vel.y;
-
+  // playerTwo.pos.x += playerTwo.vel.x;
+  // playerTwo.pos.y += playerTwo.vel.y;
   if (playerOne.pos.x < 0 || playerOne.pos.x > gridWidth || playerOne.pos.y < 0 || playerOne.pos.y > gridHeight) {
+    console.log('player outside')
     return 2;
   }
 
-  if (playerTwo.pos.x < 0 || playerTwo.pos.x > gridWidth || playerTwo.pos.y < 0 || playerTwo.pos.y > gridHeight) {
-    return 1;
-  }
+  // if (playerTwo.pos.x < 0 || playerTwo.pos.x > gridWidth || playerTwo.pos.y < 0 || playerTwo.pos.y > gridHeight) {
+  //   return 1;
+  // }
 
 
   if (state.food[0].x === playerOne.pos.x && state.food[0].y === playerOne.pos.y) {
