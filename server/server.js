@@ -1,6 +1,6 @@
 const io = require('socket.io')();
 
-const { initGame, initPoison, randomFood, gameLoop, getUpdatedVelocity } = require('./game');
+const { sendCaptcha, stopSendingCaptcha, initGame, initPoison, randomFood, gameLoop, getUpdatedVelocity } = require('./game');
 const { FRAME_RATE } = require('./constants');
 const { makeid } = require('./utils');
 
@@ -8,10 +8,12 @@ const state = {};
 // const poison = {};
 const clientRooms = {};
 
+
 io.on('connection', client => {
 
   client.on('keydown', handleKeydown);
   client.on('newGame', handleNewGame);
+  client.on('recievedCaptcha', handleRecievedCaptcha);
   client.on('joinGame', handleJoinGame);
 
   function handleJoinGame(message) {
@@ -79,6 +81,11 @@ io.on('connection', client => {
     startGameInterval(message.roomName);
   }
 
+  function handleRecievedCaptcha(data) {
+    let roomName = clientRooms[client.id]
+    stopSendingCaptcha(roomName)
+  }
+
   function handleNewGame() {
     let roomName = makeid(10);
     clientRooms[client.id] = roomName;
@@ -91,6 +98,7 @@ io.on('connection', client => {
   }
 
   function handleKeydown(keyCode) {
+    console.log('keystroke', client.id)
     const roomName = clientRooms[client.id];
     if (!roomName) {
       return;
@@ -125,9 +133,14 @@ function startGameInterval(roomName) {
   const intervalId = setInterval(() => {
 
     const winner = gameLoop(state[roomName]);
+    const url = sendCaptcha(roomName)
 
     if (!winner) {
       emitGameState(roomName, state[roomName])
+      if (url) {
+        console.log('theres a captcha')
+        emitCaptcha(roomName, url)
+      }
     } else {
       emitGameOver(roomName, winner);
       state[roomName].endTime = new Date()
@@ -143,6 +156,13 @@ function emitGameState(room, gameState) {
   // Send this event to everyone in the room.
   io.sockets.in(room)
     .emit('gameState', JSON.stringify(gameState));
+}
+
+function emitCaptcha(room, url) {
+  // Send this event to everyone in the room.
+  console.log('emitting captcha')
+  io.sockets.in(room)
+    .emit('captcha', url);
 }
 
 function emitGameOver(room, winner) {

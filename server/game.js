@@ -6,6 +6,8 @@ const poison = {};
 module.exports = {
   initGame,
   initPoison,
+  sendCaptcha,
+  stopSendingCaptcha,
   gameLoop,
   getUpdatedVelocity,
   randomFood
@@ -18,7 +20,29 @@ function initGame(roomName) {
 }
 
 function initPoison(roomName) {
-  poison[roomName] = null
+  poison[roomName] = {
+    number: null,
+    url: null,
+    needToSend: false
+  }
+}
+
+function sendCaptcha(roomName) {
+  if (poison[roomName].needToSend){
+    return poison[roomName].url
+  }
+  else {
+    return null
+  }
+}
+
+function stopSendingCaptcha(roomName) {
+  try {
+    poison[roomName].needToSend = false
+  }
+  catch {
+    console.log('no poison yet')
+  }
 }
 
 function createGameState(roomName) {
@@ -142,7 +166,7 @@ function gameLoop(state) {
 
 function checkIfPoison(state, foodNumber) {
   // console.log('checking if poison', poison[state.roomName], foodNumber)
-  if (foodNumber === poison[state.roomName]) {
+  if (foodNumber === poison[state.roomName].number) {
     return true;
   } else {
     // console.log('eating')
@@ -222,12 +246,14 @@ function randomColors(state) {
 }
 
 function randomPoison(state) {
-  poison[state.roomName] = Math.round(Math.random())
+  poison[state.roomName].number = Math.round(Math.random())
   // console.log('poisonFood', poison[state.roomName])
-  poisonColor = state.food[poison[state.roomName]].color.name
+  poisonColor = state.food[poison[state.roomName].number].color.name
   // console.log('poisonColor', poisonColor)
   let array = IMAGES.filter(image => image.color == poisonColor)
   let rand = Math.floor(Math.random() * array[0].imgURLs.length)
+  poison[state.roomName].url = array[0].imgURLs[rand]
+  poison[state.roomName].needToSend = true
   state.imgURL = array[0].imgURLs[rand]
 }
 
