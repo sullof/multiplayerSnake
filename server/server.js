@@ -18,42 +18,30 @@ io.on('connection', client => {
 
   function handleJoinGame(message) {
     initPoison(message.roomName);
-    console.log(message.roomName)
+    // console.log(message.roomName)
     state[message.roomName] = initGame(message.roomName);
     const room = io.sockets.adapter.rooms[message.roomName]
-    console.log('joined: ', message.screenSize, message.screenSize.width, message.screenSize.height)
+    // console.log('joined: ', message.screenSize, message.screenSize.width, message.screenSize.height)
     try {
-      if (message.screenSize.width < 350) {
-        state[message.roomName].gridX = message.screenSize.width/15
-        state[message.roomName].gridY = message.screenSize.height/15
-      }
-      else if(message.screenSize.width < 450) {
-        state[message.roomName].gridX = message.screenSize.width/20
-        state[message.roomName].gridY = message.screenSize.height/20
-      }
-      else if(message.screenSize.width < 550){
-        state[message.roomName].gridX = message.screenSize.width/25
-        state[message.roomName].gridY = message.screenSize.height/25
-      }
-      else if(message.screenSize.width < 800){
-        state[message.roomName].gridX = message.screenSize.width/30
-        state[message.roomName].gridY = message.screenSize.height/30
+      if (message.screenSize.width < 401) {
+        console.log('setting grid to 20x20')
+        state[message.roomName].gridX = 20
+        state[message.roomName].gridY = 20
       }
       else {
-        console.log('setting large room')
-        state[message.roomName].gridX = message.screenSize.width/40
-        state[message.roomName].gridY = message.screenSize.height/40
+        console.log('setting grid to 14x32')
+        state[message.roomName].gridX = 32
+        state[message.roomName].gridY = 16
       }
-      randomFood(state[message.roomName])
-      state[message.roomName].startTime = new Date()
-      state[message.roomName].timer = new Date();
-      state[message.roomName].timer.setMinutes( state[message.roomName].timer.getMinutes() + 1 );
-      state[message.roomName].lastFood = new Date()
     }
     catch {
-      console.log('caught some shit')
+      console.log('caught some shit in screen size')
     }
-
+    randomFood(state[message.roomName])
+    state[message.roomName].startTime = new Date()
+    state[message.roomName].timer = new Date();
+    state[message.roomName].timer.setMinutes( state[message.roomName].timer.getMinutes() + 1 );
+    state[message.roomName].lastFood = new Date()
     let allUsers;
     if (room) {
       allUsers = room.sockets;
@@ -77,7 +65,6 @@ io.on('connection', client => {
     client.join(message.roomName);
     client.number = 1;
     client.emit('init', 1);
-
     startGameInterval(message.roomName);
   }
 
@@ -144,7 +131,7 @@ function startGameInterval(roomName) {
     } else {
       emitGameOver(roomName, winner);
       state[roomName].endTime = new Date()
-      console.log('game completed in: ' + (state[roomName].endTime.getTime() - state[roomName].startTime.getTime()))
+      // console.log('game completed in: ' + (state[roomName].endTime.getTime() - state[roomName].startTime.getTime()))
       // console.log(state[roomName])
       state[roomName] = null;
       clearInterval(intervalId);

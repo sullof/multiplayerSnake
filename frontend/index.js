@@ -153,37 +153,23 @@ function joinGame() {
         initialScreen.style.display = "none";
         gameScreen.style.display = "block";
         let padding = toolbar.clientHeight
-        const windowHeight = $('body').innerHeight() - padding
+        const windowHeight = $('body').innerHeight()
         const windowWidth = $('body').innerWidth()
-        if (windowWidth < 350) {
-          gcanvas.width = Math.floor(windowWidth/15) * 15
-          gcanvas.height = Math.floor(windowHeight/15) * 15
-        }
-        else if(windowWidth < 450) {
-          gcanvas.width = Math.floor(windowWidth/20) * 20
-          gcanvas.height = Math.floor(windowHeight/20) * 20
-        }
-        else if(windowWidth < 550){
-          gcanvas.width = Math.floor(windowWidth/25) * 25
-          gcanvas.height = Math.floor(windowHeight/25) * 25
-        }
-        else if(windowWidth < 800){
-          gcanvas.width = Math.floor(windowWidth/30) * 30
-          gcanvas.height = Math.floor(windowHeight/30) * 30
+        if (gcanvas.width < 401) {
+          gcanvas.height = windowHeight * (5/6)
+          gcanvas.width = windowWidth
         }
         else {
-          console.log('setting large size')
-          gcanvas.width = Math.floor(windowWidth/40) * 40
-          gcanvas.height = Math.floor(windowHeight/40) * 40
+          gcanvas.height = windowHeight * (7/9)
+          gcanvas.width = windowWidth
         }
         const message = {
-          roomName: code,
+          roomName: gameCode,
           screenSize: {
-            width: gcanvas.width,
-            height: gcanvas.height
+            width: windowWidth,
+            height: windowHeight
           }
         }
-        console.log(message)
         socket.emit('joinGame', message);
         init()
         clearInterval(downloadTimer);
