@@ -44,6 +44,7 @@ const time = document.getElementById('time');
 var isPractice = false
 const img = document.getElementById('colorImage');
 const toolbar = document.getElementById('toolbar')
+let ctx3
 scoreScreen.style.display = "none";
 joinGameBtn.addEventListener('click', joinGame);
 
@@ -88,8 +89,7 @@ mc.on("swipeup", function() {
 });
 
 const url = new URLSearchParams(window.location.search);
-code = url.get('gameCode')
-console.log(code)
+const code = url.get('gameCode')
 if (code) {
   joinGame()
 }
@@ -100,12 +100,14 @@ function joinPractice(gameCode) {
   gameScreen.style.display = "block";
   const windowHeight = $('body').innerHeight()
   const windowWidth = $('body').innerWidth()
-  if (gcanvas.width < 401) {
+  if (windowWidth < 401) {
     gcanvas.height = windowHeight * (5/6)
     gcanvas.width = windowWidth
   }
   else {
+    console.log('testing')
     gcanvas.height = windowHeight * (8/9)
+    console.log('initial', gcanvas.height)
     gcanvas.width = windowWidth
   }
   const message = {
@@ -201,32 +203,68 @@ function paintGame(state) {
   // img.src=state.imgURL;
   time.innerText = state.currentTime;
 
-  // // Black Background, useful for debugging
-  // ctx3.fillStyle = '#000000'
-  // ctx3.fillRect(0, 0, gcanvas.width, gcanvas.height);
+  // Black Background, useful for debugging
 
   ctx3.clearRect(0, 0, gcanvas.width, gcanvas.height);
-
-  ctx3.fillStyle = 'rgba(0,0,0,0)'
-  ctx3.fillRect(0, 0, gcanvas.width, gcanvas.height)
-  ctx3.lineWidth = 2;
-  ctx3.strokeStyle = "white";
-  ctx3.strokeRect(0, 0, gcanvas.width, gcanvas.height);
+  //
+  // ctx3.fillStyle = 'rgba(0,0,0,0)'
+  // ctx3.fillRect(0, 0, gcanvas.width, gcanvas.height)
+  // ctx3.lineWidth = 2;
+  // ctx3.strokeStyle = "white";
+  // ctx3.strokeRect(0, 0, gcanvas.width, gcanvas.height);
 
   if (state.food){
     let food = state.food
     let sizeX = null
     let sizeY = null
     if (gcanvas.width < 401) {
+      // ctx3.fillStyle = '#000000'
+      // ctx3.fillRect(0, 0, gcanvas.width, gcanvas.height);
+      console.log('grid', state.gridX, state.gridY)
       sizeX = gcanvas.width/(state.gridX)
       sizeY = gcanvas.height/(state.gridY)
+      console.log('gcanvas.height', gcanvas.height)
+      console.log(gcanvas.height)
+      console.log('toolbar', toolbar.clientHeight)
+      console.log('all', sizeY * state.gridY + toolbar.clientHeight)
+      // console.log('sizeXY', sizeX, sizeY)
+      ctx3.fillStyle = 'rgba(0,0,0,0)'
+      ctx3.fillRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY))
+      // console.log('sizeXY', sizeX, sizeX)
+      // console.log('canvas', gcanvas.width, gcanvas.height)
+      // console.log('sizeX * gridX', sizeX*state.gridX)
+      // console.log('sizeY * gridY', sizeY*state.gridY)
+      ctx3.lineWidth = 2;
+      ctx3.strokeStyle = "white";
+      ctx3.strokeRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY));
     }
     else {
+      // ctx3.fillStyle = '#000000'
+      // ctx3.fillRect(0, 0, gcanvas.width, gcanvas.height);
+      console.log('grid', state.gridX, state.gridY)
       sizeX = gcanvas.width/(state.gridX)
       sizeY = gcanvas.height/(state.gridY)
-      sizeX -=1
-      sizeY -=1
+      console.log('gcanvas.height', gcanvas.height)
+      console.log(gcanvas.height)
+      console.log('toolbar', toolbar.clientHeight)
+      console.log('all', sizeY * state.gridY + toolbar.clientHeight)
+      // console.log('sizeXY', sizeX, sizeY)
+      ctx3.fillStyle = 'rgba(0,0,0,0)'
+      ctx3.fillRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY))
+      // console.log('sizeXY', sizeX, sizeX)
+      // console.log('canvas', gcanvas.width, gcanvas.height)
+      // console.log('sizeX * gridX', sizeX*state.gridX)
+      // console.log('sizeY * gridY', sizeY*state.gridY)
+      ctx3.lineWidth = 2;
+      ctx3.strokeStyle = "white";
+      ctx3.strokeRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY));
     }
+    // ctx3.fillStyle = 'rgba(0,0,0,0)'
+    // ctx3.fillRect(0, 0, gcanvas.width, gcanvas.height)
+    // ctx3.lineWidth = 2;
+    // ctx3.strokeStyle = "white";
+    // ctx3.strokeRect(0, 0, gcanvas.width, gcanvas.height);
+
     ctx3.fillStyle = state.food[0].color.hex;
     ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, sizeX, sizeY);
     ctx3.fillStyle = state.food[1].color.hex;

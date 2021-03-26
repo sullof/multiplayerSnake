@@ -114,7 +114,7 @@ function gameLoop(state) {
   playerOne.pos.x += playerOne.vel.x;
   playerOne.pos.y += playerOne.vel.y;
 
-  if (playerOne.pos.x < 0 || playerOne.pos.x > gridWidth || playerOne.pos.y < 0 || playerOne.pos.y > gridHeight) {
+  if (playerOne.pos.x < 0 || playerOne.pos.x > (gridWidth - 1) || playerOne.pos.y < 0 || playerOne.pos.y > (gridHeight - 1)) {
     console.log('player outside')
     return 2;
   }

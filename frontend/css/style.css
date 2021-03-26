@@ -13,7 +13,6 @@ body, html{
     /* toolbarHeight = totalHeight * 0.166666667  */
     height: 11.1111111%;
     width: 100%;
-    width: 100%;
     display: flex;
     background-color: #fff;
 }
@@ -40,7 +39,7 @@ body, html{
 .btn:hover{
   background: #254b57;
   color: #fff;
-  
+
 }
 .initial:hover{
   margin-top: -20px;
@@ -49,7 +48,7 @@ body, html{
 .btn:active{
   color: #fff;
   background: #254b57;
-  border: #254b57;  
+  border: #254b57;
 }
 .score{
   color: #fff;
