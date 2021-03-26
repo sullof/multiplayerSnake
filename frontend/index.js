@@ -14,6 +14,7 @@ socket.on('gameState', handleGameState);
 socket.on('gameOver', handleGameOver);
 socket.on('gameCode', handleGameCode);
 socket.on('sendScore', handleScore);
+socket.on('captcha', handleCaptcha);
 socket.on('unknownCode', handleUnknownCode);
 socket.on('tooManyPlayers', handleTooManyPlayers);
 
@@ -21,6 +22,7 @@ socketPractice.on('init', handleInit);
 socketPractice.on('gameState', handleGameState);
 socketPractice.on('gameOver', handleGameOver);
 socketPractice.on('gameCode', handlePracticeCode);
+socketPractice.on('captcha', handleCaptcha);
 socketPractice.on('unknownCode', handleUnknownCode);
 socketPractice.on('sendScore', handleScore);
 socketPractice.on('tooManyPlayers', handleTooManyPlayers);
@@ -99,34 +101,21 @@ function joinPractice(gameCode) {
   gameScreen.style.display = "block";
   console.log('toolbar', toolbar.clientHeight)
   let padding = toolbar.clientHeight
-  const windowHeight = $('body').innerHeight() - padding
+  const windowHeight = $('body').innerHeight()
   const windowWidth = $('body').innerWidth()
-  if (windowWidth < 350) {
-    gcanvas.width = Math.floor(windowWidth/15) * 15
-    gcanvas.height = Math.floor(windowHeight/15) * 15
-  }
-  else if(windowWidth < 450) {
-    gcanvas.width = Math.floor(windowWidth/20) * 20
-    gcanvas.height = Math.floor(windowHeight/20) * 20
-  }
-  else if(windowWidth < 550){
-    gcanvas.width = Math.floor(windowWidth/25) * 25
-    gcanvas.height = Math.floor(windowHeight/25) * 25
-  }
-  else if(windowWidth < 800){
-    gcanvas.width = Math.floor(windowWidth/30) * 30
-    gcanvas.height = Math.floor(windowHeight/30) * 30
+  if (gcanvas.width < 401) {
+    gcanvas.height = windowHeight * (5/6)
+    gcanvas.width = windowWidth
   }
   else {
-    console.log('setting large size')
-    gcanvas.width = Math.floor(windowWidth/40) * 40
-    gcanvas.height = Math.floor(windowHeight/40) * 40
+    gcanvas.height = windowHeight * (7/9)
+    gcanvas.width = windowWidth
   }
   const message = {
     roomName: gameCode,
     screenSize: {
-      width: gcanvas.width,
-      height: gcanvas.height
+      width: windowWidth,
+      height: windowHeight
     }
   }
   console.log(message)
@@ -227,7 +216,7 @@ function keydown(e) {
 }
 
 function paintGame(state) {
-  img.src=state.imgURL;
+  // img.src=state.imgURL;
   time.innerText = state.currentTime;
 
   // // Black Background, useful for debugging
@@ -244,42 +233,23 @@ function paintGame(state) {
 
   if (state.food){
     let food = state.food
-    let sizeX = gcanvas.width/(state.gridX+1)
-    let sizeY = gcanvas.height/(state.gridY+1)
-    if (gcanvas.width < 350) {
-      ctx3.fillStyle = state.food[0].color.hex;
-      ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, 15, 15);
-      ctx3.fillStyle = state.food[1].color.hex;
-      ctx3.fillRect(food[1].x * sizeX, food[1].y * sizeY, 15, 15);
-    }
-    else if(gcanvas.width < 450) {
-      ctx3.fillStyle = state.food[0].color.hex;
-      ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, 20, 20);
-      ctx3.fillStyle = state.food[1].color.hex;
-      ctx3.fillRect(food[1].x * sizeX, food[1].y * sizeY, 20, 20);
-    }
-    else if(gcanvas.width < 550){
-      ctx3.fillStyle = state.food[0].color.hex;
-      ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, 25, 25);
-      ctx3.fillStyle = state.food[1].color.hex;
-      ctx3.fillRect(food[1].x * sizeX, food[1].y * sizeY, 25, 25);
-    }
-    else if(gcanvas.width < 800){
-      ctx3.fillStyle = state.food[0].color.hex;
-      ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, 30, 30);
-      ctx3.fillStyle = state.food[1].color.hex;
-      ctx3.fillRect(food[1].x * sizeX, food[1].y * sizeY, 30, 30);
+    let sizeX = null
+    let sizeY = null
+    if (gcanvas.width < 401) {
+      sizeX = Math.floor(gcanvas.width/(state.gridX))
+      sizeY = Math.floor(gcanvas.height/(state.gridY))
+      sizeX -= 1
     }
     else {
-      ctx3.fillStyle = state.food[0].color.hex;
-      ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, 40, 40);
-      ctx3.fillStyle = state.food[1].color.hex;
-      ctx3.fillRect(food[1].x * sizeX, food[1].y * sizeY, 40, 40);
+      sizeX = Math.floor(gcanvas.width/(state.gridX))
+      sizeY = Math.floor(gcanvas.height/(state.gridY))
+      sizeX -= 1
+      sizeY -= 1
     }
-    // ctx3.fillStyle = state.food[0].color.hex;
-    // ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, 15, 15);
-    // ctx3.fillStyle = state.food[1].color.hex;
-    // ctx3.fillRect(food[1].x * sizeX, food[1].y * sizeY, 15, 15);
+    ctx3.fillStyle = state.food[0].color.hex;
+    ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, sizeX, sizeY);
+    ctx3.fillStyle = state.food[1].color.hex;
+    ctx3.fillRect(food[1].x * sizeX, food[1].y * sizeY, sizeX, sizeY);
 
     paintPlayer(state.players[0], sizeX, sizeY, SNAKE_COLOUR);
     paintPlayer(state.players[1], sizeX, sizeY, 'red');
@@ -291,26 +261,22 @@ function paintPlayer(playerState, sizeX, sizeY, colour) {
 
   ctx3.fillStyle = colour;
   for (let cell of snake) {
-    if (gcanvas.width < 350) {
-      ctx3.fillRect(cell.x * sizeX, cell.y * sizeY, 15, 15);
-    }
-    else if(gcanvas.width < 450) {
-      ctx3.fillRect(cell.x * sizeX, cell.y * sizeY, 20, 20);
-    }
-    else if(gcanvas.width < 550){
-      ctx3.fillRect(cell.x * sizeX, cell.y * sizeY, 25, 25);
-    }
-    else if(gcanvas.width < 800){
-      ctx3.fillRect(cell.x * sizeX, cell.y * sizeY, 30, 30);
-    }
-    else {
-      ctx3.fillRect(cell.x * sizeX, cell.y * sizeY, 40, 40);
-    }
+    ctx3.fillRect(cell.x * sizeX, cell.y * sizeY, sizeX, sizeY)
   }
 }
 
 function handleInit(number) {
   playerNumber = 1;
+}
+
+function handleCaptcha(url) {
+  img.src=url;
+  if (isPractice) {
+    socketPractice.emit('recievedCaptcha')
+  }
+  else {
+    socket.emit('recievedCaptcha')
+  }
 }
 
 function handleGameState(gameState) {
