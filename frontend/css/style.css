@@ -3,6 +3,60 @@ body, html{
   height: 100%;
 }
 
+/********************************
+
+          toolbar
+
+********************************/
+
+#toolbar {
+    /* toolbarHeight = totalHeight * 0.166666667  */
+    height: 11.1111111%;
+    width: 100%;
+    width: 100%;
+    display: flex;
+    background-color: #fff;
+}
+
+@media (max-width: 401px){
+
+  #toolbar{
+    /* toolbarHeight = totalHeight * 0.111111111 */
+    height: 16.6666667%;
+  }
+
+
+}
+
+
+.btn{
+  outline: none;
+  color: #254b57;
+  background: #fff;
+  border: #254b57;
+  box-shadow: 3px 5px 11px -3px rgba(0,0,0,0.18);
+  transition: .2s;
+}
+.btn:hover{
+  background: #254b57;
+  color: #fff;
+  
+}
+.initial:hover{
+  margin-top: -20px;
+  transition: .5s ease-in-out;
+}
+.btn:active{
+  color: #fff;
+  background: #254b57;
+  border: #254b57;  
+}
+.score{
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 2%;
+}
+
 
 /********************************
 
@@ -227,11 +281,7 @@ body, html{
 *{
   font-family: 'Open Sans', sans-serif;
 }
-.flex-grid {
-  width: 100%;
-  display: flex;
-  background: #fff;
-}
+.flex-grid { }
 
 
 /** column 1 **/
