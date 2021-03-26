@@ -224,13 +224,10 @@ function paintGame(state) {
     if (gcanvas.width < 401) {
       sizeX = Math.floor(gcanvas.width/(state.gridX))
       sizeY = Math.floor(gcanvas.height/(state.gridY))
-      sizeX -= 1
     }
     else {
       sizeX = Math.floor(gcanvas.width/(state.gridX))
       sizeY = Math.floor(gcanvas.height/(state.gridY))
-      sizeX -= 1
-      sizeY -= 1
     }
     ctx3.fillStyle = state.food[0].color.hex;
     ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, sizeX, sizeY);
