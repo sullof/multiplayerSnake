@@ -108,7 +108,7 @@ function joinPractice(gameCode) {
     gcanvas.width = windowWidth
   }
   else {
-    gcanvas.height = windowHeight * (7/9)
+    gcanvas.height = windowHeight * (8/9)
     gcanvas.width = windowWidth
   }
   const message = {
@@ -160,7 +160,7 @@ function joinGame() {
           gcanvas.width = windowWidth
         }
         else {
-          gcanvas.height = windowHeight * (7/9)
+          gcanvas.height = windowHeight * (8/9)
           gcanvas.width = windowWidth
         }
         const message = {
