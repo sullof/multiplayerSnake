@@ -200,26 +200,15 @@ function keydown(e) {
 }
 
 function paintGame(state) {
-  // img.src=state.imgURL;
   time.innerText = state.currentTime;
 
-  // Black Background, useful for debugging
-
   ctx3.clearRect(0, 0, gcanvas.width, gcanvas.height);
-  //
-  // ctx3.fillStyle = 'rgba(0,0,0,0)'
-  // ctx3.fillRect(0, 0, gcanvas.width, gcanvas.height)
-  // ctx3.lineWidth = 2;
-  // ctx3.strokeStyle = "white";
-  // ctx3.strokeRect(0, 0, gcanvas.width, gcanvas.height);
 
   if (state.food){
     let food = state.food
     let sizeX = null
     let sizeY = null
     if (gcanvas.width < 401) {
-      // ctx3.fillStyle = '#000000'
-      // ctx3.fillRect(0, 0, gcanvas.width, gcanvas.height);
       console.log('grid', state.gridX, state.gridY)
       sizeX = gcanvas.width/(state.gridX)
       sizeY = gcanvas.height/(state.gridY)
@@ -227,20 +216,13 @@ function paintGame(state) {
       console.log(gcanvas.height)
       console.log('toolbar', toolbar.clientHeight)
       console.log('all', sizeY * state.gridY + toolbar.clientHeight)
-      // console.log('sizeXY', sizeX, sizeY)
       ctx3.fillStyle = 'rgba(0,0,0,0)'
       ctx3.fillRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY))
-      // console.log('sizeXY', sizeX, sizeX)
-      // console.log('canvas', gcanvas.width, gcanvas.height)
-      // console.log('sizeX * gridX', sizeX*state.gridX)
-      // console.log('sizeY * gridY', sizeY*state.gridY)
-      ctx3.lineWidth = 2;
-      ctx3.strokeStyle = "white";
-      ctx3.strokeRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY));
+      // ctx3.lineWidth = 2;
+      // ctx3.strokeStyle = "white";
+      // ctx3.strokeRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY));
     }
     else {
-      // ctx3.fillStyle = '#000000'
-      // ctx3.fillRect(0, 0, gcanvas.width, gcanvas.height);
       console.log('grid', state.gridX, state.gridY)
       sizeX = gcanvas.width/(state.gridX)
       sizeY = gcanvas.height/(state.gridY)
@@ -248,22 +230,12 @@ function paintGame(state) {
       console.log(gcanvas.height)
       console.log('toolbar', toolbar.clientHeight)
       console.log('all', sizeY * state.gridY + toolbar.clientHeight)
-      // console.log('sizeXY', sizeX, sizeY)
       ctx3.fillStyle = 'rgba(0,0,0,0)'
       ctx3.fillRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY))
-      // console.log('sizeXY', sizeX, sizeX)
-      // console.log('canvas', gcanvas.width, gcanvas.height)
-      // console.log('sizeX * gridX', sizeX*state.gridX)
-      // console.log('sizeY * gridY', sizeY*state.gridY)
       ctx3.lineWidth = 2;
       ctx3.strokeStyle = "white";
       ctx3.strokeRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY));
     }
-    // ctx3.fillStyle = 'rgba(0,0,0,0)'
-    // ctx3.fillRect(0, 0, gcanvas.width, gcanvas.height)
-    // ctx3.lineWidth = 2;
-    // ctx3.strokeStyle = "white";
-    // ctx3.strokeRect(0, 0, gcanvas.width, gcanvas.height);
 
     ctx3.fillStyle = state.food[0].color.hex;
     ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, sizeX, sizeY);
