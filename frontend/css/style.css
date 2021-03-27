@@ -53,8 +53,9 @@ body, html{
 ********************************/
 
 
-#toolbar{
+#toolbar{ 
    /* toolbarHeight = totalHeight * 0.166666667  */
+  overflow: hidden;
   height: 11.1111111%;
   color: #000;
   background: #fff;
@@ -103,6 +104,8 @@ body, html{
   align-items: center;
   flex-wrap: nowrap;
   justify-content: space-between;
+  height: 100%;
+  /* background: red; */
   /* position: absolute;
   right: 0; */
   /* float: right; */
@@ -138,9 +141,11 @@ body, html{
   top: 50%;
   transform: translateY(-50%);
   overflow: hidden; */
+  height: 100%;
 }
 .captcha img{
   max-width:100%;
+  min-height: 100%;
 }
 
 @media (max-width: 550px){
