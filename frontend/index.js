@@ -91,6 +91,7 @@ mc.on("swipeup", function() {
 const url = new URLSearchParams(window.location.search);
 const code = url.get('gameCode')
 if (code) {
+  console.log('joining game')
   joinGame()
 }
 
@@ -162,7 +163,7 @@ function joinGame() {
           gcanvas.width = windowWidth
         }
         const message = {
-          roomName: gameCode,
+          roomName: code,
           screenSize: {
             width: windowWidth,
             height: windowHeight
