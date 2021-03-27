@@ -196,7 +196,16 @@ body, html{
 }
 #countdownScreen {
   position: fixed;
-  z-index: 1000
+  width: 100%;
+  height: 100%;
+  background: #254b57;
+  z-index: 1000;
+}
+
+#countdownScreen h2{
+  font-size: 10em;
+  font-weight: 900;
+  color: #fff;
 }
 .flex-container {
     display: flex;
