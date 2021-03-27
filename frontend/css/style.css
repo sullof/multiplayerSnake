@@ -56,11 +56,11 @@ body, html{
 #toolbar{
    /* toolbarHeight = totalHeight * 0.166666667  */
   height: 11.1111111%;
-  background: #fff;
   color: #000;
+  background: #fff;
   width: 100%;
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 @media (max-width: 401px){
@@ -79,7 +79,6 @@ body, html{
   left: 1em;
   transform: translateY(-50%);
   line-height: 1em;
-
 }
 
 .header-left span#time{
@@ -94,15 +93,20 @@ body, html{
 }
 
 .header-right{
-  position: absolute;
-  right: 0;
+  /* position: absolute;
+  right: 0; */
+  float: right;
   line-height: 1em;
-
+  height: 100%;
 }
 .right-text{ 
-  padding: 20px;
+  padding: 1.5em .5em;
   text-align: right;
   float: left;
+  /* background: red; */
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .right-text h1{
   font-size: 1.5em;
@@ -119,36 +123,24 @@ body, html{
   font-weight: 500;
 }
 .captcha{
-  width: 200px;
+  /* width: 160px; */
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
   overflow: hidden;
 }
 .captcha img{
-  width: 100%;
+  max-width:100%;
 }
-@media (max-width: 1000px){
 
-  .header-left span#time{
-      font-size: 2em;
-  }
-  .header-left span{
-    font-size: 1.2em;
-  }
-
-  .right-text{
-    padding: 15px;
-   }
-  .right-text h1{
-      font-size: 1.6em;
-  }
-  .right-text span{
-      font-size: 1.3em;
-  }
- 
-} 
 @media (max-width: 550px){
-  
+
+  .captcha{
+    width: 100px;
+  }
+
   .header-left span#time{
-      font-size: 1.5em;
+    font-size: 1.5em;
   }
   .header-left span{
     font-size: .6em;
@@ -162,10 +154,8 @@ body, html{
   .header-right .right-text{
     line-height: 1em;
   }
-  
- 
-  
-  
+
+
 }
 
 
