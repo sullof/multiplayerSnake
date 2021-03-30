@@ -233,9 +233,9 @@ function paintGame(state) {
       console.log('all', sizeY * state.gridY + toolbar.clientHeight)
       ctx3.fillStyle = 'rgba(0,0,0,0)'
       ctx3.fillRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY))
-      ctx3.lineWidth = 2;
-      ctx3.strokeStyle = "red";
-      ctx3.strokeRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY));
+      // ctx3.lineWidth = 2;
+      // ctx3.strokeStyle = "red";
+      // ctx3.strokeRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY));
     }
 
     ctx3.fillStyle = state.food[0].color.hex;
