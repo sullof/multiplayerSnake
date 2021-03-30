@@ -382,9 +382,9 @@ function handleGameOver(data) {
   gameActive = false;
 
   if (data.winner === playerNumber) {
-    alert('You died!');
+    console.log('You died!');
   } else {
-    alert('Your died!');
+    console.log('You died!');
   }
   isPractice = false
 }
