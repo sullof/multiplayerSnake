@@ -1,4 +1,11 @@
-const io = require('socket.io')();
+const httpServer = require("http").createServer();
+const io = require("socket.io")(httpServer, {
+  cors: {
+    origin: "http://localhost:8080",
+    methods: ["GET", "POST"]
+  },
+  parser: require("socket.io-msgpack-parser")
+});
 
 const { sendCaptcha, stopSendingCaptcha, initGame, initPoison, randomFood, gameLoop, getUpdatedVelocity } = require('./game');
 const { FRAME_RATE } = require('./constants');
@@ -7,9 +14,10 @@ const { makeid } = require('./utils');
 const state = {};
 const clientRooms = {};
 
+console.log('connection!')
 
 io.on('connection', client => {
-
+  console.log('connection!')
   client.on('keydown', handleKeydown);
   client.on('newGame', handleNewGame);
   client.on('recievedCaptcha', handleRecievedCaptcha);
@@ -159,4 +167,5 @@ function emitGameOver(room, winner) {
     .emit('gameOver', JSON.stringify({ winner }));
 }
 
-io.listen(process.env.PORT || 3000);
+// io.listen(process.env.PORT || 3000);
+httpServer.listen(3000);

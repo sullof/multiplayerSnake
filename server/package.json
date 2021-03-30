@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "socket.io": "^2.4.1"
+    "socket.io": "^2.4.1",
+    "socket.io-msgpack-parser": "^3.0.1"
   }
 }
