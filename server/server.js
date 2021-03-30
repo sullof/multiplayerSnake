@@ -144,9 +144,7 @@ function emitGameState(room, gameState) {
     y: gameState.gridY
   }
   const lengthOfSnake = player.snake.length
-  console.log('length', lengthOfSnake)
-  console.log(13+(lengthOfSnake * 2))
-  var bufArr = new ArrayBuffer(10+(lengthOfSnake * 2))
+  var bufArr = new ArrayBuffer(11+(lengthOfSnake * 2))
   var bufView = new Uint8Array(bufArr)
   bufView[0]=player.pos.x
   bufView[1]=player.pos.y
@@ -158,8 +156,9 @@ function emitGameState(room, gameState) {
   bufView[7]= food[1].index
   bufView[8]=grid.x
   bufView[9]=grid.y
+  bufView[10]=gameState.currentTime
   for (let x = 0; x < (lengthOfSnake); x++) {
-    let index = 10 + (x * 2)
+    let index = 11 + (x * 2)
     bufView[index]=player.snake[x].x
     bufView[index+1]=player.snake[x].y
   }

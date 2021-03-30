@@ -358,10 +358,11 @@ function handleGameState(gameState) {
       index: bufView[7]
     }],
     gridX: bufView[8],
-    gridY: bufView[9]
+    gridY: bufView[9],
+    currentTime:bufView[10]
   }
-  for (x = 0; x < (bufView.length-10)/2; x++){
-    let index = 10 + (x * 2)
+  for (x = 0; x < (bufView.length-11)/2; x++){
+    let index = 11 + (x * 2)
     let pos = {
       x: bufView[index],
       y: bufView[index+1]
