@@ -177,12 +177,14 @@ function randomFood(state) {
     {
       x: Math.floor(Math.random() * gridWidth + 1),
       y: Math.floor(Math.random() * gridHeight + 1),
-      color: {}
+      color: {},
+      index: null
     },
     {
       x: Math.floor(Math.random() * gridWidth + 1),
       y: Math.floor(Math.random() * gridHeight + 1),
-      color: {}
+      color: {},
+      index: null
     }
   ]
 
@@ -227,7 +229,9 @@ function randomColors(state) {
     randomColors(state)
   } else {
     state.food[0].color = COLORS[firstNumber]
+    state.food[0].index = firstNumber
     state.food[1].color = COLORS[secondNumber]
+    state.food[1].index = secondNumber
     randomPoison(state);
   }
 }
