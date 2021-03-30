@@ -213,10 +213,10 @@ function paintGame(state) {
       console.log('grid', state.gridX, state.gridY)
       sizeX = gcanvas.width/(state.gridX)
       sizeY = gcanvas.height/(state.gridY)
-      console.log('gcanvas.height', gcanvas.height)
-      console.log(gcanvas.height)
-      console.log('toolbar', toolbar.clientHeight)
-      console.log('all', sizeY * state.gridY + toolbar.clientHeight)
+//       console.log('gcanvas.height', gcanvas.height)
+//       console.log(gcanvas.height)
+//       console.log('toolbar', toolbar.clientHeight)
+//       console.log('all', sizeY * state.gridY + toolbar.clientHeight)
       ctx3.fillStyle = 'rgba(0,0,0,0)'
       ctx3.fillRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY))
       // ctx3.lineWidth = 2;
@@ -227,10 +227,10 @@ function paintGame(state) {
       console.log('grid', state.gridX, state.gridY)
       sizeX = gcanvas.width/(state.gridX)
       sizeY = gcanvas.height/(state.gridY)
-      console.log('gcanvas.height', gcanvas.height)
-      console.log(gcanvas.height)
-      console.log('toolbar', toolbar.clientHeight)
-      console.log('all', sizeY * state.gridY + toolbar.clientHeight)
+//       console.log('gcanvas.height', gcanvas.height)
+//       console.log(gcanvas.height)
+//       console.log('toolbar', toolbar.clientHeight)
+//       console.log('all', sizeY * state.gridY + toolbar.clientHeight)
       ctx3.fillStyle = 'rgba(0,0,0,0)'
       ctx3.fillRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY))
       // ctx3.lineWidth = 2;
@@ -368,7 +368,7 @@ function handleGameState(gameState) {
     }
     state.players[0].snake.push(pos)
   }
-  console.log(state)
+//   console.log(state)
   requestAnimationFrame(() => paintGame(state));
 }
 
