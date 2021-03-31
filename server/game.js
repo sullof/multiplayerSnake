@@ -47,6 +47,7 @@ function stopSendingCaptcha(roomName) {
 
 function createGameState(roomName) {
   return {
+    confirmed: false,
     roomName: roomName,
     startTime: null,
     currentTime: null,

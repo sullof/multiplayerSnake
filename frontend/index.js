@@ -27,8 +27,6 @@ socketPractice.on('unknownCode', handleUnknownCode);
 socketPractice.on('sendScore', handleScore);
 socketPractice.on('tooManyPlayers', handleTooManyPlayers);
 
-// window.onscroll = function () { window.scrollTo(0, 0); };
-
 const gameScreen = document.getElementById('gameScreen');
 const initialScreen = document.getElementById('initialScreen');
 const countdownScreen = document.getElementById('countdownScreen');
@@ -184,9 +182,7 @@ function init() {
   initialScreen.style.display = "none";
   countdownScreen.style.display = "none";
   gameScreen.style.display = "block";
-
   ctx3 = gcanvas.getContext('2d');
-
   document.addEventListener('keydown', keydown);
   gameActive = true;
 }
@@ -213,29 +209,15 @@ function paintGame(state) {
       console.log('grid', state.gridX, state.gridY)
       sizeX = gcanvas.width/(state.gridX)
       sizeY = gcanvas.height/(state.gridY)
-//       console.log('gcanvas.height', gcanvas.height)
-//       console.log(gcanvas.height)
-//       console.log('toolbar', toolbar.clientHeight)
-//       console.log('all', sizeY * state.gridY + toolbar.clientHeight)
       ctx3.fillStyle = 'rgba(0,0,0,0)'
       ctx3.fillRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY))
-      // ctx3.lineWidth = 2;
-      // ctx3.strokeStyle = "white";
-      // ctx3.strokeRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY));
     }
     else {
       console.log('grid', state.gridX, state.gridY)
       sizeX = gcanvas.width/(state.gridX)
       sizeY = gcanvas.height/(state.gridY)
-//       console.log('gcanvas.height', gcanvas.height)
-//       console.log(gcanvas.height)
-//       console.log('toolbar', toolbar.clientHeight)
-//       console.log('all', sizeY * state.gridY + toolbar.clientHeight)
       ctx3.fillStyle = 'rgba(0,0,0,0)'
       ctx3.fillRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY))
-      // ctx3.lineWidth = 2;
-      // ctx3.strokeStyle = "red";
-      // ctx3.strokeRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY));
     }
     let color1 = null
     let color2 = null
@@ -317,7 +299,6 @@ function handleGameState(gameState) {
   if (!gameActive) {
     return;
   }
-  // gameState = JSON.parse(gameState);
 
   var bufView = new Uint8Array(gameState);
     console.log(gameState)
@@ -340,11 +321,7 @@ function handleGameState(gameState) {
           x: 0,
           y: 0,
         },
-        snake: [
-          // {x: 20, y: 10},
-          // {x: 19, y: 10},
-          // {x: 18, y: 10},
-        ],
+        snake: [],
       }
     ],
     food: [{
@@ -369,7 +346,6 @@ function handleGameState(gameState) {
     }
     state.players[0].snake.push(pos)
   }
-//   console.log(state)
   requestAnimationFrame(() => paintGame(state));
 }
 

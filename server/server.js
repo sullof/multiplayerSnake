@@ -13,6 +13,7 @@ io.on('connection', client => {
   client.on('keydown', handleKeydown);
   client.on('newGame', handleNewGame);
   client.on('recievedCaptcha', handleRecievedCaptcha);
+  client.on('confirmedScore', handleConfirmedScore);
   client.on('joinGame', handleJoinGame);
 
   function handleJoinGame(message) {
@@ -69,6 +70,11 @@ io.on('connection', client => {
   function handleRecievedCaptcha(data) {
     let roomName = clientRooms[client.id]
     stopSendingCaptcha(roomName)
+  }
+
+  function handleRecievedCaptcha(data) {
+    let roomName = data
+    state[data].confirmed = true
   }
 
   function handleNewGame() {
@@ -180,6 +186,10 @@ function emitGameOver(room, winner) {
     score: state[room].foodTimes.length,
     gameCode: room
   }
+  // if (!state[room].confirmed){
+  // io.sockets.in(room)
+  //   .emit('sendScore', scoreMessage);
+  // }
   io.sockets.in(room)
     .emit('sendScore', scoreMessage);
   io.sockets.in(room)
