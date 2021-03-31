@@ -195,16 +195,18 @@ function emitGameOver(room, winner) {
       score: state[room].foodTimes.length,
       gameCode: room
     }
-    
+
     io.sockets.in(room)
       .emit('sendScore', scoreMessage);
+
+    
   } catch(error) {
     console.log('caught error in scoreMessage')
     console.log(error)
   }
 
-  io.sockets.in(room)
-    .emit('gameOver', JSON.stringify({ winner }));
+  // io.sockets.in(room)
+  //   .emit('gameOver', JSON.stringify({ winner }));
 }
 
 io.listen(process.env.PORT || 3000);
