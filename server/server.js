@@ -127,10 +127,15 @@ function startGameInterval(roomName) {
     const url = sendCaptcha(roomName)
 
     if (!winner) {
-      emitGameState(roomName, state[roomName])
-      if (url) {
-        console.log('theres a captcha')
-        emitCaptcha(roomName, url)
+      try {
+        emitGameState(roomName, state[roomName])
+        if (url) {
+          console.log('theres a captcha')
+          emitCaptcha(roomName, url)
+        }
+      }
+      catch(error) {
+        console.log(error)
       }
     } else {
       emitGameOver(roomName, winner);
