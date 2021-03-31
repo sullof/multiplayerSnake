@@ -33,8 +33,9 @@ io.on('connection', client => {
         state[message.roomName].gridY = 16
       }
     }
-    catch {
+    catch(error) {
       console.log('caught some shit in screen size')
+      console.log(error)
     }
     randomFood(state[message.roomName])
     state[message.roomName].startTime = new Date()
@@ -89,7 +90,7 @@ io.on('connection', client => {
   }
 
   function handleKeydown(keyCode) {
-    console.log('keystroke', client.id)
+    // console.log('keystroke', client.id)
     const roomName = clientRooms[client.id];
     if (!roomName) {
       return;
@@ -108,13 +109,15 @@ io.on('connection', client => {
         try {
           state[roomName].players[client.number - 1].vel = vel;
         }
-        catch {
-          console.log('caught some shit!')
+        catch(error) {
+          console.log('caught some shit trying to set velocity!')
+          console.log(error)
         }
       }
     }
-    catch {
-      console.log('caught some shit!')
+    catch(error) {
+      console.log('caught some shit getting velocity!')
+      console.log(error)
     }
 
   }
@@ -173,7 +176,7 @@ function emitGameState(room, gameState) {
     bufView[index]=player.snake[x].x
     bufView[index+1]=player.snake[x].y
   }
-  console.log(bufView)
+  // console.log(bufView)
   // console.log(bufView)
   io.sockets.in(room)
     .emit('gameState', bufArr)
@@ -187,16 +190,19 @@ function emitCaptcha(room, url) {
 }
 
 function emitGameOver(room, winner) {
-  const scoreMessage = {
-    score: state[room].foodTimes.length,
-    gameCode: room
+  try {
+    const scoreMessage = {
+      score: state[room].foodTimes.length,
+      gameCode: room
+    }
+    
+    io.sockets.in(room)
+      .emit('sendScore', scoreMessage);
+  } catch(error) {
+    console.log('caught error in scoreMessage')
+    console.log(error)
   }
-  // if (!state[room].confirmed){
-  // io.sockets.in(room)
-  //   .emit('sendScore', scoreMessage);
-  // }
-  io.sockets.in(room)
-    .emit('sendScore', scoreMessage);
+
   io.sockets.in(room)
     .emit('gameOver', JSON.stringify({ winner }));
 }
