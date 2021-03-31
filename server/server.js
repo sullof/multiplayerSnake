@@ -72,7 +72,7 @@ io.on('connection', client => {
     stopSendingCaptcha(roomName)
   }
 
-  function handleRecievedCaptcha(data) {
+  function handleConfirmedScore(data) {
     let roomName = data
     state[data].confirmed = true
   }
