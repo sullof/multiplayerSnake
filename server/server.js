@@ -182,7 +182,7 @@ function emitGameState(room, gameState) {
   console.log(bufView)
   io.sockets.in(room)
     // .emit('gameState', JSON.stringify(gameState))
-    .emit('gameState', gameState)
+    .emit('gameState', bufArr)
 }
 
 function emitCaptcha(room, url) {
