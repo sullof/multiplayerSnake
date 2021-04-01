@@ -303,55 +303,55 @@ function handleGameState(gameState) {
     return;
   }
 
-  // var bufView = new Uint8Array(gameState);
-  //   console.log(gameState)
-  // state = {
-  //   players: [
-  //     {
-  //       pos: {
-  //         x: bufView[0],
-  //         y: bufView[1],
-  //       },
-  //       snake: [
-  //       ],
-  //     },
-  //     {
-  //       pos: {
-  //         x: 0,
-  //         y: 0,
-  //       },
-  //       vel: {
-  //         x: 0,
-  //         y: 0,
-  //       },
-  //       snake: [],
-  //     }
-  //   ],
-  //   food: [{
-  //     x: bufView[2],
-  //     y: bufView[3],
-  //     index: bufView[6]
-  //   },
-  //   {
-  //     x: bufView[4],
-  //     y: bufView[5],
-  //     index: bufView[7]
-  //   }],
-  //   gridX: bufView[8],
-  //   gridY: bufView[9],
-  //   currentTime:bufView[10]
-  // }
-  // for (x = 0; x < (bufView.length-11)/2; x++){
-  //   let index = 11 + (x * 2)
-  //   let pos = {
-  //     x: bufView[index],
-  //     y: bufView[index+1]
-  //   }
-  //   state.players[0].snake.push(pos)
-  // }
-  // requestAnimationFrame(() => paintGame(state));
-  gameState = JSON.parse(gameState)
-  requestAnimationFrame(() => paintGame(gameState))
+  var bufView = new Uint8Array(gameState);
+    console.log(gameState)
+  state = {
+    players: [
+      {
+        pos: {
+          x: bufView[0],
+          y: bufView[1],
+        },
+        snake: [
+        ],
+      },
+      {
+        pos: {
+          x: 0,
+          y: 0,
+        },
+        vel: {
+          x: 0,
+          y: 0,
+        },
+        snake: [],
+      }
+    ],
+    food: [{
+      x: bufView[2],
+      y: bufView[3],
+      index: bufView[6]
+    },
+    {
+      x: bufView[4],
+      y: bufView[5],
+      index: bufView[7]
+    }],
+    gridX: bufView[8],
+    gridY: bufView[9],
+    currentTime:bufView[10]
+  }
+  for (x = 0; x < (bufView.length-11)/2; x++){
+    let index = 11 + (x * 2)
+    let pos = {
+      x: bufView[index],
+      y: bufView[index+1]
+    }
+    state.players[0].snake.push(pos)
+  }
+  requestAnimationFrame(() => paintGame(state));
+  // gameState = JSON.parse(gameState)
+  // requestAnimationFrame(() => paintGame(gameState))
 }
 
 function handleGameOver(data) {
