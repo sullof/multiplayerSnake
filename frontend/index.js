@@ -219,55 +219,55 @@ function paintGame(state) {
       ctx3.fillStyle = 'rgba(0,0,0,0)'
       ctx3.fillRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY))
     }
-    // let color1 = null
-    // let color2 = null
-    // switch(state.food[0].index) {
-    //   case 0:
-    //     color1 = '#00ff00'
-    //     break;
-    //   case 1:
-    //     color1 = '#ff0000'
-    //     break;
-    //   case 2:
-    //     color1 = '#0000ff'
-    //     break;
-    //   case 3:
-    //     color1 = '#d97012'
-    //     break;
-    //   case 4:
-    //     color1 = '#c41acb'
-    //     break;
-    //   case 5:
-    //     color1 = '#ffff00'
-    //     break;
-    // }
-    // switch(state.food[1].index) {
-    //   case 0:
-    //     color2 = '#00ff00'
-    //     break;
-    //   case 1:
-    //     color2 = '#ff0000'
-    //     break;
-    //   case 2:
-    //     color2 = '#0000ff'
-    //     break;
-    //   case 3:
-    //     color2 = '#d97012'
-    //     break;
-    //   case 4:
-    //     color2 = '#c41acb'
-    //     break;
-    //   case 5:
-    //     color2 = '#ffff00'
-    //     break;
-    // }
+    let color1 = null
+    let color2 = null
+    switch(state.food[0].index) {
+      case 0:
+        color1 = '#00ff00'
+        break;
+      case 1:
+        color1 = '#ff0000'
+        break;
+      case 2:
+        color1 = '#0000ff'
+        break;
+      case 3:
+        color1 = '#d97012'
+        break;
+      case 4:
+        color1 = '#c41acb'
+        break;
+      case 5:
+        color1 = '#ffff00'
+        break;
+    }
+    switch(state.food[1].index) {
+      case 0:
+        color2 = '#00ff00'
+        break;
+      case 1:
+        color2 = '#ff0000'
+        break;
+      case 2:
+        color2 = '#0000ff'
+        break;
+      case 3:
+        color2 = '#d97012'
+        break;
+      case 4:
+        color2 = '#c41acb'
+        break;
+      case 5:
+        color2 = '#ffff00'
+        break;
+    }
 
-    // ctx3.fillStyle = color1
-    ctx3.fillStyle = state.food[0].color.hex
+    ctx3.fillStyle = color1
+    // ctx3.fillStyle = state.food[0].color.hex
     ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, sizeX, sizeY);
 
-    // ctx3.fillStyle = color2
-    ctx3.fillStyle = state.food[1].color.hex
+    ctx3.fillStyle = color2
+    // ctx3.fillStyle = state.food[1].color.hex
     ctx3.fillRect(food[1].x * sizeX, food[1].y * sizeY, sizeX, sizeY);
 
     paintPlayer(state.players[0], sizeX, sizeY, SNAKE_COLOUR);

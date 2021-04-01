@@ -153,36 +153,36 @@ function startGameInterval(roomName) {
 
 function emitGameState(room, gameState) {
   // Send this event to everyone in the room.
-  // const player = gameState.players[0]
-  // const food = gameState.food
-  // const grid = {
-  //   x: gameState.gridX,
-  //   y: gameState.gridY
-  // }
-  // const lengthOfSnake = player.snake.length
-  // var bufArr = new ArrayBuffer(11+(lengthOfSnake * 2))
-  // var bufView = new Uint8Array(bufArr)
-  // bufView[0]=player.pos.x
-  // bufView[1]=player.pos.y
-  // bufView[2]=food[0].x
-  // bufView[3]=food[0].y
-  // bufView[4]=food[1].x
-  // bufView[5]=food[1].y
-  // bufView[6]= food[0].index
-  // bufView[7]= food[1].index
-  // bufView[8]=grid.x
-  // bufView[9]=grid.y
-  // bufView[10]=gameState.currentTime
-  // for (let x = 0; x < (lengthOfSnake); x++) {
-  //   let index = 11 + (x * 2)
-  //   bufView[index]=player.snake[x].x
-  //   bufView[index+1]=player.snake[x].y
-  // }
-  // console.log(bufView)
-  // console.log(bufView)
+  const player = gameState.players[0]
+  const food = gameState.food
+  const grid = {
+    x: gameState.gridX,
+    y: gameState.gridY
+  }
+  const lengthOfSnake = player.snake.length
+  var bufArr = new ArrayBuffer(11+(lengthOfSnake * 2))
+  var bufView = new Uint8Array(bufArr)
+  bufView[0]=player.pos.x
+  bufView[1]=player.pos.y
+  bufView[2]=food[0].x
+  bufView[3]=food[0].y
+  bufView[4]=food[1].x
+  bufView[5]=food[1].y
+  bufView[6]= food[0].index
+  bufView[7]= food[1].index
+  bufView[8]=grid.x
+  bufView[9]=grid.y
+  bufView[10]=gameState.currentTime
+  for (let x = 0; x < (lengthOfSnake); x++) {
+    let index = 11 + (x * 2)
+    bufView[index]=player.snake[x].x
+    bufView[index+1]=player.snake[x].y
+  }
+  console.log(bufView)
+  console.log(bufView)
   io.sockets.in(room)
-    .emit('gameState', JSON.stringify(gameState))
-    // .emit('gameState', gameState)
+    // .emit('gameState', JSON.stringify(gameState))
+    .emit('gameState', gameState)
 }
 
 function emitCaptcha(room, url) {
