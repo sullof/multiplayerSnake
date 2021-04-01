@@ -59,8 +59,8 @@ io.on('connection', client => {
       client.emit('tooManyPlayers');
       return;
     }
-
     clientRooms[client.id] = message.roomName;
+    state[message.roomName].clientID = client.id
 
     client.join(message.roomName);
     client.number = 1;
@@ -178,11 +178,12 @@ function emitGameState(room, gameState) {
     bufView[index]=player.snake[x].x
     bufView[index+1]=player.snake[x].y
   }
-  console.log(bufView)
-  console.log(bufView)
-  io.sockets.in(room)
-    // .emit('gameState', JSON.stringify(gameState))
-    .emit('gameState', bufArr)
+  // console.log(bufView)
+  // console.log(bufView)
+  // io.sockets.in(room)
+  //   // .emit('gameState', JSON.stringify(gameState))
+  //   .emit('gameState', bufArr)
+  io.to(gameState.clientID).emit('gameState', bufArr);
 }
 
 function emitCaptcha(room, url) {
