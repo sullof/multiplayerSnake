@@ -102,16 +102,18 @@ io.on('connection', client => {
       return;
     }
     try {
-      currentVelocity = state[roomName].players[0].vel
-      const vel = getUpdatedVelocity(keyCode, currentVelocity, state[roomName]);
+      if(state[roomName]) {
+        currentVelocity = state[roomName].players[0].vel
+        const vel = getUpdatedVelocity(keyCode, currentVelocity, state[roomName]);
 
-      if (vel) {
-        try {
-          state[roomName].players[client.number - 1].vel = vel;
-        }
-        catch(error) {
-          console.log('caught some shit trying to set velocity!')
-          console.log(error)
+        if (vel) {
+          try {
+            state[roomName].players[client.number - 1].vel = vel;
+          }
+          catch(error) {
+            console.log('caught some shit trying to set velocity!')
+            console.log(error)
+          }
         }
       }
     }
@@ -199,7 +201,7 @@ function emitGameOver(room, winner) {
     io.sockets.in(room)
       .emit('sendScore', scoreMessage);
 
-    
+
   } catch(error) {
     console.log('caught error in scoreMessage')
     console.log(error)
