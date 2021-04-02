@@ -152,7 +152,7 @@ function joinGame() {
         let padding = toolbar.clientHeight
         const windowHeight = $('body').innerHeight()
         const windowWidth = $('body').innerWidth()
-        if (gcanvas.width < 401) {
+        if (windowWidth < 401) {
           gcanvas.height = windowHeight * (5/6)
           gcanvas.width = windowWidth
         }
