@@ -104,9 +104,7 @@ function joinPractice(gameCode) {
     gcanvas.width = windowWidth
   }
   else {
-    console.log('testing')
     gcanvas.height = windowHeight * (8/9)
-    console.log('initial', gcanvas.height)
     gcanvas.width = windowWidth
   }
   const message = {
@@ -148,6 +146,7 @@ function joinGame() {
       if(timeleft <= 0){
         console.log('starting game')
         initialScreen.style.display = "none";
+        countdownScreen.style.display = "none";
         gameScreen.style.display = "block";
         let padding = toolbar.clientHeight
         const windowHeight = $('body').innerHeight()
