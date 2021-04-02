@@ -148,7 +148,6 @@ function joinGame() {
         initialScreen.style.display = "none";
         countdownScreen.style.display = "none";
         gameScreen.style.display = "block";
-        let padding = toolbar.clientHeight
         const windowHeight = $('body').innerHeight()
         const windowWidth = $('body').innerWidth()
         if (windowWidth < 401) {
