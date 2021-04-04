@@ -97,21 +97,21 @@ function joinPractice(gameCode) {
   initialScreen.style.display = "none";
   countdownScreen.style.display = "none";
   gameScreen.style.display = "block";
-  // const windowHeight = $('body').innerHeight()
-  // const windowWidth = $('body').innerWidth()
-  // if (windowWidth < 401) {
-  //   gcanvas.height = windowHeight * (5/6)
-  //   gcanvas.width = windowWidth
-  // }
-  // else {
-  //   gcanvas.height = windowHeight * (8/9)
-  //   gcanvas.width = windowWidth
-  // }
+  const windowHeight = $('body').innerHeight()
+  const windowWidth = $('body').innerWidth()
+  if (windowWidth < 401) {
+    gcanvas.height = windowHeight * (5/6)
+    gcanvas.width = windowWidth
+  }
+  else {
+    gcanvas.height = windowHeight * (8/9)
+    gcanvas.width = windowWidth
+  }
   const message = {
     roomName: gameCode,
     screenSize: {
-      width: gcanvas.width,
-      height: gcanvas.height
+      width: windowWidth,
+      height: windowHeight
     }
   }
   console.log(message.screenSize)
@@ -148,21 +148,21 @@ function joinGame() {
         initialScreen.style.display = "none";
         countdownScreen.style.display = "none";
         gameScreen.style.display = "block";
-        // const windowHeight = $('body').innerHeight()
-        // const windowWidth = $('body').innerWidth()
-        // if (windowWidth < 401) {
-        //   gcanvas.height = windowHeight * (5/6)
-        //   gcanvas.width = windowWidth
-        // }
-        // else {
-        //   gcanvas.height = windowHeight * (8/9)
-        //   gcanvas.width = windowWidth
-        // }
+        const windowHeight = $('body').innerHeight()
+        const windowWidth = $('body').innerWidth()
+        if (windowWidth < 401) {
+          gcanvas.height = windowHeight * (5/6)
+          gcanvas.width = windowWidth
+        }
+        else {
+          gcanvas.height = windowHeight * (8/9)
+          gcanvas.width = windowWidth
+        }
         const message = {
           roomName: code,
           screenSize: {
-            width: gcanvas.width,
-            height: gcanvas.height
+            width: windowWidth,
+            height: windowHeight
           }
         }
         socket.emit('joinGame', message);
