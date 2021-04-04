@@ -53,7 +53,7 @@ body, html{
 ********************************/
 
 
-#toolbar{ 
+#toolbar{
    /* toolbarHeight = totalHeight * 0.166666667  */
   overflow: hidden;
   height: 11.1111111%;
@@ -69,11 +69,21 @@ body, html{
   /* overflow: hidden; */
 }
 
+#gameCanvas{
+  height: 89.99999%;
+  width: 100%;
+}
+
 @media (max-width: 401px){
 
   #toolbar{
     /* toolbarHeight = totalHeight * 0.111111111 */
     height: 16.6666667%;
+  }
+
+  #gameCanvas{
+    /* toolbarHeight = totalHeight * 0.111111111 */
+    height: 83.33333%;
   }
 
 
@@ -84,7 +94,7 @@ body, html{
   top: 50%;
   left: 1em;
   transform: translateY(-50%); */
-  line-height: 1em; 
+  line-height: 1em;
   padding-left: 1em;
 }
 
@@ -112,10 +122,10 @@ body, html{
   /* line-height: 1em; */
   /* height: 100%; */
 }
-.right-text{ 
+.right-text{
   text-align: right;
   padding-right: 1em;
-  line-height: 1em; 
+  line-height: 1em;
   /* padding: 1.5em .5em;
   text-align: right; */
   /* float: left; */
