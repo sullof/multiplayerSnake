@@ -87,6 +87,22 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
   <script src="index.js"></script>
 
+  <script>
+
+    //disable double click on buttons
+    $(":button").click(function() {
+      $(this).prop("disabled",true);
+    });
+    
+    //reactivate click on buttons {prevent any bug that can occurs}
+    $(":button").click(function() {
+      var btn = this;
+        setTimeout(function() {
+          btn.disabled =  false; 
+        }, 3000);
+    });
+  </script>
+
 
 </body>
 </html>
