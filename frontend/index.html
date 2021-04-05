@@ -80,6 +80,22 @@
 	</div><!-- CONTAINER -->
 	<div class="content content--canvas"></div>
 
+   <script>
+
+    // disable double click on buttons 
+    $(":button").click(function() {
+      $(this).prop("disabled",true);
+    });
+    
+    //reactivate click on buttons {prevent any bug that can occurs}
+    $(":button").click(function() {
+      var btn = this;
+        setTimeout(function() {
+          btn.disabled =  false; 
+        }, 3000);
+    });
+  </script>
+
 	<script src="js/noise.min.js"></script>
 	<script src="js/util.js"></script>
 	<script src="js/shift.js"></script>
