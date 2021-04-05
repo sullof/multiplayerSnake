@@ -2,12 +2,12 @@ const BG_COLOUR = '#231f20';
 const SNAKE_COLOUR = '#ffffff';
 const FOOD_COLOUR = '#e66916';
 
-const socket = io('http://3.139.87.87:3000');
-const socketPractice = io('http://3.133.132.75:3000');
+// const socket = io('http://3.139.87.87:3000');
+// const socketPractice = io('http://3.133.132.75:3000');
 
 // For Development
-// const socket = io('http://localhost:3000');
-// const socketPractice = io('http://localhost:3000');
+const socket = io('http://localhost:3000');
+const socketPractice = io('http://localhost:3000');
 
 socket.on('init', handleInit);
 socket.on('gameState', handleGameState);
@@ -34,7 +34,7 @@ const countdown = document.getElementById('countdown');
 const scoreScreen = document.getElementById('scoreScreen');
 const scoreDisplay = document.getElementById('scoreDisplay');
 const newGameBtn = document.getElementById('newGameButton');
-const gcanvas = document.getElementById('gameCanvas');
+let gcanvas = document.getElementById('gameCanvas');
 const joinGameBtn = document.getElementById('joinGameButton');
 const practiceBtn = document.getElementById('practiceButton');
 const gameCodeInput = document.getElementById('gameCodeInput');
@@ -97,21 +97,22 @@ function joinPractice(gameCode) {
   initialScreen.style.display = "none";
   countdownScreen.style.display = "none";
   gameScreen.style.display = "block";
-  const windowHeight = $('body').innerHeight()
-  const windowWidth = $('body').innerWidth()
-  if (windowWidth < 401) {
-    gcanvas.height = windowHeight * (5/6)
-    gcanvas.width = windowWidth
-  }
-  else {
-    gcanvas.height = windowHeight * (8/9)
-    gcanvas.width = windowWidth
-  }
+  gcanvas = document.getElementById('gameCanvas');
+  // const windowHeight = $('body').innerHeight()
+  // const windowWidth = $('body').innerWidth()
+  // if (windowWidth < 401) {
+  //   gcanvas.height = windowHeight * (5/6)
+  //   gcanvas.width = windowWidth
+  // }
+  // else {
+  //   gcanvas.height = windowHeight * (8/9)
+  //   gcanvas.width = windowWidth
+  // }
   const message = {
     roomName: gameCode,
     screenSize: {
-      width: windowWidth,
-      height: windowHeight
+      width: gcanvas.width,
+      height: gcanvas.height
     }
   }
   console.log(message.screenSize)
@@ -148,21 +149,22 @@ function joinGame() {
         initialScreen.style.display = "none";
         countdownScreen.style.display = "none";
         gameScreen.style.display = "block";
-        const windowHeight = $('body').innerHeight()
-        const windowWidth = $('body').innerWidth()
-        if (windowWidth < 401) {
-          gcanvas.height = windowHeight * (5/6)
-          gcanvas.width = windowWidth
-        }
-        else {
-          gcanvas.height = windowHeight * (8/9)
-          gcanvas.width = windowWidth
-        }
+        gcanvas = document.getElementById('gameCanvas');
+        // const windowHeight = $('body').innerHeight()
+        // const windowWidth = $('body').innerWidth()
+        // if (windowWidth < 401) {
+        //   gcanvas.height = windowHeight * (5/6)
+        //   gcanvas.width = windowWidth
+        // }
+        // else {
+        //   gcanvas.height = windowHeight * (8/9)
+        //   gcanvas.width = windowWidth
+        // }
         const message = {
           roomName: code,
           screenSize: {
-            width: windowWidth,
-            height: windowHeight
+            width: gcanvas.width,
+            height: gcanvas.height
           }
         }
         socket.emit('joinGame', message);

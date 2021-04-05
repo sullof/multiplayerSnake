@@ -2,12 +2,12 @@ const BG_COLOUR = '#231f20';
 const SNAKE_COLOUR = '#ffffff';
 const FOOD_COLOUR = '#e66916';
 
-const socket = io('http://3.139.87.87:3000');
-const socketPractice = io('http://3.133.132.75:3000');
+// const socket = io('http://3.139.87.87:3000');
+// const socketPractice = io('http://3.133.132.75:3000');
 
 // For Development
-// const socket = io('http://localhost:3000');
-// const socketPractice = io('http://localhost:3000');
+const socket = io('http://localhost:3000');
+const socketPractice = io('http://localhost:3000');
 
 socket.on('init', handleInit);
 socket.on('gameState', handleGameState);
@@ -34,7 +34,7 @@ const countdown = document.getElementById('countdown');
 const scoreScreen = document.getElementById('scoreScreen');
 const scoreDisplay = document.getElementById('scoreDisplay');
 const newGameBtn = document.getElementById('newGameButton');
-const gcanvas = document.getElementById('gameCanvas');
+let gcanvas = document.getElementById('gameCanvas');
 const joinGameBtn = document.getElementById('joinGameButton');
 const practiceBtn = document.getElementById('practiceButton');
 const gameCodeInput = document.getElementById('gameCodeInput');
@@ -51,7 +51,7 @@ var mc = new Hammer(gameScreen);
 mc.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
 
 mc.on("swipeleft", function() {
-  console.log('left')
+  // console.log('left')
   if (isPractice) {
     socketPractice.emit('keydown', 65);
   } else {
@@ -60,7 +60,7 @@ mc.on("swipeleft", function() {
 });
 
 mc.on("swiperight", function() {
-  console.log('right')
+  // console.log('right')
   if (isPractice) {
     socketPractice.emit('keydown', 68);
   } else {
@@ -69,7 +69,7 @@ mc.on("swiperight", function() {
 });
 
 mc.on("swipedown", function() {
-  console.log('down')
+  // console.log('down')
   if (isPractice) {
     socketPractice.emit('keydown', 83);
   } else {
@@ -78,7 +78,7 @@ mc.on("swipedown", function() {
 });
 
 mc.on("swipeup", function() {
-  console.log('up')
+  // console.log('up')
   if (isPractice) {
     socketPractice.emit('keydown', 87);
   } else {
@@ -97,9 +97,10 @@ function joinPractice(gameCode) {
   initialScreen.style.display = "none";
   countdownScreen.style.display = "none";
   gameScreen.style.display = "block";
+  gcanvas = document.getElementById('gameCanvas');
   const windowHeight = $('body').innerHeight()
   const windowWidth = $('body').innerWidth()
-  if (windowWidth < 401) {
+  if (windowWidth < 481) {
     gcanvas.height = windowHeight * (5/6)
     gcanvas.width = windowWidth
   }
@@ -107,11 +108,13 @@ function joinPractice(gameCode) {
     gcanvas.height = windowHeight * (8/9)
     gcanvas.width = windowWidth
   }
+  // console.log('height: ', gcanvas.height)
+  // console.log('width: ', gcanvas.width)
   const message = {
     roomName: gameCode,
     screenSize: {
-      width: windowWidth,
-      height: windowHeight
+      width: gcanvas.width,
+      height: gcanvas.height
     }
   }
   console.log(message.screenSize)
@@ -148,9 +151,10 @@ function joinGame() {
         initialScreen.style.display = "none";
         countdownScreen.style.display = "none";
         gameScreen.style.display = "block";
+        gcanvas = document.getElementById('gameCanvas');
         const windowHeight = $('body').innerHeight()
         const windowWidth = $('body').innerWidth()
-        if (windowWidth < 401) {
+        if (windowWidth < 481) {
           gcanvas.height = windowHeight * (5/6)
           gcanvas.width = windowWidth
         }
@@ -161,8 +165,8 @@ function joinGame() {
         const message = {
           roomName: code,
           screenSize: {
-            width: windowWidth,
-            height: windowHeight
+            width: gcanvas.width,
+            height: gcanvas.height
           }
         }
         socket.emit('joinGame', message);
@@ -186,7 +190,7 @@ function init() {
 }
 
 function keydown(e) {
-  console.log(e.keyCode)
+  // console.log(e.keyCode)
   if (isPractice) {
     socketPractice.emit('keydown', e.keyCode);
   } else {
@@ -203,15 +207,15 @@ function paintGame(state) {
     let food = state.food
     let sizeX = null
     let sizeY = null
-    if (gcanvas.width < 401) {
-      console.log('grid', state.gridX, state.gridY)
+    if (gcanvas.width < 481) {
+      // console.log('grid', state.gridX, state.gridY)
       sizeX = gcanvas.width/(state.gridX)
       sizeY = gcanvas.height/(state.gridY)
       ctx3.fillStyle = 'rgba(0,0,0,0)'
       ctx3.fillRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY))
     }
     else {
-      console.log('grid', state.gridX, state.gridY)
+      // console.log('grid', state.gridX, state.gridY)
       sizeX = gcanvas.width/(state.gridX)
       sizeY = gcanvas.height/(state.gridY)
       ctx3.fillStyle = 'rgba(0,0,0,0)'
@@ -302,7 +306,7 @@ function handleGameState(gameState) {
   }
 
   var bufView = new Uint8Array(gameState);
-    console.log(gameState)
+    // console.log(gameState)
   state = {
     players: [
       {
