@@ -22,7 +22,7 @@ io.on('connection', client => {
     const room = io.sockets.adapter.rooms[message.roomName]
     // console.log('joined: ', message.screenSize, message.screenSize.width, message.screenSize.height)
     try {
-      if (message.screenSize.width < 401) {
+      if (message.screenSize.width < 481) {
         console.log('setting grid to 20x20')
         state[message.roomName].gridX = 20
         state[message.roomName].gridY = 20
