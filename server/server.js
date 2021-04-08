@@ -125,9 +125,11 @@ io.on('connection', client => {
       }
   
     }
+
+    newRelic.endTransaction();
   });
  
-  newRelic.endTransaction();
+ 
 });
 
 function startGameInterval(roomName) {
