@@ -1,4 +1,6 @@
+const nr = require('newrelic');
 const io = require('socket.io')();
+
 
 const { sendCaptcha, stopSendingCaptcha, initGame, initPoison, randomFood, gameLoop, getUpdatedVelocity } = require('./game');
 const { FRAME_RATE } = require('./constants');
@@ -8,7 +10,7 @@ const state = {};
 const clientRooms = {};
 
 
-io.on('connection', client => {
+io.on('connection', nr.startWebTransaction('First socket connection', client => {
 
   client.on('keydown', handleKeydown);
   client.on('newGame', handleNewGame);
@@ -123,7 +125,9 @@ io.on('connection', client => {
     }
 
   }
-});
+
+  nr.endTransaction();
+}));
 
 function startGameInterval(roomName) {
   const intervalId = setInterval(() => {
