@@ -17,7 +17,7 @@ io.on('connection', client => {
     client.on('confirmedScore', newRelic.startBackgroundTransaction('confirmedScore', handleConfirmedScore));
     client.on('joinGame', newRelic.startBackgroundTransaction('joinGame', handleJoinGame));
   
-    function handleJoinGame(message) {
+    async function handleJoinGame(message) {
       initPoison(message.roomName);
       state[message.roomName] = initGame(message.roomName);
       const room = io.sockets.adapter.rooms[message.roomName]
@@ -69,17 +69,17 @@ io.on('connection', client => {
       startGameInterval(message.roomName);
     }
   
-    function handleRecievedCaptcha(data) {
+    async function handleRecievedCaptcha(data) {
       let roomName = clientRooms[client.id]
       stopSendingCaptcha(roomName)
     }
   
-    function handleConfirmedScore(data) {
+    async function handleConfirmedScore(data) {
       let roomName = data
       state[data].confirmed = true
     }
   
-    function handleNewGame() {
+    async function handleNewGame() {
       let roomName = makeid(10);
       clientRooms[client.id] = roomName;
       client.emit('gameCode', roomName);
@@ -90,7 +90,7 @@ io.on('connection', client => {
       client.emit('init', 2);
     }
   
-    function handleKeydown(keyCode) {
+    async function handleKeydown(keyCode) {
       // console.log('keystroke', client.id)
       const roomName = clientRooms[client.id];
       if (!roomName) {
