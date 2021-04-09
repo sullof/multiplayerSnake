@@ -11,85 +11,66 @@ const clientRooms = {};
 
 
 io.on('connection', client => {
-    client.on('keydown', newRelic.startBackgroundTransaction('keydown', () => {
-      handleKeydown();
-
-      newRelic.endTransaction();
-    }));
-
-    client.on('newGame', newRelic.startBackgroundTransaction('newGame', () => {
-      handleNewGame();
-
-      newRelic.endTransaction();
-    }));
-    client.on('recievedCaptcha', newRelic.startBackgroundTransaction('recievedCaptcha', () => {
-      handleRecievedCaptcha();
-
-      newRelic.endTransaction();
-    }));
-
-    client.on('confirmedScore', newRelic.startBackgroundTransaction('confirmedScore', () => {
-      handleConfirmedScore();
-
-      newRelic.endTransaction();
-    } ));
-
-    client.on('joinGame', newRelic.startBackgroundTransaction('joinGame',() => {
-      handleJoinGame();
-
-      newRelic.endTransaction();
-    }));
+    client.on('keydown', handleKeydown);
+    client.on('newGame', handleNewGame);
+    client.on('recievedCaptcha',handleRecievedCaptcha);
+    client.on('confirmedScore', handleConfirmedScore);
+    client.on('joinGame', handleJoinGame);
   
     async function handleJoinGame(message) {
-      initPoison(message.roomName);
-      state[message.roomName] = initGame(message.roomName);
-      const room = io.sockets.adapter.rooms[message.roomName]
-      // console.log('joined: ', message.screenSize, message.screenSize.width, message.screenSize.height)
-      try {
-        if (message.screenSize.width < 481) {
-          console.log('setting grid to 20x20')
-          state[message.roomName].gridX = 20
-          state[message.roomName].gridY = 20
+      newRelic.startBackgroundTransaction('JoinGame', () => {
+        initPoison(message.roomName);
+        state[message.roomName] = initGame(message.roomName);
+        const room = io.sockets.adapter.rooms[message.roomName]
+        // console.log('joined: ', message.screenSize, message.screenSize.width, message.screenSize.height)
+        try {
+          if (message.screenSize.width < 481) {
+            console.log('setting grid to 20x20')
+            state[message.roomName].gridX = 20
+            state[message.roomName].gridY = 20
+          }
+          else {
+            console.log('setting grid to 16x32')
+            state[message.roomName].gridX = 32
+            state[message.roomName].gridY = 16
+          }
         }
-        else {
-          console.log('setting grid to 16x32')
-          state[message.roomName].gridX = 32
-          state[message.roomName].gridY = 16
+        catch(error) {
+          console.log('caught some shit in screen size')
+          console.log(error)
         }
-      }
-      catch(error) {
-        console.log('caught some shit in screen size')
-        console.log(error)
-      }
-      randomFood(state[message.roomName])
-      state[message.roomName].startTime = new Date()
-      state[message.roomName].timer = new Date();
-      state[message.roomName].timer.setMinutes( state[message.roomName].timer.getMinutes() + 1 );
-      state[message.roomName].lastFood = new Date()
-      let allUsers;
-      if (room) {
-        allUsers = room.sockets;
-      }
+        randomFood(state[message.roomName])
+        state[message.roomName].startTime = new Date()
+        state[message.roomName].timer = new Date();
+        state[message.roomName].timer.setMinutes( state[message.roomName].timer.getMinutes() + 1 );
+        state[message.roomName].lastFood = new Date()
+        let allUsers;
+        if (room) {
+          allUsers = room.sockets;
+        }
+    
+        let numClients = 0;
+        if (allUsers) {
+          numClients = Object.keys(allUsers).length;
+        }
+    
+        if (numClients === 0) {
+          client.emit('unknownCode');
+          return;
+        } else if (numClients > 1) {
+          client.emit('tooManyPlayers');
+          return;
+        }
+        clientRooms[client.id] = message.roomName;
+        state[message.roomName].clientID = client.id
   
-      let numClients = 0;
-      if (allUsers) {
-        numClients = Object.keys(allUsers).length;
-      }
-  
-      if (numClients === 0) {
-        client.emit('unknownCode');
-        return;
-      } else if (numClients > 1) {
-        client.emit('tooManyPlayers');
-        return;
-      }
-      clientRooms[client.id] = message.roomName;
-      state[message.roomName].clientID = client.id
-  
-      client.join(message.roomName);
-      client.number = 1;
-      client.emit('init', 1);
-      startGameInterval(message.roomName);
+        client.join(message.roomName);
+        client.number = 1;
+        client.emit('init', 1);
+        startGameInterval(message.roomName);
+
+        newRelic.endTransaction();
+      })      
     }
   
     async function handleRecievedCaptcha(data) {
