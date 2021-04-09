@@ -11,12 +11,11 @@ const clientRooms = {};
 
 
 io.on('connection', client => {
-  newRelic.startWebTransaction('testing', () => {
-    client.on('keydown', handleKeydown);
-    client.on('newGame', handleNewGame);
-    client.on('recievedCaptcha', handleRecievedCaptcha);
-    client.on('confirmedScore', handleConfirmedScore);
-    client.on('joinGame', handleJoinGame);
+    client.on('keydown', newRelic.startBackgroundTransaction('keydown', handleKeydown));
+    client.on('newGame', newRelic.startBackgroundTransaction('newGame', handleNewGame));
+    client.on('recievedCaptcha', newRelic.startBackgroundTransaction('recievedCaptcha',handleRecievedCaptcha));
+    client.on('confirmedScore', newRelic.startBackgroundTransaction('confirmedScore', handleConfirmedScore));
+    client.on('joinGame', newRelic.startBackgroundTransaction('joinGame', handleJoinGame));
   
     function handleJoinGame(message) {
       initPoison(message.roomName);
@@ -125,12 +124,8 @@ io.on('connection', client => {
       }
   
     }
-
-    newRelic.endTransaction();
-  });
- 
- 
 });
+
 
 function startGameInterval(roomName) {
   const intervalId = setInterval(() => {
