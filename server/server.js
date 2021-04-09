@@ -11,11 +11,34 @@ const clientRooms = {};
 
 
 io.on('connection', client => {
-    client.on('keydown', newRelic.startBackgroundTransaction('keydown', handleKeydown));
-    client.on('newGame', newRelic.startBackgroundTransaction('newGame', handleNewGame));
-    client.on('recievedCaptcha', newRelic.startBackgroundTransaction('recievedCaptcha',handleRecievedCaptcha));
-    client.on('confirmedScore', newRelic.startBackgroundTransaction('confirmedScore', handleConfirmedScore));
-    client.on('joinGame', newRelic.startBackgroundTransaction('joinGame', handleJoinGame));
+    client.on('keydown', newRelic.startBackgroundTransaction('keydown', () => {
+      handleKeydown();
+
+      newRelic.endTransaction();
+    }));
+
+    client.on('newGame', newRelic.startBackgroundTransaction('newGame', () => {
+      handleNewGame();
+
+      newRelic.endTransaction();
+    }));
+    client.on('recievedCaptcha', newRelic.startBackgroundTransaction('recievedCaptcha', () => {
+      handleRecievedCaptcha();
+
+      newRelic.endTransaction();
+    }));
+
+    client.on('confirmedScore', newRelic.startBackgroundTransaction('confirmedScore', () => {
+      handleConfirmedScore();
+
+      newRelic.endTransaction();
+    } ));
+
+    client.on('joinGame', newRelic.startBackgroundTransaction('joinGame',() => {
+      handleJoinGame();
+
+      newRelic.endTransaction();
+    }));
   
     async function handleJoinGame(message) {
       initPoison(message.roomName);
