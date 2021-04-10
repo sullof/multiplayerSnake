@@ -2,12 +2,95 @@ const BG_COLOUR = '#231f20';
 const SNAKE_COLOUR = '#ffffff';
 const FOOD_COLOUR = '#e66916';
 
+let isPlaying = false
 const socket = io('http://3.139.87.87:3000');
 const socketPractice = io('http://3.133.132.75:3000');
 
+// or add a minified version to your index.html file
+// https://github.com/geckosio/geckos.io/tree/master/bundles
+
+const channel = geckos({
+  url: 'http://localhost',
+  port: 9208
+})
+
+const channel2 = geckos({
+  url: 'http://localhost',
+  port: 9208
+})
+
+
+console.log('testing')
+channel.onConnect(error => {
+  console.log('connected')
+  if (error) {
+    console.error(error.message)
+    return
+  }
+
+  channel.on('chat message', data => {
+    console.log(`You got the message ${data}`)
+  })
+
+  channel.on('init', data => {
+    handleInit(data)
+  });
+
+  channel.on('gameState', data => {
+    // console.log(data, 'gameState')
+    handleGameState(data)
+  });
+  channel.on('gameCode', data => {
+    handlePracticeCode(data)
+  });
+  channel.on('captcha', data => {
+    console.log('recieved captcha')
+    handleCaptcha(data)
+  });
+  channel.on('sendScore', data => {
+    handleScore(data)
+  });
+  channel.emit('chat message', 'a short message sent to the server')
+})
+
+channel2.onConnect(error => {
+  console.log('connected')
+  if (error) {
+    console.error(error.message)
+    return
+  }
+
+  channel2.on('chat message', data => {
+    console.log(`You got the message ${data}`)
+  })
+
+  channel2.on('init', data => {
+    handleInit(data)
+  });
+
+  channel2.on('gameState', data => {
+    // console.log(data, 'gameState')
+    handleGameState(data)
+  });
+  channel2.on('gameCode', data => {
+    handlePracticeCode(data)
+  });
+  channel2.on('captcha', data => {
+    console.log('recieved captcha')
+    handleCaptcha(data)
+  });
+  channel2.on('sendScore', data => {
+    handleScore(data)
+  });
+  channel2.emit('chat message', 'a short message sent to the server')
+})
 // For Development
 // const socket = io('http://localhost:3000');
 // const socketPractice = io('http://localhost:3000');
+// const channel = geckos({
+//   url: 'http://127.0.0.1',
+//   port: 9208
+// })
 
 socket.on('init', handleInit);
 socket.on('gameState', handleGameState);
@@ -88,9 +171,12 @@ mc.on("swipeup", function() {
 
 const url = new URLSearchParams(window.location.search);
 const code = url.get('gameCode')
-if (code) {
-  console.log('joining game')
-  joinGame()
+if (!isPlaying) {
+  if (code) {
+    // console.log('joining game')
+    joinGame()
+    isPlaying = true
+  }
 }
 
 function joinPractice(gameCode) {
@@ -117,8 +203,12 @@ function joinPractice(gameCode) {
       height: gcanvas.height
     }
   }
-  console.log(message.screenSize)
-  socketPractice.emit('joinGame', message);
+  // console.log(message.screenSize)
+  if (!isPlaying) {
+    channel.emit('joinGame', message)
+    isPlaying = true
+  }
+  // socketPractice.emit('joinGame', message);
   init();
 }
 let playerNumber;
@@ -126,57 +216,64 @@ let gameActive = false;
 
 function newGame() {
   console.log("newGame")
-  socket.emit('newGame');
+  channel2.emit('newGame')
+  // socket.emit('newGame');
 }
 
 function newPractice() {
   console.log("newGame")
-  socketPractice.emit('newGame');
+  channel.emit('newGame')
+  // socketPractice.emit('newGame');
 }
 
 function joinGame() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const code = urlParams.get('gameCode')
-  if (!code) {
-    isPractice = true
-    newPractice()
-  } else {
-    initialScreen.style.display = "none";
-    console.log('setting countdown')
-    countdownScreen.style.display = "block";
-    var timeleft = 3;
-    var downloadTimer = setInterval(function(){
-      if(timeleft <= 0){
-        console.log('starting game')
-        initialScreen.style.display = "none";
-        countdownScreen.style.display = "none";
-        gameScreen.style.display = "block";
-        gcanvas = document.getElementById('gameCanvas');
-        const windowHeight = $('body').innerHeight()
-        const windowWidth = $('body').innerWidth()
-        if (windowWidth < 481) {
-          gcanvas.height = windowHeight * (5/6)
-          gcanvas.width = windowWidth
-        }
-        else {
-          gcanvas.height = windowHeight * (8/9)
-          gcanvas.width = windowWidth
-        }
-        const message = {
-          roomName: code,
-          screenSize: {
-            width: gcanvas.width,
-            height: gcanvas.height
+  if (!isPlaying) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('gameCode')
+    if (!code) {
+      isPractice = true
+      newPractice()
+    } else {
+      initialScreen.style.display = "none";
+      console.log('setting countdown')
+      countdownScreen.style.display = "block";
+      var timeleft = 3;
+      var downloadTimer = setInterval(function(){
+        if(timeleft <= 0){
+          console.log('starting game')
+          initialScreen.style.display = "none";
+          countdownScreen.style.display = "none";
+          gameScreen.style.display = "block";
+          gcanvas = document.getElementById('gameCanvas');
+          const windowHeight = $('body').innerHeight()
+          const windowWidth = $('body').innerWidth()
+          if (windowWidth < 481) {
+            gcanvas.height = windowHeight * (5/6)
+            gcanvas.width = windowWidth
           }
+          else {
+            gcanvas.height = windowHeight * (8/9)
+            gcanvas.width = windowWidth
+          }
+          const message = {
+            roomName: code,
+            screenSize: {
+              width: gcanvas.width,
+              height: gcanvas.height
+            }
+          }
+          if (!isPlaying) {
+            channel2.emit('joinGame', message)
+            isPlaying = true
+          }
+          init()
+          clearInterval(downloadTimer);
+        } else {
+          countdown.innerHTML = timeleft
         }
-        socket.emit('joinGame', message);
-        init()
-        clearInterval(downloadTimer);
-      } else {
-        countdown.innerHTML = timeleft
-      }
-      timeleft -= 1;
-    }, 1000)
+        timeleft -= 1;
+      }, 1000)
+    }
   }
 }
 
@@ -192,9 +289,9 @@ function init() {
 function keydown(e) {
   // console.log(e.keyCode)
   if (isPractice) {
-    socketPractice.emit('keydown', e.keyCode);
+    channel.emit('keydown', e.keyCode);
   } else {
-    socket.emit('keydown', e.keyCode);
+    channel2.emit('keydown', e.keyCode);
   }
 }
 
@@ -291,16 +388,18 @@ function handleInit(number) {
 }
 
 function handleCaptcha(url) {
+  console.log('recieved', url)
   img.src=url;
   if (isPractice) {
-    socketPractice.emit('recievedCaptcha')
+    channel.emit('recievedCaptcha')
   }
   else {
-    socket.emit('recievedCaptcha')
+    channel2.emit('recievedCaptcha')
   }
 }
 
 function handleGameState(gameState) {
+  // console.log('handling game state', gameState)
   if (!gameActive) {
     return;
   }
@@ -401,7 +500,6 @@ function handleTooManyPlayers() {
 
 function reset() {
   playerNumber = null;
-  // gameCodeInput.value = '';
   initialScreen.style.display = "block";
   gameScreen.style.display = "none";
   isPractice = false

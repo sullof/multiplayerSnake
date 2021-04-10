@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" type="text/css" href="css/base.css" />
 	<link rel="stylesheet" type="text/css" href="css/demo3.css" />
+  <script src="js/geckos.io-client.1.6.1.min.js"></script>
   <script src="https://kit.fontawesome.com/9ac6cfa819.js" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -82,16 +83,16 @@
 
    <script>
 
-    // disable double click on buttons 
+    // disable double click on buttons
     $(":button").click(function() {
       $(this).prop("disabled",true);
     });
-    
+
     //reactivate click on buttons {prevent any bug that can occurs}
     $(":button").click(function() {
       var btn = this;
         setTimeout(function() {
-          btn.disabled =  false; 
+          btn.disabled =  false;
         }, 3000);
     });
   </script>
@@ -102,6 +103,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
   <script src="index.js"></script>
+  <!-- <script src="https://github.com/geckosio/geckos.io/tree/master/bundles"></script> -->
 
 
 
