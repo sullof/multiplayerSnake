@@ -1,6 +1,4 @@
 const io = require('socket.io')();
-const newRelic = require('newrelic');
-
 
 const { sendCaptcha, stopSendingCaptcha, initGame, initPoison, randomFood, gameLoop, getUpdatedVelocity } = require('./game');
 const { FRAME_RATE } = require('./constants');
@@ -129,11 +127,6 @@ io2.onConnection(channel => {
       // client.emit('init', 2);
       channel.emit('init', 2);
     }
-  
-    async function handleConfirmedScore(data) {
-      newRelic.startBackgroundTransaction('confirmedScore', () => {
-        let roomName = data
-        state[data].confirmed = true
 
     function handleKeydown(keyCode, clientID) {
       console.log('keystroke', clientID)
@@ -259,44 +252,27 @@ io.on('connection', client => {
     if (!roomName) {
       return;
     }
-  
-    async function handleKeydown(keyCode) {
-      newRelic.startBackgroundTransaction('Keydown',() => {
-          // console.log('keystroke', client.id)
-        const roomName = clientRooms[client.id];
-        if (!roomName) {
-          return;
-        }
-        try {
-          keyCode = parseInt(keyCode);
-        } catch(e) {
-          console.error(e);
-          return;
-        }
-        try {
-          if(state[roomName]) {
-            currentVelocity = state[roomName].players[0].vel
-            const vel = getUpdatedVelocity(keyCode, currentVelocity, state[roomName]);
-    
-            if (vel) {
-              try {
-                state[roomName].players[client.number - 1].vel = vel;
-              }
-              catch(error) {
-                console.log('caught some shit trying to set velocity!')
-                console.log(error)
-              }
-            }
+    try {
+      keyCode = parseInt(keyCode);
+    } catch(e) {
+      console.error(e);
+      return;
+    }
+    try {
+      if(state[roomName]) {
+        currentVelocity = state[roomName].players[0].vel
+        const vel = getUpdatedVelocity(keyCode, currentVelocity, state[roomName]);
+
+        if (vel) {
+          try {
+            state[roomName].players[client.number - 1].vel = vel;
+          }
+          catch(error) {
+            console.log('caught some shit trying to set velocity!')
+            console.log(error)
           }
         }
-        catch(error) {
-          console.log('caught some shit getting velocity!')
-          console.log(error)
-        }
-
-
-        newRelic.endTransaction();
-      })
+      }
     }
     catch(error) {
       console.log('caught some shit getting velocity!')
@@ -310,8 +286,7 @@ io.on('connection', client => {
 
 
 function startGameInterval(roomName) {
-  newRelic.startBackgroundTransaction('startGameInterval', () => {
-    const intervalId = setInterval(() => {
+  const intervalId = setInterval(() => {
 
     const winner = gameLoop(state[roomName]);
     const url = sendCaptcha(roomName)
@@ -324,19 +299,17 @@ function startGameInterval(roomName) {
           // console.log('theres a captcha')
           emitCaptcha(roomName, url)
         }
-        catch(error) {
-          console.log(error)
-        }
-      } else {
-        emitGameOver(roomName, winner);
-        state[roomName].endTime = new Date()
-        state[roomName] = null;
-        clearInterval(intervalId);
       }
-    }, 1000 / FRAME_RATE);
-
-    newRelic.endTransaction();
-  })
+      catch(error) {
+        console.log(error)
+      }
+    } else {
+      emitGameOver(roomName, winner);
+      state[roomName].endTime = new Date()
+      state[roomName] = null;
+      clearInterval(intervalId);
+    }
+  }, 1000 / FRAME_RATE);
 }
 
 function emitGameState(room, gameState) {
@@ -397,7 +370,7 @@ function emitGameOver(room, winner) {
     io.sockets.in(room)
       .emit('sendScore', scoreMessage);
 
-    
+
 
 
   } catch(error) {

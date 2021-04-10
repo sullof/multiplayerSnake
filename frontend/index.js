@@ -10,11 +10,13 @@ const socketPractice = io('http://3.133.132.75:3000');
 // https://github.com/geckosio/geckos.io/tree/master/bundles
 
 const channel = geckos({
+  // url: 'http://localhost',
   url: 'http://3.133.132.75',
   port: 9208
 })
 
 const channel2 = geckos({
+  // url: 'http://localhost',
   url: 'http://3.139.87.87',
   port: 9208
 })
