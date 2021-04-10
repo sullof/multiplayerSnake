@@ -365,8 +365,12 @@ function emitGameOver(room, winner) {
       gameCode: room
     }
 
+    io2.room(state[room].clientID).emit('sendScore', scoreMessage)
+
     io.sockets.in(room)
       .emit('sendScore', scoreMessage);
+
+    
 
 
   } catch(error) {

@@ -10,12 +10,12 @@ const socketPractice = io('http://3.133.132.75:3000');
 // https://github.com/geckosio/geckos.io/tree/master/bundles
 
 const channel = geckos({
-  url: 'http://3.133.132.75',
+  url: 'http://localhost',
   port: 9208
 })
 
 const channel2 = geckos({
-  url: 'http://3.139.87.87',
+  url: 'http://localhost',
   port: 9208
 })
 
@@ -47,6 +47,9 @@ channel.onConnect(error => {
     console.log('recieved captcha')
     handleCaptcha(data)
   });
+  channel.on('sendScore', data => {
+    handleScore(data)
+  });
   channel.emit('chat message', 'a short message sent to the server')
 })
 
@@ -75,6 +78,9 @@ channel2.onConnect(error => {
   channel2.on('captcha', data => {
     console.log('recieved captcha')
     handleCaptcha(data)
+  });
+  channel2.on('sendScore', data => {
+    handleScore(data)
   });
   channel2.emit('chat message', 'a short message sent to the server')
 })
