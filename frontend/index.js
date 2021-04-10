@@ -10,7 +10,12 @@ const socketPractice = io('http://3.133.132.75:3000');
 // https://github.com/geckosio/geckos.io/tree/master/bundles
 
 const channel = geckos({
-  url: 'http://localhost',
+  url: 'http://3.133.132.75',
+  port: 9208
+})
+
+const channel2 = geckos({
+  url: 'http://3.139.87.87',
   port: 9208
 })
 
@@ -39,9 +44,39 @@ channel.onConnect(error => {
     handlePracticeCode(data)
   });
   channel.on('captcha', data => {
+    console.log('recieved captcha')
     handleCaptcha(data)
   });
   channel.emit('chat message', 'a short message sent to the server')
+})
+
+channel2.onConnect(error => {
+  console.log('connected')
+  if (error) {
+    console.error(error.message)
+    return
+  }
+
+  channel2.on('chat message', data => {
+    console.log(`You got the message ${data}`)
+  })
+
+  channel2.on('init', data => {
+    handleInit(data)
+  });
+
+  channel2.on('gameState', data => {
+    // console.log(data, 'gameState')
+    handleGameState(data)
+  });
+  channel2.on('gameCode', data => {
+    handlePracticeCode(data)
+  });
+  channel2.on('captcha', data => {
+    console.log('recieved captcha')
+    handleCaptcha(data)
+  });
+  channel2.emit('chat message', 'a short message sent to the server')
 })
 // For Development
 // const socket = io('http://localhost:3000');
@@ -175,13 +210,14 @@ let gameActive = false;
 
 function newGame() {
   console.log("newGame")
-  socket.emit('newGame');
+  channel2.emit('newGame')
+  // socket.emit('newGame');
 }
 
 function newPractice() {
   console.log("newGame")
   channel.emit('newGame')
-  socketPractice.emit('newGame');
+  // socketPractice.emit('newGame');
 }
 
 function joinGame() {
@@ -220,7 +256,10 @@ function joinGame() {
               height: gcanvas.height
             }
           }
-          socket.emit('joinGame', message);
+          if (!isPlaying) {
+            channel2.emit('joinGame', message)
+            isPlaying = true
+          }
           init()
           clearInterval(downloadTimer);
         } else {
@@ -246,7 +285,7 @@ function keydown(e) {
   if (isPractice) {
     channel.emit('keydown', e.keyCode);
   } else {
-    socket.emit('keydown', e.keyCode);
+    channel2.emit('keydown', e.keyCode);
   }
 }
 
@@ -343,12 +382,13 @@ function handleInit(number) {
 }
 
 function handleCaptcha(url) {
+  console.log('recieved', url)
   img.src=url;
   if (isPractice) {
     channel.emit('recievedCaptcha')
   }
   else {
-    socket.emit('recievedCaptcha')
+    channel2.emit('recievedCaptcha')
   }
 }
 
@@ -454,7 +494,6 @@ function handleTooManyPlayers() {
 
 function reset() {
   playerNumber = null;
-  // gameCodeInput.value = '';
   initialScreen.style.display = "block";
   gameScreen.style.display = "none";
   isPractice = false

@@ -46,7 +46,7 @@ io2.onConnection(channel => {
     handleNewGame(channelID)
   });
   channel.on('recievedCaptcha', data => {
-    handleRecievedCaptcha(data)
+    handleRecievedCaptcha(data, channel.id)
   });
   channel.on('confirmedScore', data => {
     handleConfirmedScore(data)
@@ -105,8 +105,8 @@ io2.onConnection(channel => {
       }
     }
 
-    function handleRecievedCaptcha(data) {
-      let roomName = clientRooms[client.id]
+    function handleRecievedCaptcha(data, clientID) {
+      let roomName = clientRooms[clientID]
       stopSendingCaptcha(roomName)
     }
 
@@ -351,9 +351,11 @@ function emitGameState(room, gameState) {
 
 function emitCaptcha(room, url) {
   // Send this event to everyone in the room.
-  // console.log('emitting captcha')
-  io.sockets.in(room)
-    .emit('captcha', url);
+  console.log('emitting captcha', url)
+  console.log(state[room].clientID)
+  io2.room(state[room].clientID).emit('captcha', url)
+  // io.sockets.in(room)
+  //   .emit('captcha', url);
 }
 
 function emitGameOver(room, winner) {
