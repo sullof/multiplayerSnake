@@ -13,4 +13,4 @@ npm install
 nodemon server
 =======
 >>>>>>> Update README.md
->>>>>>> Testing pipeline
+>>>>>>> Testing pipeline.
