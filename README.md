@@ -12,5 +12,5 @@ cd multiplayerSnake
 npm install
 nodemon server
 =======
-Testing pipeline
+Testing pipeline.
 >>>>>>> Update README.md
