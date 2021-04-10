@@ -12,4 +12,4 @@ cd multiplayerSnake
 npm install
 nodemon server
 =======
->>>>>>> Update README.md
+>>>>>>> Update README.md.
