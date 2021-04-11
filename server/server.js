@@ -1,6 +1,9 @@
-const io = require('socket.io')(null,{
-  origins: '*:*'
-});
+const cors = require('cors');
+const http = require('http');
+const express = require('express');
+const socket = require('socket.io');
+
+
 
 const newRelic = require('newrelic');
 
@@ -10,6 +13,13 @@ const { makeid } = require('./utils');
 
 const state = {};
 const clientRooms = {};
+
+const app = express();
+const server = http.createServer(app);
+const io = socket(server,{
+  origins: '*:*'
+});
+
 
 io.on('connection', client => {
     client.on('keydown', handleKeydown);
@@ -249,4 +259,6 @@ function emitGameOver(room, winner) {
   //   .emit('gameOver', JSON.stringify({ winner }));
 }
 
-io.listen(process.env.PORT || 3000);
+server.listen(process.env.PORT || 3000, () => {
+  console.log('Server is running at port', process.env.PORT || 3000)
+});
