@@ -2,12 +2,12 @@ const BG_COLOUR = '#231f20';
 const SNAKE_COLOUR = '#ffffff';
 const FOOD_COLOUR = '#e66916';
 
-// const socket = io('http://3.139.87.87:3000');
-// const socketPractice = io('http://3.133.132.75:3000');
+const socket = io('http://52.14.108.170:3000');
+const socketPractice = io('http://52.14.108.170:3000');
 
 // For Development
-const socket = io('http://localhost:3000');
-const socketPractice = io('http://localhost:3000');
+// const socket = io('http://localhost:3000');
+// const socketPractice = io('http://localhost:3000');
 
 socket.on('init', handleInit);
 socket.on('gameState', handleGameState);
@@ -50,7 +50,7 @@ var mc = new Hammer(gameScreen);
 
 mc.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
 
-mc.on("swipeleft", function() {
+mc.on("swipeleft", function () {
   console.log('left')
   if (isPractice) {
     socketPractice.emit('keydown', 65);
@@ -59,7 +59,7 @@ mc.on("swipeleft", function() {
   }
 });
 
-mc.on("swiperight", function() {
+mc.on("swiperight", function () {
   console.log('right')
   if (isPractice) {
     socketPractice.emit('keydown', 68);
@@ -68,7 +68,7 @@ mc.on("swiperight", function() {
   }
 });
 
-mc.on("swipedown", function() {
+mc.on("swipedown", function () {
   console.log('down')
   if (isPractice) {
     socketPractice.emit('keydown', 83);
@@ -77,7 +77,7 @@ mc.on("swipedown", function() {
   }
 });
 
-mc.on("swipeup", function() {
+mc.on("swipeup", function () {
   console.log('up')
   if (isPractice) {
     socketPractice.emit('keydown', 87);
@@ -93,7 +93,7 @@ if (code) {
   joinGame()
 }
 
-function joinPractice(gameCode) {
+function joinPractice (gameCode) {
   initialScreen.style.display = "none";
   countdownScreen.style.display = "none";
   gameScreen.style.display = "block";
@@ -122,17 +122,17 @@ function joinPractice(gameCode) {
 let playerNumber;
 let gameActive = false;
 
-function newGame() {
+function newGame () {
   console.log("newGame")
   socket.emit('newGame');
 }
 
-function newPractice() {
+function newPractice () {
   console.log("newGame")
   socketPractice.emit('newGame');
 }
 
-function joinGame() {
+function joinGame () {
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get('gameCode')
   if (!code) {
@@ -143,8 +143,8 @@ function joinGame() {
     console.log('setting countdown')
     countdownScreen.style.display = "block";
     var timeleft = 3;
-    var downloadTimer = setInterval(function(){
-      if(timeleft <= 0){
+    var downloadTimer = setInterval(function () {
+      if (timeleft <= 0) {
         console.log('starting game')
         initialScreen.style.display = "none";
         countdownScreen.style.display = "none";
@@ -178,7 +178,7 @@ function joinGame() {
   }
 }
 
-function init() {
+function init () {
   initialScreen.style.display = "none";
   countdownScreen.style.display = "none";
   gameScreen.style.display = "block";
@@ -187,7 +187,7 @@ function init() {
   gameActive = true;
 }
 
-function keydown(e) {
+function keydown (e) {
   console.log(e.keyCode)
   if (isPractice) {
     socketPractice.emit('keydown', e.keyCode);
@@ -196,32 +196,32 @@ function keydown(e) {
   }
 }
 
-function paintGame(state) {
+function paintGame (state) {
   time.innerText = state.currentTime;
 
   ctx3.clearRect(0, 0, gcanvas.width, gcanvas.height);
 
-  if (state.food){
+  if (state.food) {
     let food = state.food
     let sizeX = null
     let sizeY = null
     if (gcanvas.width < 401) {
       console.log('grid', state.gridX, state.gridY)
-      sizeX = gcanvas.width/(state.gridX)
-      sizeY = gcanvas.height/(state.gridY)
+      sizeX = gcanvas.width / (state.gridX)
+      sizeY = gcanvas.height / (state.gridY)
       ctx3.fillStyle = 'rgba(0,0,0,0)'
-      ctx3.fillRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY))
+      ctx3.fillRect(0, 0, (sizeX * state.gridX), (sizeY * state.gridY))
     }
     else {
       console.log('grid', state.gridX, state.gridY)
-      sizeX = gcanvas.width/(state.gridX)
-      sizeY = gcanvas.height/(state.gridY)
+      sizeX = gcanvas.width / (state.gridX)
+      sizeY = gcanvas.height / (state.gridY)
       ctx3.fillStyle = 'rgba(0,0,0,0)'
-      ctx3.fillRect(0, 0, (sizeX*state.gridX), (sizeY*state.gridY))
+      ctx3.fillRect(0, 0, (sizeX * state.gridX), (sizeY * state.gridY))
     }
     let color1 = null
     let color2 = null
-    switch(state.food[0].index) {
+    switch (state.food[0].index) {
       case 0:
         color1 = '#00ff00'
         break;
@@ -241,7 +241,7 @@ function paintGame(state) {
         color1 = '#ffff00'
         break;
     }
-    switch(state.food[1].index) {
+    switch (state.food[1].index) {
       case 0:
         color2 = '#00ff00'
         break;
@@ -275,7 +275,7 @@ function paintGame(state) {
   }
 }
 
-function paintPlayer(playerState, sizeX, sizeY, colour) {
+function paintPlayer (playerState, sizeX, sizeY, colour) {
   const snake = playerState.snake;
 
   ctx3.fillStyle = colour;
@@ -284,12 +284,12 @@ function paintPlayer(playerState, sizeX, sizeY, colour) {
   }
 }
 
-function handleInit(number) {
+function handleInit (number) {
   playerNumber = 1;
 }
 
-function handleCaptcha(url) {
-  img.src=url;
+function handleCaptcha (url) {
+  img.src = url;
   if (isPractice) {
     socketPractice.emit('recievedCaptcha')
   }
@@ -298,13 +298,13 @@ function handleCaptcha(url) {
   }
 }
 
-function handleGameState(gameState) {
+function handleGameState (gameState) {
   if (!gameActive) {
     return;
   }
 
   var bufView = new Uint8Array(gameState);
-    console.log(gameState)
+  console.log(gameState)
   state = {
     players: [
       {
@@ -339,13 +339,13 @@ function handleGameState(gameState) {
     }],
     gridX: bufView[8],
     gridY: bufView[9],
-    currentTime:bufView[10]
+    currentTime: bufView[10]
   }
-  for (x = 0; x < (bufView.length-11)/2; x++){
+  for (x = 0; x < (bufView.length - 11) / 2; x++) {
     let index = 11 + (x * 2)
     let pos = {
       x: bufView[index],
-      y: bufView[index+1]
+      y: bufView[index + 1]
     }
     state.players[0].snake.push(pos)
   }
@@ -354,7 +354,7 @@ function handleGameState(gameState) {
   // requestAnimationFrame(() => paintGame(gameState))
 }
 
-function handleGameOver(data) {
+function handleGameOver (data) {
   if (!gameActive) {
     return;
   }
@@ -372,32 +372,32 @@ function handleGameOver(data) {
   isPractice = false
 }
 
-function handleScore(data) {
+function handleScore (data) {
   scoreDisplay.innerText = data.score;
   gameScreen.style.display = "none";
   scoreScreen.style.display = "block";
   console.log(data.score)
 }
 
-function handlePracticeCode(gameCode) {
+function handlePracticeCode (gameCode) {
   joinPractice(gameCode)
 }
 
-function handleGameCode(gameCode) {
+function handleGameCode (gameCode) {
   console.log(gameCode)
 }
 
-function handleUnknownCode() {
+function handleUnknownCode () {
   reset();
   alert('Unknown Game Code')
 }
 
-function handleTooManyPlayers() {
+function handleTooManyPlayers () {
   reset();
   alert('This game is already in progress');
 }
 
-function reset() {
+function reset () {
   playerNumber = null;
   // gameCodeInput.value = '';
   initialScreen.style.display = "block";
