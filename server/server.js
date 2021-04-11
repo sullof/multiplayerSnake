@@ -1,9 +1,8 @@
 const io = require('socket.io')(null,{
   origins: '*:*'
 });
+
 const newRelic = require('newrelic');
-
-
 
 const { sendCaptcha, stopSendingCaptcha, initGame, initPoison, randomFood, gameLoop, getUpdatedVelocity } = require('./game');
 const { FRAME_RATE } = require('./constants');
@@ -147,7 +146,6 @@ io.on('connection', client => {
       })
     }
 });
-
 
 function startGameInterval(roomName) {
   newRelic.startBackgroundTransaction('startGameInterval', () => {

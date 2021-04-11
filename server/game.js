@@ -234,11 +234,12 @@ function randomColors(state) {
     state.food[0].index = firstNumber
     state.food[1].color = COLORS[secondNumber]
     state.food[1].index = secondNumber
-    randomPoison(state);
+    // randomPoison(state);
   }
 }
 
 function randomPoison(state) {
+  console.time('Captcha')
   poison[state.roomName].number = Math.round(Math.random())
   poisonColor = state.food[poison[state.roomName].number].color.name
   let array = IMAGES.filter(image => image.color == poisonColor)
@@ -246,6 +247,7 @@ function randomPoison(state) {
   poison[state.roomName].url = array[0].imgURLs[rand]
   poison[state.roomName].needToSend = true
   state.imgURL = array[0].imgURLs[rand]
+  console.timeEnd('Captcha')
 }
 
 function getUpdatedVelocity(keyCode, currentVelocity, state) {
