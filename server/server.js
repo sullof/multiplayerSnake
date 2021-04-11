@@ -1,4 +1,6 @@
-const io = require('socket.io')();
+const io = require('socket.io')(null,{
+  origins: 'snakedev.frontend.scoremilk.com'
+});
 const newRelic = require('newrelic');
 
 
@@ -9,8 +11,6 @@ const { makeid } = require('./utils');
 
 const state = {};
 const clientRooms = {};
-
-io.origins('https://snakedev.frontend.scoremilk.com/');
 
 io.on('connection', client => {
     client.on('keydown', handleKeydown);
