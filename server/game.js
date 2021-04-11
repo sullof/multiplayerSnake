@@ -234,7 +234,7 @@ function randomColors(state) {
     state.food[0].index = firstNumber
     state.food[1].color = COLORS[secondNumber]
     state.food[1].index = secondNumber
-    // randomPoison(state);
+    randomPoison(state);
   }
 }
 
