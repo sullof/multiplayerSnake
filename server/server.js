@@ -1,5 +1,6 @@
-const io = require('socket.io')(null, {origins: 'https://snakedev.frontend.scoremilk.com'});
+const io = require('socket.io')();
 const newRelic = require('newrelic');
+
 
 
 const { sendCaptcha, stopSendingCaptcha, initGame, initPoison, randomFood, gameLoop, getUpdatedVelocity } = require('./game');
@@ -9,6 +10,7 @@ const { makeid } = require('./utils');
 const state = {};
 const clientRooms = {};
 
+io.origins(['https://snakedev.frontend.scoremilk.com']);
 
 io.on('connection', client => {
     client.on('keydown', handleKeydown);
