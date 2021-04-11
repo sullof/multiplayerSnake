@@ -1,11 +1,9 @@
-const cors = require('cors');
-const http = require('http');
-const express = require('express');
-const socket = require('socket.io');
-
-
-
+const io = require('socket.io')(null,{
+  origins: '*:*'
+});
 const newRelic = require('newrelic');
+
+
 
 const { sendCaptcha, stopSendingCaptcha, initGame, initPoison, randomFood, gameLoop, getUpdatedVelocity } = require('./game');
 const { FRAME_RATE } = require('./constants');
@@ -14,11 +12,6 @@ const { makeid } = require('./utils');
 const state = {};
 const clientRooms = {};
 
-const app = express();
-const server = http.createServer(app);
-const io = socket(server,{
-  origins: '*:*'
-});
 
 
 io.on('connection', client => {
@@ -157,6 +150,7 @@ io.on('connection', client => {
     }
 });
 
+
 function startGameInterval(roomName) {
   newRelic.startBackgroundTransaction('startGameInterval', () => {
     const intervalId = setInterval(() => {
@@ -259,6 +253,4 @@ function emitGameOver(room, winner) {
   //   .emit('gameOver', JSON.stringify({ winner }));
 }
 
-server.listen(process.env.PORT || 3000, () => {
-  console.log('Server is running at port', process.env.PORT || 3000)
-});
+io.listen(process.env.PORT || 3000);
