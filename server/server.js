@@ -1,5 +1,5 @@
 const io = require('socket.io')(null,{
-  origins: 'snakedev.frontend.scoremilk.com'
+  origins: 'https://snakedev.frontend.scoremilk.com'
 });
 const newRelic = require('newrelic');
 
