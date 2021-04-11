@@ -10,7 +10,7 @@ const { makeid } = require('./utils');
 const state = {};
 const clientRooms = {};
 
-io.origins(['https://snakedev.frontend.scoremilk.com']);
+io.origins(['https://snakedev.frontend.scoremilk.com/', 'https://test.scoremilk.com/']);
 
 io.on('connection', client => {
     client.on('keydown', handleKeydown);
