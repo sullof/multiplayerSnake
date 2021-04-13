@@ -205,7 +205,7 @@ function checkIfPoison(state, foodNumber) {
 
 function randomFood(state) {
   return newRelic.startBackgroundTransaction('randomFood', () => {
-    gridWidth = state.gridX - 2
+  gridWidth = state.gridX - 2
   gridHeight = state.gridY - 2
   const food = [
     {
@@ -222,34 +222,34 @@ function randomFood(state) {
     }
   ]
 
-  if (food[0].x === food[1].x && food[0].y === food[1].y) {
-    return randomFood(state);
-  }
+  // if (food[0].x === food[1].x && food[0].y === food[1].y) {
+  //   return randomFood(state);
+  // }
 
-  for (let i = 0; i < 4; i++) {
-    let nextBlock = { x: null, y: null }
-    nextBlock.x = state.players[0].pos.x + (state.players[0].vel.x * i)
-    nextBlock.y = state.players[0].pos.y + (state.players[0].vel.y * i)
-    console.log('next block', nextBlock)
-    if (nextBlock.x === food[0].x && nextBlock.y === food[0].y){
-      return randomFood(state);
-    }
-    if (nextBlock.x === food[1].x && nextBlock.y === food[1].y){
-      return randomFood(state);
-    }
-  }
+  // for (let i = 0; i < 4; i++) {
+  //   let nextBlock = { x: null, y: null }
+  //   nextBlock.x = state.players[0].pos.x + (state.players[0].vel.x * i)
+  //   nextBlock.y = state.players[0].pos.y + (state.players[0].vel.y * i)
+  //   console.log('next block', nextBlock)
+  //   if (nextBlock.x === food[0].x && nextBlock.y === food[0].y){
+  //     return randomFood(state);
+  //   }
+  //   if (nextBlock.x === food[1].x && nextBlock.y === food[1].y){
+  //     return randomFood(state);
+  //   }
+  // }
 
-  for (let cell of state.players[0].snake) {
-    if (cell.x === food[0].x && cell.y === food[0].y) {
-      return randomFood(state);
-    }
-  }
+  // for (let cell of state.players[0].snake) {
+  //   if (cell.x === food[0].x && cell.y === food[0].y) {
+  //     return randomFood(state);
+  //   }
+  // }
 
-  for (let cell of state.players[0].snake) {
-    if (cell.x === food[1].x && cell.y === food[1].y) {
-      return randomFood(state);
-    }
-  }
+  // for (let cell of state.players[0].snake) {
+  //   if (cell.x === food[1].x && cell.y === food[1].y) {
+  //     return randomFood(state);
+  //   }
+  // }
 
   state.food = food;
   state.sinceLastFood = 0;
