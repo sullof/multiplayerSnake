@@ -15,17 +15,15 @@ module.exports = {
 }
 
 function initGame(roomName) {
-  return newRelic.startBackgroundTransaction('initGame', () => {
-    const state = createGameState(roomName)
-    randomFood(state);
+  const state = createGameState(roomName)
+  randomFood(state);
 
-    newRelic.endTransaction();
-    return state;
-  })
+  
+  return state;
 }
 
 function initPoison(roomName) {
-  return newRelic.startBackgroundTransaction('initPoison', () => {
+  newRelic.startBackgroundTransaction('initPoison', () => {
     poison[roomName] = {
       number: null,
       url: null,
@@ -37,23 +35,16 @@ function initPoison(roomName) {
 }
 
 function sendCaptcha(roomName) {
-  return newRelic.startBackgroundTransaction('sendCaptcha', () => {
-    if (poison[roomName].needToSend){
-      newRelic.endTransaction();
-      return poison[roomName].url
-    }
-    else {
-      newRelic.endTransaction();
-      return null
-    }
-    
-  })
-
-  
+  if (poison[roomName].needToSend){
+    return poison[roomName].url
+  }
+  else {
+    return null
+  }
 }
 
 function stopSendingCaptcha(roomName) {
-  return newRelic.startBackgroundTransaction('stopSendingCaptcha', () => {
+  newRelic.startBackgroundTransaction('stopSendingCaptcha', () => {
     try {
       poison[roomName].needToSend = false
     }
@@ -116,7 +107,6 @@ function createGameState(roomName) {
 }
 
 function gameLoop(state) {
-  return newRelic.startBackgroundTransaction('gameLoop', () => {
     if (!state) {
       return;
     }
@@ -176,12 +166,7 @@ function gameLoop(state) {
       playerTwo.snake.shift();
     }
   
-    newRelic.endTransaction();
-
     return false;
-  })
-
-  
 }
 
 function checkIfPoison(state, foodNumber) {
@@ -196,7 +181,7 @@ function checkIfPoison(state, foodNumber) {
       playerOne.pos.y += playerOne.vel.y;
       state.lastFood = new Date()
       state.foodTimes.push(state.lastFood.getTime() - state.startTime.getTime())
-      // randomFood(state);
+      randomFood(state);
 
       newRelic.endTransaction();
     }
@@ -205,7 +190,7 @@ function checkIfPoison(state, foodNumber) {
 
 function randomFood(state) {
   return newRelic.startBackgroundTransaction('randomFood', () => {
-  gridWidth = state.gridX - 2
+    gridWidth = state.gridX - 2
   gridHeight = state.gridY - 2
   const food = [
     {
@@ -222,40 +207,40 @@ function randomFood(state) {
     }
   ]
 
-  // if (food[0].x === food[1].x && food[0].y === food[1].y) {
-  //   return randomFood(state);
-  // }
+  if (food[0].x === food[1].x && food[0].y === food[1].y) {
+    return randomFood(state);
+  }
 
-  // for (let i = 0; i < 4; i++) {
-  //   let nextBlock = { x: null, y: null }
-  //   nextBlock.x = state.players[0].pos.x + (state.players[0].vel.x * i)
-  //   nextBlock.y = state.players[0].pos.y + (state.players[0].vel.y * i)
-  //   console.log('next block', nextBlock)
-  //   if (nextBlock.x === food[0].x && nextBlock.y === food[0].y){
-  //     return randomFood(state);
-  //   }
-  //   if (nextBlock.x === food[1].x && nextBlock.y === food[1].y){
-  //     return randomFood(state);
-  //   }
-  // }
+  for (let i = 0; i < 4; i++) {
+    let nextBlock = { x: null, y: null }
+    nextBlock.x = state.players[0].pos.x + (state.players[0].vel.x * i)
+    nextBlock.y = state.players[0].pos.y + (state.players[0].vel.y * i)
+    console.log('next block', nextBlock)
+    if (nextBlock.x === food[0].x && nextBlock.y === food[0].y){
+      return randomFood(state);
+    }
+    if (nextBlock.x === food[1].x && nextBlock.y === food[1].y){
+      return randomFood(state);
+    }
+  }
 
-  // for (let cell of state.players[0].snake) {
-  //   if (cell.x === food[0].x && cell.y === food[0].y) {
-  //     return randomFood(state);
-  //   }
-  // }
+  for (let cell of state.players[0].snake) {
+    if (cell.x === food[0].x && cell.y === food[0].y) {
+      return randomFood(state);
+    }
+  }
 
-  // for (let cell of state.players[0].snake) {
-  //   if (cell.x === food[1].x && cell.y === food[1].y) {
-  //     return randomFood(state);
-  //   }
-  // }
+  for (let cell of state.players[0].snake) {
+    if (cell.x === food[1].x && cell.y === food[1].y) {
+      return randomFood(state);
+    }
+  }
 
   state.food = food;
   state.sinceLastFood = 0;
+  randomColors(state)
 
   newRelic.endTransaction();
-  // randomColors(state)
   })  
 }
 
@@ -264,13 +249,13 @@ function randomColors(state) {
     let firstNumber = Math.floor(Math.random() * COLORS.length)
     let secondNumber = Math.floor(Math.random() * COLORS.length)
     if (firstNumber == secondNumber) {
-      // randomColors(state)
+      randomColors(state)
     } else {
       state.food[0].color = COLORS[firstNumber]
       state.food[0].index = firstNumber
       state.food[1].color = COLORS[secondNumber]
       state.food[1].index = secondNumber
-      // randomPoison(state);
+      randomPoison(state);
     }
 
     newRelic.endTransaction();
@@ -369,15 +354,15 @@ function getUpdatedVelocity(keyCode, currentVelocity, state) {
         newBlock.x = player.pos.x + move.x
         newBlock.y = player.pos.y + move.y
         if (newBlock.x === player.snake[player.snake.length - 2].x && newBlock.y === player.snake[player.snake.length - 2].y) {
-          console.log('moving backwards')
+          // console.log('moving backwards')
           return null
         } else {
           if (currentVelocity.x != 1) {
-            console.log('inside')
+            // console.log('inside')
             return { x: -1, y: 0 };
           }
           else {
-            console.log('nothing')
+            // console.log('nothing')
             return null
           }
         }
