@@ -1,6 +1,4 @@
-const BG_COLOUR = '#231f20';
 const SNAKE_COLOUR = '#ffffff';
-const FOOD_COLOUR = '#e66916';
 
 const socket = io('https://snakedev.scoremilk.com');
 const socketPractice = io('https://snakedev.scoremilk.com'); 
@@ -198,31 +196,26 @@ function keydown (e) {
   }
 }
 
-function paintGame (state) {
+function paintGame(state) {
   time.innerText = state.currentTime;
 
   ctx3.clearRect(0, 0, gcanvas.width, gcanvas.height);
 
+  
   if (state.food) {
+
     let food = state.food
     let sizeX = null
     let sizeY = null
-    if (gcanvas.width < 481) {
-      // console.log('grid', state.gridX, state.gridY)
-      sizeX = gcanvas.width / (state.gridX)
-      sizeY = gcanvas.height / (state.gridY)
-      ctx3.fillStyle = 'rgba(0,0,0,0)'
-      ctx3.fillRect(0, 0, (sizeX * state.gridX), (sizeY * state.gridY))
-    }
-    else {
-      // console.log('grid', state.gridX, state.gridY)
-      sizeX = gcanvas.width / (state.gridX)
-      sizeY = gcanvas.height / (state.gridY)
-      ctx3.fillStyle = 'rgba(0,0,0,0)'
-      ctx3.fillRect(0, 0, (sizeX * state.gridX), (sizeY * state.gridY))
-    }
+   
+    sizeX = gcanvas.width / (state.gridX)
+    sizeY = gcanvas.height / (state.gridY)
+    ctx3.fillStyle = 'rgba(0,0,0,0)'
+    ctx3.fillRect(0, 0, (sizeX * state.gridX), (sizeY * state.gridY))
+
     let color1 = null
     let color2 = null
+
     switch (state.food[0].index) {
       case 0:
         color1 = '#00ff00'
@@ -243,6 +236,7 @@ function paintGame (state) {
         color1 = '#ffff00'
         break;
     }
+
     switch (state.food[1].index) {
       case 0:
         color2 = '#00ff00'
@@ -265,15 +259,14 @@ function paintGame (state) {
     }
 
     ctx3.fillStyle = color1
-    // ctx3.fillStyle = state.food[0].color.hex
     ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, sizeX, sizeY);
 
     ctx3.fillStyle = color2
-    // ctx3.fillStyle = state.food[1].color.hex
     ctx3.fillRect(food[1].x * sizeX, food[1].y * sizeY, sizeX, sizeY);
 
     paintPlayer(state.players[0], sizeX, sizeY, SNAKE_COLOUR);
     paintPlayer(state.players[1], sizeX, sizeY, 'red');
+    
   }
 }
 
@@ -301,12 +294,13 @@ function handleCaptcha (url) {
 }
 
 function handleGameState (gameState) {
+
   if (!gameActive) {
     return;
   }
 
-  var bufView = new Uint8Array(gameState);
-  // console.log(gameState)
+  var bufView = new Uint8Array(gameState); 
+
   state = {
     players: [
       {
@@ -343,19 +337,22 @@ function handleGameState (gameState) {
     gridY: bufView[9],
     currentTime: bufView[10]
   }
+
+
   for (x = 0; x < (bufView.length - 11) / 2; x++) {
+
     let index = 11 + (x * 2)
     let pos = {
       x: bufView[index],
       y: bufView[index + 1]
     }
+
     state.players[0].snake.push(pos)
+    
   }
 
   paintGame(state)
-  // requestAnimationFrame(() => );
-  // gameState = JSON.parse(gameState)
-  // requestAnimationFrame(() => paintGame(gameState))
+ 
 }
 
 function handleGameOver (data) {
