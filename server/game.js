@@ -15,7 +15,7 @@ module.exports = {
 }
 
 function initGame(roomName) {
-  newRelic.startBackgroundTransaction('initGame', () => {
+  return newRelic.startBackgroundTransaction('initGame', () => {
     const state = createGameState(roomName)
     randomFood(state);
 
@@ -25,7 +25,7 @@ function initGame(roomName) {
 }
 
 function initPoison(roomName) {
-  newRelic.startBackgroundTransaction('initPoison', () => {
+  return newRelic.startBackgroundTransaction('initPoison', () => {
     poison[roomName] = {
       number: null,
       url: null,
@@ -37,7 +37,7 @@ function initPoison(roomName) {
 }
 
 function sendCaptcha(roomName) {
-  newRelic.startBackgroundTransaction('sendCaptcha', () => {
+  return newRelic.startBackgroundTransaction('sendCaptcha', () => {
     if (poison[roomName].needToSend){
       newRelic.endTransaction();
       return poison[roomName].url
@@ -53,7 +53,7 @@ function sendCaptcha(roomName) {
 }
 
 function stopSendingCaptcha(roomName) {
-  newRelic.startBackgroundTransaction('stopSendingCaptcha', () => {
+  return newRelic.startBackgroundTransaction('stopSendingCaptcha', () => {
     try {
       poison[roomName].needToSend = false
     }
@@ -116,7 +116,7 @@ function createGameState(roomName) {
 }
 
 function gameLoop(state) {
-  newRelic.startBackgroundTransaction('gameLoop', () => {
+  return newRelic.startBackgroundTransaction('gameLoop', () => {
     if (!state) {
       return;
     }
@@ -185,7 +185,7 @@ function gameLoop(state) {
 }
 
 function checkIfPoison(state, foodNumber) {
-  newRelic.startBackgroundTransaction('checkIfPoison', () => {
+  return newRelic.startBackgroundTransaction('checkIfPoison', () => {
     if (foodNumber === poison[state.roomName].number) {
       newRelic.endTransaction();
       return true;
@@ -204,7 +204,7 @@ function checkIfPoison(state, foodNumber) {
 }
 
 function randomFood(state) {
-  newRelic.startBackgroundTransaction('randomFood', () => {
+  return newRelic.startBackgroundTransaction('randomFood', () => {
     gridWidth = state.gridX - 2
   gridHeight = state.gridY - 2
   const food = [
@@ -260,7 +260,7 @@ function randomFood(state) {
 }
 
 function randomColors(state) {
-  newRelic.startBackgroundTransaction('randomColors', () => {
+  return newRelic.startBackgroundTransaction('randomColors', () => {
     let firstNumber = Math.floor(Math.random() * COLORS.length)
     let secondNumber = Math.floor(Math.random() * COLORS.length)
     if (firstNumber == secondNumber) {
@@ -278,7 +278,7 @@ function randomColors(state) {
 }
 
 function randomPoison(state) {
-  newRelic.startBackgroundTransaction('randomPoison', () => {
+  return newRelic.startBackgroundTransaction('randomPoison', () => {
     poison[state.roomName].number = Math.round(Math.random())
     poisonColor = state.food[poison[state.roomName].number].color.name
     let array = IMAGES.filter(image => image.color == poisonColor)
@@ -295,7 +295,7 @@ function randomPoison(state) {
 }
 
 function getUpdatedVelocity(keyCode, currentVelocity, state) {
-  newRelic.startBackgroundTransaction('getUpdatedVelocity', () => {
+  return newRelic.startBackgroundTransaction('getUpdatedVelocity', () => {
     console.log(keyCode)
     let player = state.players[0]
     switch (keyCode) {
