@@ -196,7 +196,7 @@ function checkIfPoison(state, foodNumber) {
       playerOne.pos.y += playerOne.vel.y;
       state.lastFood = new Date()
       state.foodTimes.push(state.lastFood.getTime() - state.startTime.getTime())
-      randomFood(state);
+      // randomFood(state);
 
       newRelic.endTransaction();
     }
@@ -253,9 +253,9 @@ function randomFood(state) {
 
   state.food = food;
   state.sinceLastFood = 0;
-  randomColors(state)
 
   newRelic.endTransaction();
+  // randomColors(state)
   })  
 }
 
@@ -264,13 +264,13 @@ function randomColors(state) {
     let firstNumber = Math.floor(Math.random() * COLORS.length)
     let secondNumber = Math.floor(Math.random() * COLORS.length)
     if (firstNumber == secondNumber) {
-      randomColors(state)
+      // randomColors(state)
     } else {
       state.food[0].color = COLORS[firstNumber]
       state.food[0].index = firstNumber
       state.food[1].color = COLORS[secondNumber]
       state.food[1].index = secondNumber
-      randomPoison(state);
+      // randomPoison(state);
     }
 
     newRelic.endTransaction();
@@ -369,15 +369,15 @@ function getUpdatedVelocity(keyCode, currentVelocity, state) {
         newBlock.x = player.pos.x + move.x
         newBlock.y = player.pos.y + move.y
         if (newBlock.x === player.snake[player.snake.length - 2].x && newBlock.y === player.snake[player.snake.length - 2].y) {
-          // console.log('moving backwards')
+          console.log('moving backwards')
           return null
         } else {
           if (currentVelocity.x != 1) {
-            // console.log('inside')
+            console.log('inside')
             return { x: -1, y: 0 };
           }
           else {
-            // console.log('nothing')
+            console.log('nothing')
             return null
           }
         }
