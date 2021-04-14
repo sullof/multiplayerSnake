@@ -218,6 +218,8 @@ function paintGame(state) {
   */
 
   lastFoodX.push(state.food[0].x)
+  lastFoodY.push(state.food[0].y)
+  console.log(`${lastFoodX} - ${lastFoodY}`)
 
   let sizeX = null
   let sizeY = null
@@ -240,7 +242,7 @@ function paintGame(state) {
   * then it will change only if its position change (player ate the food)
   */
 
-  if(lastFoodX[lastFoodX.length - 1] == lastFoodX[lastFoodX.length - 2]){   
+  if((lastFoodX[lastFoodX.length - 1] == lastFoodX[lastFoodX.length - 2]) && (lastFoodY[lastFoodY.length - 1] == lastFoodY[lastFoodY.length - 2])){   
     
     /* 
     * if the food position is equals to the last position
@@ -248,6 +250,7 @@ function paintGame(state) {
     */
 
     lastFoodX.pop()
+    lastFoodY.pop()
 
     ctx3.fillStyle = lastFood1Props.color
     ctx3.fillRect(lastFood1Props.gridX, lastFood1Props.gridY, lastFood1Props.sizeX, lastFood1Props.sizeY)
