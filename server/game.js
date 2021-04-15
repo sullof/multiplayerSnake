@@ -1,4 +1,5 @@
 const newRelic = require('newrelic');
+const { performance } = require('perf_hooks');
 const { IMAGES, COLORS, GRID_SIZE } = require('./constants');
 let poisonFood = null
 let atePoison = false
@@ -189,52 +190,119 @@ function checkIfPoison(state, foodNumber) {
 }
 
 function randomFood(state) {
+
+  var starting = performance.now()
+
   return newRelic.startBackgroundTransaction('randomFood', () => {
-    gridWidth = state.gridX - 2
+
+  gridWidth = state.gridX - 2
   gridHeight = state.gridY - 2
-  const food = [
-    {
-      x: Math.floor(Math.random() * gridWidth + 1),
-      y: Math.floor(Math.random() * gridHeight + 1),
-      color: {},
-      index: null
-    },
-    {
-      x: Math.floor(Math.random() * gridWidth + 1),
-      y: Math.floor(Math.random() * gridHeight + 1),
-      color: {},
-      index: null
-    }
-  ]
 
-  if (food[0].x === food[1].x && food[0].y === food[1].y) {
-    return randomFood(state);
-  }
+  // console.log(`${gridWidth} - ${gridHeight}`)
+  
+  let food = [
+      {
+        x: Math.floor(Math.random() * gridWidth + 1),
+        y: Math.floor(Math.random() * gridHeight + 1),
+        color: {},
+        index: null
+      },
+      {
+        x: Math.floor(Math.random() * gridWidth + 1),
+        y: Math.floor(Math.random() * gridHeight + 1),
+        color: {},
+        index: null
+      }
+    ]
 
-  for (let i = 0; i < 4; i++) {
-    let nextBlock = { x: null, y: null }
-    nextBlock.x = state.players[0].pos.x + (state.players[0].vel.x * i)
-    nextBlock.y = state.players[0].pos.y + (state.players[0].vel.y * i)
-    console.log('next block', nextBlock)
-    if (nextBlock.x === food[0].x && nextBlock.y === food[0].y){
-      return randomFood(state);
-    }
-    if (nextBlock.x === food[1].x && nextBlock.y === food[1].y){
-      return randomFood(state);
-    }
-  }
+    for(let i = 0; i < state.players[0].snake.length; i++) {
+      // console.log(`x: ${state.players[0].snake[i].x}`)
 
-  for (let cell of state.players[0].snake) {
-    if (cell.x === food[0].x && cell.y === food[0].y) {
-      return randomFood(state);
+      /* 
+      *   if snake position is equal to food position -> remake the food position
+      *   or if the foods are on the same space       -> remake the food position
+      */
+      if( (state.players[0].snake[i].x === food[0].x && state.players[0].snake[i].y === food[0].y) || (state.players[0].snake[i].x === food[1].x && state.players[0].snake[i].y === food[1].y) || (food[0].x === food[1].x && food[0].y === food[1].y) ){
+        console.log('cooredanadas iguais')
+        return food = [
+          {
+            x: Math.floor(Math.random() * gridWidth + 1),
+            y: Math.floor(Math.random() * gridHeight + 1),
+            color: {},
+            index: null
+          },
+          {
+            x: Math.floor(Math.random() * gridWidth + 1),
+            y: Math.floor(Math.random() * gridHeight + 1),
+            color: {},
+            index: null
+          }
+        ]
+      }
+    
     }
-  }
+  
 
-  for (let cell of state.players[0].snake) {
-    if (cell.x === food[1].x && cell.y === food[1].y) {
-      return randomFood(state);
-    }
-  }
+  console.log(`snake lenght => ${state.players[0].snake.length}`)
+
+  /* lh gera a comida randomicamente */
+  // const food = [
+  //   {
+  //     x: Math.floor(Math.random() * gridWidth + 1),
+  //     y: Math.floor(Math.random() * gridHeight + 1),
+  //     color: {},
+  //     index: null
+  //   },
+  //   {
+  //     x: Math.floor(Math.random() * gridWidth + 1),
+  //     y: Math.floor(Math.random() * gridHeight + 1),
+  //     color: {},
+  //     index: null
+  //   }
+  // ]
+
+  
+
+  
+
+  /* lh analisa se as comidas estão no mesmo bloco [ RECURSÃO ] */
+  // if (food[0].x === food[1].x && food[0].y === food[1].y) {
+  //   return randomFood(state);
+  // }
+
+  /* lh verifica se tem comida na frente da cobra e gera comidas [ RECURSÃO ]*/
+  // for (let i = 0; i < 4; i++) {
+  //   let nextBlock = { x: null, y: null }
+
+  //   nextBlock.x = state.players[0].pos.x + (state.players[0].vel.x * i)
+  //   nextBlock.y = state.players[0].pos.y + (state.players[0].vel.y * i)
+  //   console.log('next block', nextBlock)
+
+  //   if (nextBlock.x === food[0].x && nextBlock.y === food[0].y){
+  //     return randomFood(state);
+  //   }
+
+  //   if (nextBlock.x === food[1].x && nextBlock.y === food[1].y){
+  //     return randomFood(state);
+  //   }
+
+  // }
+
+  /* lh verifica se a comida está em cima da cobra e gera outra [ RECURSÃO ]*/
+  // for (let cell of state.players[0].snake) {
+  //   if (cell.x === food[0].x && cell.y === food[0].y) {
+  //     return randomFood(state);
+  //   }
+  // }
+
+  // for (let cell of state.players[0].snake) {
+  //   if (cell.x === food[1].x && cell.y === food[1].y) {
+  //     return randomFood(state);
+  //   }
+  // }
+
+  var final = performance.now() - starting
+  console.log(final)
 
   state.food = food;
   state.sinceLastFood = 0;

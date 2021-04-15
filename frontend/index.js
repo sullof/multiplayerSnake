@@ -219,7 +219,6 @@ function paintGame(state) {
 
   lastFoodX.push(state.food[0].x)
   lastFoodY.push(state.food[0].y)
-  console.log(`${lastFoodX} - ${lastFoodY}`)
 
   let sizeX = null
   let sizeY = null
