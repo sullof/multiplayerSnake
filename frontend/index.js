@@ -1,11 +1,11 @@
 const SNAKE_COLOUR = '#ffffff';
 
-// const socket = io('https://snakedev.scoremilk.com');
-// const socketPractice = io('https://snakedev.scoremilk.com'); 
+const socket = io('https://snakedev.scoremilk.com');
+const socketPractice = io('https://snakedev.scoremilk.com'); 
 
 // For Development
-const socket = io('http://localhost:3000');
-const socketPractice = io('http://localhost:3000');
+// const socket = io('http://localhost:3000');
+// const socketPractice = io('http://localhost:3000');
 
 socket.on('init', handleInit);
 socket.on('gameState', handleGameState);
@@ -40,11 +40,11 @@ const time = document.getElementById('time');
 var isPractice = false
 
 
-var lastFoodX = []
-var lastFoodY = []
+let lastFoodX = []
+let lastFoodY = []
 
-lastFood1Props = []
-lastFood2Props = []
+let lastFood1Props = []
+let lastFood2Props = []
 
 
 const img = document.getElementById('colorImage');
@@ -330,13 +330,7 @@ function paintGame(state) {
         sizeX: sizeX,
         sizeY: sizeY
       }
-
-
-  
-    
     }
-
-  
 } 
 
   
