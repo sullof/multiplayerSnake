@@ -3,7 +3,7 @@ const SNAKE_COLOUR = '#ffffff';
 const socket = io('https://snakedev.scoremilk.com');
 const socketPractice = io('https://snakedev.scoremilk.com'); 
 
-// // For Development
+// For Development
 // const socket = io('http://localhost:3000');
 // const socketPractice = io('http://localhost:3000');
 
@@ -38,6 +38,15 @@ const practiceBtn = document.getElementById('practiceButton');
 const gameCodeInput = document.getElementById('gameCodeInput');
 const time = document.getElementById('time');
 var isPractice = false
+
+
+let lastFoodX = []
+let lastFoodY = []
+
+let lastFood1Props = []
+let lastFood2Props = []
+
+
 const img = document.getElementById('colorImage');
 const toolbar = document.getElementById('toolbar')
 let ctx3
@@ -196,79 +205,137 @@ function keydown (e) {
   }
 }
 
+
 function paintGame(state) {
+
   time.innerText = state.currentTime;
 
   ctx3.clearRect(0, 0, gcanvas.width, gcanvas.height);
+ 
+  /* 
+  * the game has to draw the player every second,
+  * then every time this function is called, the player is drawn
+  */
+
+  lastFoodX.push(state.food[0].x)
+  lastFoodY.push(state.food[0].y)
+
+  let sizeX = null
+  let sizeY = null
+     
+  sizeX = gcanvas.width / (state.gridX)
+  sizeY = gcanvas.height / (state.gridY)
+
+  let food = state.food    
+  ctx3.fillStyle = 'rgba(0,0,0,0)'
+  ctx3.fillRect(0, 0, (sizeX * state.gridX), (sizeY * state.gridY))
+  
+  let color1 = null
+  let color2 = null
+
+  paintPlayer(state.players[0], sizeX, sizeY, SNAKE_COLOUR);
+  paintPlayer(state.players[1], sizeX, sizeY, 'red');
+
+  /* 
+  * but the food doesn't have to change every time,
+  * then it will change only if its position change (player ate the food)
+  */
+
+  if((lastFoodX[lastFoodX.length - 1] == lastFoodX[lastFoodX.length - 2]) && (lastFoodY[lastFoodY.length - 1] == lastFoodY[lastFoodY.length - 2])){   
+    
+    /* 
+    * if the food position is equals to the last position
+    * the canvas just will show the last storage position 
+    */
+
+    lastFoodX.pop()
+    lastFoodY.pop()
+
+    ctx3.fillStyle = lastFood1Props.color
+    ctx3.fillRect(lastFood1Props.gridX, lastFood1Props.gridY, lastFood1Props.sizeX, lastFood1Props.sizeY)
+
+    ctx3.fillStyle = lastFood2Props.color
+    ctx3.fillRect(lastFood2Props.gridX, lastFood2Props.gridY, lastFood2Props.sizeX, lastFood2Props.sizeY)
+    
+
+  }else{
+    
+       /* 
+      * if the food position is different to the last position
+      * it means that food changed the position,
+      * so, it will be drawn and the position will be storage
+      */  
+
+      switch (state.food[0].index) {
+        case 0:
+          color1 = '#00ff00'
+          break;
+        case 1:
+          color1 = '#ff0000'
+          break;
+        case 2:
+          color1 = '#0000ff'
+          break;
+        case 3:
+          color1 = '#d97012'
+          break;
+        case 4:
+          color1 = '#c41acb'
+          break;
+        case 5:
+          color1 = '#ffff00'
+          break;
+      }
+  
+      switch (state.food[1].index) {
+        case 0:
+          color2 = '#00ff00'
+          break;
+        case 1:
+          color2 = '#ff0000'
+          break;
+        case 2:
+          color2 = '#0000ff'
+          break;
+        case 3:
+          color2 = '#d97012'
+          break;
+        case 4:
+          color2 = '#c41acb'
+          break;
+        case 5:
+          color2 = '#ffff00'
+          break;
+      }
+
+     
+      ctx3.fillStyle = color1
+      ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, sizeX, sizeY);
+  
+      ctx3.fillStyle = color2
+      ctx3.fillRect(food[1].x * sizeX, food[1].y * sizeY, sizeX, sizeY);     
+      
+      lastFood1Props = {
+        color: color1,
+        gridX: food[0].x * sizeX,
+        gridY: food[0].y * sizeY,
+        sizeX: sizeX,
+        sizeY: sizeY
+      }
+
+      lastFood2Props = {
+        color: color2,
+        gridX: food[1].x * sizeX,
+        gridY: food[1].y * sizeY,
+        sizeX: sizeX,
+        sizeY: sizeY
+      }
+    }
+} 
 
   
-  if (state.food) {
-
-    let food = state.food
-    let sizeX = null
-    let sizeY = null
-   
-    sizeX = gcanvas.width / (state.gridX)
-    sizeY = gcanvas.height / (state.gridY)
-    ctx3.fillStyle = 'rgba(0,0,0,0)'
-    ctx3.fillRect(0, 0, (sizeX * state.gridX), (sizeY * state.gridY))
-
-    let color1 = null
-    let color2 = null
-
-    switch (state.food[0].index) {
-      case 0:
-        color1 = '#00ff00'
-        break;
-      case 1:
-        color1 = '#ff0000'
-        break;
-      case 2:
-        color1 = '#0000ff'
-        break;
-      case 3:
-        color1 = '#d97012'
-        break;
-      case 4:
-        color1 = '#c41acb'
-        break;
-      case 5:
-        color1 = '#ffff00'
-        break;
-    }
-
-    switch (state.food[1].index) {
-      case 0:
-        color2 = '#00ff00'
-        break;
-      case 1:
-        color2 = '#ff0000'
-        break;
-      case 2:
-        color2 = '#0000ff'
-        break;
-      case 3:
-        color2 = '#d97012'
-        break;
-      case 4:
-        color2 = '#c41acb'
-        break;
-      case 5:
-        color2 = '#ffff00'
-        break;
-    }
-
-    ctx3.fillStyle = color1
-    ctx3.fillRect(food[0].x * sizeX, food[0].y * sizeY, sizeX, sizeY);
-
-    ctx3.fillStyle = color2
-    ctx3.fillRect(food[1].x * sizeX, food[1].y * sizeY, sizeX, sizeY);
-
-    paintPlayer(state.players[0], sizeX, sizeY, SNAKE_COLOUR);
-    paintPlayer(state.players[1], sizeX, sizeY, 'red');
+  
     
-  }
-}
 
 function paintPlayer (playerState, sizeX, sizeY, colour) {
   const snake = playerState.snake;
@@ -292,6 +359,7 @@ function handleCaptcha (url) {
     socket.emit('recievedCaptcha')
   }
 }
+
 
 function handleGameState (gameState) {
 
@@ -338,7 +406,6 @@ function handleGameState (gameState) {
     currentTime: bufView[10]
   }
 
-
   for (x = 0; x < (bufView.length - 11) / 2; x++) {
 
     let index = 11 + (x * 2)
@@ -351,7 +418,10 @@ function handleGameState (gameState) {
     
   }
 
+  
+  
   paintGame(state)
+  
  
 }
 
