@@ -1,5 +1,4 @@
 const newRelic = require('newrelic');
-const { performance } = require('perf_hooks');
 const { IMAGES, COLORS, GRID_SIZE } = require('./constants');
 let poisonFood = null
 let atePoison = false
