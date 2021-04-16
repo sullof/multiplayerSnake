@@ -377,6 +377,10 @@ function handleScore (data) {
   scoreDisplay.innerText = data.score;
   gameScreen.style.display = "none";
   scoreScreen.style.display = "block";
+  
+ 
+  socketPractice.close()
+  socket.close();
   console.log(data.score)
 }
 
