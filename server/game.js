@@ -19,7 +19,7 @@ function initGame(roomName) {
   const state = createGameState(roomName)
   randomFood(state);
 
-  
+
   return state;
 }
 
@@ -36,7 +36,7 @@ function initPoison(roomName) {
 }
 
 function sendCaptcha(roomName) {
-  if (poison[roomName].needToSend){
+  if (poison[roomName].needToSend) {
     return poison[roomName].url
   }
   else {
@@ -79,9 +79,9 @@ function createGameState(roomName) {
           y: 0,
         },
         snake: [
-          {x: 1, y: 2},
-          {x: 2, y: 2},
-          {x: 3, y: 2},
+          { x: 1, y: 2 },
+          { x: 2, y: 2 },
+          { x: 3, y: 2 },
         ],
       },
       {
@@ -108,66 +108,66 @@ function createGameState(roomName) {
 }
 
 function gameLoop(state) {
-    if (!state) {
-      return;
+  if (!state) {
+    return;
+  }
+  if (state.timer < new Date()) {
+    return 2;
+  }
+  if (state.lastFood) {
+    state.sinceLastFood = new Date().getTime() - state.lastFood.getTime()
+  }
+  if (state.timer) {
+    state.currentTime = state.timer.getTime() - new Date().getTime()
+    state.currentTime = Math.floor(state.currentTime / 1000)
+  }
+  const playerOne = state.players[0];
+  const playerTwo = state.players[1];
+  gridWidth = state.gridX
+  gridHeight = state.gridY
+  playerOne.pos.x += playerOne.vel.x;
+  playerOne.pos.y += playerOne.vel.y;
+
+  if (playerOne.pos.x < 0 || playerOne.pos.x > (gridWidth - 1) || playerOne.pos.y < 0 || playerOne.pos.y > (gridHeight - 1)) {
+    console.log('player outside')
+    return 2;
+  }
+
+  if (state.food[0].x === playerOne.pos.x && state.food[0].y === playerOne.pos.y) {
+    if (checkIfPoison(state, 0)) {
+      return 2
     }
-    if (state.timer < new Date()) {
-      return 2;
+  }
+
+  if (state.food[1].x === playerOne.pos.x && state.food[1].y === playerOne.pos.y) {
+    if (checkIfPoison(state, 1)) {
+      return 2
     }
-    if(state.lastFood) {
-      state.sinceLastFood = new Date().getTime() - state.lastFood.getTime()
-    }
-    if (state.timer) {
-      state.currentTime = state.timer.getTime() - new Date().getTime()
-      state.currentTime = Math.floor(state.currentTime/1000)
-    }
-    const playerOne = state.players[0];
-    const playerTwo = state.players[1];
-    gridWidth = state.gridX
-    gridHeight = state.gridY
-    playerOne.pos.x += playerOne.vel.x;
-    playerOne.pos.y += playerOne.vel.y;
-  
-    if (playerOne.pos.x < 0 || playerOne.pos.x > (gridWidth - 1) || playerOne.pos.y < 0 || playerOne.pos.y > (gridHeight - 1)) {
-      console.log('player outside')
-      return 2;
-    }
-  
-    if (state.food[0].x === playerOne.pos.x && state.food[0].y === playerOne.pos.y) {
-      if(checkIfPoison(state, 0)) {
-        return 2
+  }
+
+  if (playerOne.vel.x || playerOne.vel.y) {
+    for (let cell of playerOne.snake) {
+      if (cell.x === playerOne.pos.x && cell.y === playerOne.pos.y) {
+        return 2;
       }
     }
-  
-    if (state.food[1].x === playerOne.pos.x && state.food[1].y === playerOne.pos.y) {
-      if(checkIfPoison(state, 1)) {
-        return 2
+
+    playerOne.snake.push({ ...playerOne.pos });
+    playerOne.snake.shift();
+  }
+
+  if (playerTwo.vel.x || playerTwo.vel.y) {
+    for (let cell of playerTwo.snake) {
+      if (cell.x === playerTwo.pos.x && cell.y === playerTwo.pos.y) {
+        return 1;
       }
     }
-  
-    if (playerOne.vel.x || playerOne.vel.y) {
-      for (let cell of playerOne.snake) {
-        if (cell.x === playerOne.pos.x && cell.y === playerOne.pos.y) {
-          return 2;
-        }
-      }
-  
-      playerOne.snake.push({ ...playerOne.pos });
-      playerOne.snake.shift();
-    }
-  
-    if (playerTwo.vel.x || playerTwo.vel.y) {
-      for (let cell of playerTwo.snake) {
-        if (cell.x === playerTwo.pos.x && cell.y === playerTwo.pos.y) {
-          return 1;
-        }
-      }
-  
-      playerTwo.snake.push({ ...playerTwo.pos });
-      playerTwo.snake.shift();
-    }
-  
-    return false;
+
+    playerTwo.snake.push({ ...playerTwo.pos });
+    playerTwo.snake.shift();
+  }
+
+  return false;
 }
 
 function checkIfPoison(state, foodNumber) {
@@ -191,16 +191,12 @@ function checkIfPoison(state, foodNumber) {
 
 function randomFood(state) {
 
-  var starting = performance.now()
-
   return newRelic.startBackgroundTransaction('randomFood', () => {
 
-  gridWidth = state.gridX - 2
-  gridHeight = state.gridY - 2
+    gridWidth = state.gridX - 2
+    gridHeight = state.gridY - 2
 
-  // console.log(`${gridWidth} - ${gridHeight}`)
-  
-  let food = [
+    let food = [
       {
         x: Math.floor(Math.random() * gridWidth + 1),
         y: Math.floor(Math.random() * gridHeight + 1),
@@ -215,101 +211,51 @@ function randomFood(state) {
       }
     ]
 
-    for(let i = 0; i < state.players[0].snake.length; i++) {
-      // console.log(`x: ${state.players[0].snake[i].x}`)
+    for (let i = 0; i < state.players[0].snake.length; i++) {
 
-      /* 
-      *   if snake position is equal to food position -> remake the food position
-      *   or if the foods are on the same space       -> remake the food position
+      /*
+      * ensure that any food will be droped in front of the snake
       */
-      if( (state.players[0].snake[i].x === food[0].x && state.players[0].snake[i].y === food[0].y) || (state.players[0].snake[i].x === food[1].x && state.players[0].snake[i].y === food[1].y) || (food[0].x === food[1].x && food[0].y === food[1].y) ){
-        console.log('cooredanadas iguais')
-        return food = [
-          {
-            x: Math.floor(Math.random() * gridWidth + 1),
-            y: Math.floor(Math.random() * gridHeight + 1),
-            color: {},
-            index: null
-          },
-          {
-            x: Math.floor(Math.random() * gridWidth + 1),
-            y: Math.floor(Math.random() * gridHeight + 1),
-            color: {},
-            index: null
-          }
-        ]
+      for (let w = 0; w < 4; w++) {
+        let nextBlock = { x: null, y: null }
+
+        nextBlock.x = state.players[0].pos.x + (state.players[0].vel.x * w)
+        nextBlock.y = state.players[0].pos.y + (state.players[0].vel.y * w)
+
+        /* 
+        *   if snake position is equal to food position                               -> remake the food position
+        *   or if the foods are on the same space                                     -> remake the food position
+        *   or if the next blocks of the snake are on the same position of the foods  -> remake the food position
+        */
+        if ((state.players[0].snake[i].x === food[0].x && state.players[0].snake[i].y === food[0].y) || (state.players[0].snake[i].x === food[1].x && state.players[0].snake[i].y === food[1].y) || (food[0].x === food[1].x && food[0].y === food[1].y) || (nextBlock.x === food[0].x && nextBlock.y === food[0].y) || (nextBlock.x === food[1].x && nextBlock.y === food[1].y)) {
+
+          food = [
+            {
+              x: Math.floor(Math.random() * gridWidth + 1),
+              y: Math.floor(Math.random() * gridHeight + 1),
+              color: {},
+              index: null
+            },
+            {
+              x: Math.floor(Math.random() * gridWidth + 1),
+              y: Math.floor(Math.random() * gridHeight + 1),
+              color: {},
+              index: null
+            }
+          ]
+
+        }
+
       }
-    
+
     }
-  
 
-  console.log(`snake lenght => ${state.players[0].snake.length}`)
+    state.food = food;
+    state.sinceLastFood = 0;
+    randomColors(state)
 
-  /* lh gera a comida randomicamente */
-  // const food = [
-  //   {
-  //     x: Math.floor(Math.random() * gridWidth + 1),
-  //     y: Math.floor(Math.random() * gridHeight + 1),
-  //     color: {},
-  //     index: null
-  //   },
-  //   {
-  //     x: Math.floor(Math.random() * gridWidth + 1),
-  //     y: Math.floor(Math.random() * gridHeight + 1),
-  //     color: {},
-  //     index: null
-  //   }
-  // ]
-
-  
-
-  
-
-  /* lh analisa se as comidas estão no mesmo bloco [ RECURSÃO ] */
-  // if (food[0].x === food[1].x && food[0].y === food[1].y) {
-  //   return randomFood(state);
-  // }
-
-  /* lh verifica se tem comida na frente da cobra e gera comidas [ RECURSÃO ]*/
-  // for (let i = 0; i < 4; i++) {
-  //   let nextBlock = { x: null, y: null }
-
-  //   nextBlock.x = state.players[0].pos.x + (state.players[0].vel.x * i)
-  //   nextBlock.y = state.players[0].pos.y + (state.players[0].vel.y * i)
-  //   console.log('next block', nextBlock)
-
-  //   if (nextBlock.x === food[0].x && nextBlock.y === food[0].y){
-  //     return randomFood(state);
-  //   }
-
-  //   if (nextBlock.x === food[1].x && nextBlock.y === food[1].y){
-  //     return randomFood(state);
-  //   }
-
-  // }
-
-  /* lh verifica se a comida está em cima da cobra e gera outra [ RECURSÃO ]*/
-  // for (let cell of state.players[0].snake) {
-  //   if (cell.x === food[0].x && cell.y === food[0].y) {
-  //     return randomFood(state);
-  //   }
-  // }
-
-  // for (let cell of state.players[0].snake) {
-  //   if (cell.x === food[1].x && cell.y === food[1].y) {
-  //     return randomFood(state);
-  //   }
-  // }
-
-  var final = performance.now() - starting
-  console.log(final)
-
-  state.food = food;
-  state.sinceLastFood = 0;
-  randomColors(state)
-
-  newRelic.endTransaction();
-  })  
+    newRelic.endTransaction();
+  })
 }
 
 function randomColors(state) {
@@ -339,12 +285,12 @@ function randomPoison(state) {
     poison[state.roomName].url = array[0].imgURLs[rand]
     poison[state.roomName].needToSend = true
     state.imgURL = array[0].imgURLs[rand]
- 
+
 
     newRelic.endTransaction();
   })
 
-  
+
 }
 
 function getUpdatedVelocity(keyCode, currentVelocity, state) {

@@ -1,11 +1,11 @@
 const SNAKE_COLOUR = '#ffffff';
 
-const socket = io('https://snakedev.scoremilk.com');
-const socketPractice = io('https://snakedev.scoremilk.com'); 
+// const socket = io('https://snakedev.scoremilk.com');
+// const socketPractice = io('https://snakedev.scoremilk.com'); 
 
 // For Development
-// const socket = io('http://localhost:3000');
-// const socketPractice = io('http://localhost:3000');
+const socket = io('http://localhost:3000');
+const socketPractice = io('http://localhost:3000');
 
 socket.on('init', handleInit);
 socket.on('gameState', handleGameState);
