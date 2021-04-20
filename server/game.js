@@ -218,16 +218,21 @@ function randomFood(state) {
       for (let w = 0; w < 4; w++) {
         let nextBlock = { x: null, y: null }
 
-        nextBlock.x = state.players[0].pos.x + (state.players[0].vel.x * w)
-        nextBlock.y = state.players[0].pos.y + (state.players[0].vel.y * w)
+        nextBlock = {
+          x: state.players[0].pos.x + (state.players[0].vel.x * w),
+          y: state.players[0].pos.y + (state.players[0].vel.y * w)
+        }
+
+        // nextBlock.x = state.players[0].pos.x + (state.players[0].vel.x * w)
+        // nextBlock.y = state.players[0].pos.y + (state.players[0].vel.y * w)
 
         /* 
         *   if snake position is equal to food position                               -> remake the food position
         *   or if the foods are on the same space                                     -> remake the food position
         *   or if the next blocks of the snake are on the same position of the foods  -> remake the food position
         */
-        if ((state.players[0].snake[i].x === food[0].x && state.players[0].snake[i].y === food[0].y) || (state.players[0].snake[i].x === food[1].x && state.players[0].snake[i].y === food[1].y) || (food[0].x === food[1].x && food[0].y === food[1].y) || (nextBlock.x === food[0].x && nextBlock.y === food[0].y) || (nextBlock.x === food[1].x && nextBlock.y === food[1].y)) {
-
+        if ( (state.players[0].snake[i].x === food[0].x && state.players[0].snake[i].y === food[0].y) || (state.players[0].snake[i].x === food[1].x && state.players[0].snake[i].y === food[1].y) || (food[0].x === food[1].x && food[0].y === food[1].y) || (nextBlock.x === food[0].x && nextBlock.y === food[0].y) || (nextBlock.x === food[1].x && nextBlock.y === food[1].y) ) {
+          console.log('posições igual')
           food = [
             {
               x: Math.floor(Math.random() * gridWidth + 1),
@@ -242,12 +247,14 @@ function randomFood(state) {
               index: null
             }
           ]
-
+          console.log(`comida no if: ${food[0].x}, ${food[0].y}`)
         }
 
       }
 
     }
+
+    console.log(`comida fora do if: ${food[0].x}, ${food[0].y}`)
 
     state.food = food;
     state.sinceLastFood = 0;
