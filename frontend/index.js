@@ -52,6 +52,11 @@ const toolbar = document.getElementById('toolbar')
 let ctx3
 scoreScreen.style.display = "none";
 joinGameBtn.addEventListener('click', joinGame);
+practiceBtn.addEventListener('click', () => {
+  history.pushState({page: 1}, null, '/');
+  
+  newPractice();
+})
 
 var mc = new Hammer(gameScreen);
 
@@ -449,8 +454,6 @@ function handleScore (data) {
   scoreScreen.style.display = "block";
   
  
-  socketPractice.close()
-  socket.close();
   console.log(data.score)
 }
 
